@@ -2,8 +2,10 @@ const express = require('express')
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
+const { restoreUser } = require('../../utils/auth');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
+
 
 router.post(
   '/',
