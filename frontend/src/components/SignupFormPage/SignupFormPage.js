@@ -28,7 +28,7 @@ function SignupFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form autocomplete="new-password" onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
@@ -45,6 +45,7 @@ function SignupFormPage() {
         Username
         <input
           type="text"
+          autocomplete="new-password"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -54,6 +55,7 @@ function SignupFormPage() {
         Password
         <input
           type="password"
+          autocomplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
