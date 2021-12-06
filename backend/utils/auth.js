@@ -62,4 +62,14 @@ const requireAuth = [
   }
 ];
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+const checkPermissions = (userId, object) => {
+  if (object && userId !== object.ownerId &&
+    userId !== object.renterId &&
+    userId !== object.userId) {
+      return false;
+    } else {
+      return true;
+    }
+};
+
+module.exports = { setTokenCookie, restoreUser, checkPermissions, requireAuth };

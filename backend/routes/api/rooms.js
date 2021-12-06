@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
 const { restoreUser } = require('../../utils/auth');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, checkPermissions } = require('../../utils/auth');
 const { Room } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -43,17 +43,14 @@ router.post(
       country,
       address
     });
-    return res.json({
-      room
-    });
-    
+    return res.json(room);
   })
 );
 
 router.put(
-  '/',
+  '/:roomId',
   restoreUser,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const {
       imageUrl,
       amenities,
@@ -62,38 +59,63 @@ router.put(
       zip,
       country,
       address,
-      roomId
+      userId
     } = req.body;
+    const { roomId } = req.params;
 
-    const room = await Room.findByPk(roomId);
-    
-    await room.set({
-      imageUrl,
-      amenities,
-      city,
-      state,
-      zip,
-      country,
-      address
-    });
-    return res.json({
-      room
-    });
+    const room = await Room.findByPk(+roomId);
+    console.log(room);
+    console.log(userId);
+    const canEdit = checkPermissions(userId, room);
+    if (canEdit && room) {
+      console.log('can edit');
+      await room.set({
+        imageUrl,
+        amenities,
+        city,
+        state,
+        zip,
+        country,
+        address
+      });
+      await room.save();
+      return res.json({
+        room
+      });
+    } else {
+      const err = new Error('Unauthorized');
+      err.title = 'Unauthorized';
+      err.errors = ['Unauthorized'];
+      err.status = 401;
+      return next(err);
+    }
+
     
   })
 );
   
 router.delete(
-  '/',
-  restoreUser,
-  asyncHandler(async (req, res) => {
-    const { roomId } = req.body;
+  '/:roomId',
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
+    const { roomId } = req.params;
+    const { userId } = req.body;
     const room = await Room.findByPk(roomId);
-    await room.destroy();
-    return res.json({
-      room
-    });
-    
+    const canEdit = checkPermissions(userId, room);
+    if (canEdit && room) {
+      await room.destroy();
+      const myRooms = await Room.findAll({ where: {
+        ownerId: userId
+      } })
+      console.log(room);
+      return res.json(room);
+    } else {
+      const err = new Error('Unauthorized');
+      err.title = 'Unauthorized';
+      err.errors = ['Unauthorized'];
+      err.status = 401;
+      return next(err);
+    }
   })
 );
 
