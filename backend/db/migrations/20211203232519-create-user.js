@@ -23,6 +23,18 @@ module.exports = {
         type: Sequelize.STRING.BINARY,
         allowNull: false,
       },
+      firstName: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
+      lastName: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
+      owner: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

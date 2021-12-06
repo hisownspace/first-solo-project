@@ -37,7 +37,7 @@ module.exports = {
           username: 'default-owner',
           firstName: 'Default',
           lastName: 'Owner',
-          owner: false,
+          owner: true,
           hashedPassword: bcrypt.hashSync('owner')
         },
         {
