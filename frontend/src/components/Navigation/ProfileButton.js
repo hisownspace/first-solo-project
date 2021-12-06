@@ -31,7 +31,7 @@ function ProfileButton({ user }) {
   return (
     <div className='user-settings'>
       <button className='profile-button' onClick={openMenu}>
-        <i class="fas fa-users-cog fa-2x"></i>
+        <i className="fas fa-users-cog fa-2x"></i>
       </button>
       {showMenu && (
         <ul className="profile-dropdown">
