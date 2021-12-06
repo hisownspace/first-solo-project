@@ -1,0 +1,61 @@
+
+button {
+  color: beige;
+  background-color: rgb(28, 28, 58);
+  padding: 5px 10px;
+  margin: 3px;
+  border-radius: 3px;
+  height: 45px;
+  font-size: x-large;
+  cursor: pointer;
+}
+
+.profile-button {
+  font-size: large;
+  height: auto;
+  width: auto;
+  margin: 0;
+}
+
+.profile-email {
+  font-style: italic;
+  width: auto;
+}
+
+.profile-username {
+  font-weight: bold;
+}
+
+a {
+  color: beige;
+  text-decoration: none;
+  font-size: x-large;
+}
+a:visited {
+  color: beige;
+  text-decoration: none;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-settings button {
+  float: right;
+}
+
+.profile-dropdown {
+  position: relative;
+  border: solid black 1px;
+  border-radius: 3px;
+  top: 55px;
+  right: 3px;
+  padding: 7px 3px;
+}
+
+.profile-dropdown li {
+  padding: 6px;
+  white-space: nowrap;
+  width: auto;
+}

@@ -28,12 +28,12 @@ function SignupFormPage() {
   };
 
   return (
-    <form autocomplete="new-password" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
       <label>
-        Email
+        {"Email: "}
         <input
           type="text"
           value={email}
@@ -42,7 +42,7 @@ function SignupFormPage() {
         />
       </label>
       <label>
-        Username
+        {"Username: "}
         <input
           type="text"
           autocomplete="new-password"
@@ -52,7 +52,7 @@ function SignupFormPage() {
         />
       </label>
       <label>
-        Password
+        {"Password: "}
         <input
           type="password"
           autocomplete="new-password"
@@ -62,7 +62,7 @@ function SignupFormPage() {
         />
       </label>
       <label>
-        Confirm Password
+        {"Confirm Password: "}
         <input
           type="password"
           value={confirmPassword}
