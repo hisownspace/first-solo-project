@@ -20,12 +20,11 @@ function RoomDetail() {
   
   useEffect(() => {
     dispatch(roomActions.readRoom(+roomId));
+    console.log(roomId);
   }, [dispatch, roomId]);
   
   useEffect(() => {
     if (room?.amenities) {setAmenities(room.amenities.split(', '))};
-    console.log(sessionUser?.id)
-    console.log(room?.ownerId)
     if (sessionUser?.id === room?.ownerId) {
       setOwnerButtons(
       <>
@@ -38,10 +37,6 @@ function RoomDetail() {
         <button onClick={makeReservation}>Make Reservation</button>
       </>);
     }
-    console.log(ownerButtons)
-  }, [room]);
-
-  useEffect(() => {
   }, [room]);
 
   function removeListing() {
@@ -65,7 +60,7 @@ function RoomDetail() {
   if (!sessionUser || !room) return <Redirect to="/" />;
   
   return (
-    <>
+    <div className='room-detail'>
       <h2>Welcome to your Room</h2>
       <ul>
       <li>
@@ -83,13 +78,12 @@ function RoomDetail() {
         {room.country}
       </li>
       <li>Amenities:</li>
-      {amenities && amenities.map((amenity, index) => <li key={index + 1}>{amenity}</li>)}
+      {amenities && amenities.map((amenity, index) => <li key={index}>{amenity}</li>)}
       <li>
         {ownerButtons ? ownerButtons : renterOptions}
       </li>
       </ul>
-      
-    </>
+    </div>
   )
 }
 

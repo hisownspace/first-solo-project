@@ -10,12 +10,13 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 router.get(
-  '/:roomId',
+  '/:roomId(\\d+)',
   restoreUser,
   asyncHandler(async (req, res) => {
     const { roomId } = req.params;
     console.log('roomid', roomId);
     const room = await Room.findByPk(roomId);
+    console.log(room);
     return res.json(room);
   })
 );
@@ -43,7 +44,9 @@ router.post(
       state,
       zip,
       country,
-      address
+      address,
+      title,
+      description
     } = req.body;
 
     const room = await Room.create({
@@ -54,7 +57,9 @@ router.post(
       state,
       zip,
       country,
-      address
+      address,
+      title,
+      description
     });
     return res.json(room);
   })

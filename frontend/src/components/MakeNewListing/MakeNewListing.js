@@ -15,6 +15,8 @@ function MakeNewListing() {
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [errors, setErrors] = useState(false);
   const ownerId = sessionUser?.id;
 
@@ -24,7 +26,7 @@ function MakeNewListing() {
     e.preventDefault();
     if (imageUrl && city && country && address) {
       setErrors([]);
-      const room = await dispatch(roomActions.createRoom({ ownerId, amenities, city, state, country, address, zip, imageUrl }));
+      const room = await dispatch(roomActions.createRoom({ ownerId, amenities, city, state, country, address, zip, imageUrl, title, description }));
       history.push(`/rooms/${room.id}`);
       return room;
     }
@@ -37,6 +39,24 @@ function MakeNewListing() {
       {/* <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul> */}
+      <label>
+        {'Title: '}
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          // required
+          />
+      </label>
+      {title || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
+      <label>
+        {'Description: '}
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          // required
+        />
+      </label>
       <label>
         {'Address: '}
         <input

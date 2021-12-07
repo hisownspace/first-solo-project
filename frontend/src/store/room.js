@@ -52,9 +52,6 @@ export const readRoom = roomId => async dispatch => {
 export const readRooms = () => async dispatch => {
   const response = await csrfFetch(`/api/rooms/`);
   const rooms = await response.json();
-  rooms.forEach(room => {
-    console.log(room.id);
-  })
   dispatch(getRooms(rooms))
   return rooms;
 };
@@ -69,7 +66,9 @@ export const createRoom = room => async dispatch => {
       state,
       zip,
       country,
-      address } = room;
+      address,
+      title,
+      description } = room;
   const response = await csrfFetch('/api/rooms', {
     method: 'POST',
     body: JSON.stringify({
@@ -80,7 +79,9 @@ export const createRoom = room => async dispatch => {
       state,
       zip,
       country,
-      address
+      address,
+      title,
+      description
     })
   });
   room = await response.json();
@@ -89,7 +90,6 @@ export const createRoom = room => async dispatch => {
 };
 
 export const deleteRoom = (roomId, userId) => async dispatch => {
-  console.log('HELLO!')
   const response = await csrfFetch(`/api/rooms/${roomId}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json'},
@@ -107,6 +107,8 @@ export const updateRoom = (room, userId) => async dispatch => {
     zip,
     country,
     address,
+    title,
+    description,
     id } = room;
   const response = await csrfFetch(`api/rooms/${id}`, {
     method: 'PUT',
@@ -118,7 +120,9 @@ export const updateRoom = (room, userId) => async dispatch => {
       state,
       zip,
       country,
-      address  })
+      address,
+      title,
+      description })
   });
   dispatch(editRoom(room));
 };
@@ -142,13 +146,11 @@ export default function roomReducer(state = initialroom, action) {
       return newState;
     case GET_ROOM:
       newState = { ...state }
-      newState.roomsList = action.room;
+      newState.currentRoom = action.room;
       return newState;
     case GET_ROOMS:
       newState = { ...state };
-      action.rooms.forEach(room => {
-        newState.roomsList.push(room);
-      });
+      newState.roomsList = action.rooms;
       return newState;
     default:
       return state;

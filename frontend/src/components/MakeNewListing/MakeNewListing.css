@@ -30,6 +30,13 @@
   /* line-height: 2em; */
   font-size: 1.25em;
 }
+.add-room textarea {
+  width: 100%;
+  font-size: 1.25em;
+  resize: none;
+  height: 5em;
+  overflow-y: scroll;
+}
 
 .error {
   margin: 0 0 10px 0;
