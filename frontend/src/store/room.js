@@ -5,6 +5,13 @@ const ADD_ROOM = 'room/add';
 const REMOVE_ROOM = 'room/remove';
 const EDIT_ROOM = 'room/edit';
 
+export const getRoom = room => {
+  return {
+    type: GET_ROOM,
+    room
+  }
+}
+
 
 export const removeRoom = roomId => {
   return {
@@ -25,6 +32,14 @@ export const editRoom = room => {
     type: EDIT_ROOM,
     room
   }
+};
+
+export const readRoom = roomId => async dispatch => {
+  console.log("I'm in... reading room ", `/api/rooms/${roomId}`)
+  const response = await csrfFetch(`/api/rooms/${roomId}`);
+  const room = await response.json();
+  dispatch(getRoom(room))
+  return room;
 };
 
 export const createRoom = room => async dispatch => {
@@ -51,7 +66,7 @@ export const createRoom = room => async dispatch => {
   });
   room = await response.json();
   dispatch(addRoom(room));
-  return response;
+  return room;
 };
 
 export const deleteRoom = (roomId, userId) => async dispatch => {
@@ -88,33 +103,7 @@ export const updateRoom = (room, userId) => async dispatch => {
   dispatch(editRoom(room));
 };
 
-// export const login = user => async dispatch => {
-//   const { credential, password } = user;
-//   const response = await csrfFetch('/api/room', {
-//     method: 'POST',
-//     body: JSON.stringify({ credential, password })
-//   })
-//   const room = await response.json();
-//   dispatch(setUser(room.user));
-//   return response;
-// };
-
-// export const logout = () => async dispatch => {
-//     const response = await csrfFetch('/api/room', {
-//     method: 'DELETE',
-//   });
-//   dispatch(removeUser());
-//   return response;
-// }
-
-// export const restoreUser = () => async dispatch => {
-//   const response = await csrfFetch('/api/room');
-//   const room = await response.json();
-//   dispatch(setUser(room.user));
-//   return response;
-// }
-
-const initialroom = { myRooms: {} };
+const initialroom = { myRooms: {}, currentRoom: {}, roomsList: {} };
 
 export default function roomReducer(state = initialroom, action) {
   let newState;
@@ -130,6 +119,10 @@ export default function roomReducer(state = initialroom, action) {
     case EDIT_ROOM:
       newState = { ...state }
       newState.myRooms[action.room.id] = action.room;
+      return newState;
+    case GET_ROOM:
+      newState = { ...state }
+      newState.currentRoom = action.room;
       return newState;
     default:
       return state;

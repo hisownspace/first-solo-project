@@ -10,10 +10,13 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 router.get(
-  '/',
+  '/:roomId',
   restoreUser,
   asyncHandler(async (req, res) => {
-    const rooms = await Room.findAll();
+    const { roomId } = req.params;
+    console.log('roomid', roomId);
+    const room = await Room.findByPk(roomId);
+    return res.json(room);
   })
 );
 
