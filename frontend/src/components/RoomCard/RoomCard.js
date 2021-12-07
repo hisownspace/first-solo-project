@@ -1,10 +1,14 @@
-
+import { useHistory } from 'react-router-dom';
 
 function RoomCard({ room }) {
-  return (<>
-  <h3>HI!</h3>
-    <p>{room.id}</p>
-  </>)
+  const history = useHistory();
+
+  return (
+  <div className='room-card' onClick={() => history.push(`/rooms/${room.id}`)}>
+    <img alt={room.description} src={room.imageUrl}></img>
+    <p>{room.title}</p>
+    <p>{room.description}</p>
+  </div>)
 };
 
 export default RoomCard;

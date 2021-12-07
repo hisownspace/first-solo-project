@@ -2,5 +2,25 @@
   position: absolute;
   top: 100px;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, 0);
+  width: 75%;
+}
+
+.room-card {
+  width: 100%;
+  margin: 10px;
+  border: 1px solid rgba(44, 44, 44, .3);
+  box-shadow: 3px 3px 3px rgba(44, 44, 44, .6);
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.room-card:hover {
+  box-shadow: 6px 6px 6px rgba(44, 44, 44, .65);
+  cursor: pointer;
+}
+
+.room-card img {
+  max-width: 100%;
+  border-radius: 10px;
 }

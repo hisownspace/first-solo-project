@@ -1,4 +1,10 @@
 .rooms-list {
   position: absolute;
   top: 100px;
+  width: 100%;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }

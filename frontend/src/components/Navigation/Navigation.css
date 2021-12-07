@@ -56,10 +56,8 @@ li {
 }
 
 .user-settings button {
-  margin-right: 3px;
+  margin-right: 10px;
   float: right;
-  display: flex;
-  flex-direction: row-reverse;
 }
 
 .profile-dropdown {
@@ -80,4 +78,9 @@ li {
 .header {
   position: fixed;
   width: 100%;
+  z-index: 1;
+  background-color: white;
+  height: 150px;
+  margin: 0;
+  padding: 30px;
 }
