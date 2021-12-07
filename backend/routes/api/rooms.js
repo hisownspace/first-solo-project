@@ -20,6 +20,16 @@ router.get(
   })
 );
 
+router.get(
+  '/',
+  restoreUser,
+  asyncHandler(async (req, res) => {
+    const rooms = await Room.findAll({ order: [['updatedAt', 'DESC']], limit: 10 });
+    // console.log(res.json(rooms));
+    return res.json(rooms);
+  })
+);
+
 router.post(
   '/',
   restoreUser,

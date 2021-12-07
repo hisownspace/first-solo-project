@@ -6,6 +6,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import MakeNewListing from "./components/MakeNewListing";
 import RoomDetail from "./components/RoomDetail/RoomDetail";
+import Calendar from "./components/Calendar";
+import RoomsList from "./components/RoomsList";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,10 +19,14 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <div className='main'>
       {isLoaded && (
         <Switch>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/rooms">
+            <RoomsList />
           </Route>
           <Route path="/rooms/make">
             <MakeNewListing />
@@ -28,8 +34,12 @@ function App() {
           <Route path='/rooms/:roomId'>
             <RoomDetail />
           </Route>
+          <Route path='/calendar'>
+            <Calendar />
+          </Route>
         </Switch>
       )}
+      </div>
     </>
   );
 }

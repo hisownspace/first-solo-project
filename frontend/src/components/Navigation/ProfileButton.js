@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
@@ -33,6 +34,7 @@ function ProfileButton({ user }) {
       <button className='profile-button' onClick={openMenu}>
         <i className="fas fa-users-cog fa-2x"></i>
       </button>
+      <button className='add-room-button'><NavLink exact to="/rooms/make">Try Hosting</NavLink></button>
       {showMenu && (
         <ul className="profile-dropdown">
           <li className='profile-username'>{user.username}</li>

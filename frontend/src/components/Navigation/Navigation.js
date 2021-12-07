@@ -11,8 +11,8 @@ function Navigation({ isLoaded }){
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <div>
-        <button><NavLink exact to="/rooms/make">Try Hosting</NavLink></button>
+      <div className='session-links'>
+        {/* <button className='add-room'><NavLink exact to="/rooms/make">Try Hosting</NavLink></button> */}
         <ProfileButton user={sessionUser} />
       </div>
     );
@@ -26,10 +26,11 @@ function Navigation({ isLoaded }){
   }
 
   return (
-    <ul>
+    <ul className='header'>
       <li>
       <button><NavLink exact to="/">Home</NavLink></button>
-        {isLoaded && sessionLinks}
+      <button><NavLink exact to="/rooms">Check Listings</NavLink></button>
+      {isLoaded && sessionLinks}
       </li>
     </ul>
   );

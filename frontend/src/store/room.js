@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ROOM = 'room/get';
+const GET_ROOMS = 'room/get-list';
 const ADD_ROOM = 'room/add';
 const REMOVE_ROOM = 'room/remove';
 const EDIT_ROOM = 'room/edit';
@@ -12,6 +13,12 @@ export const getRoom = room => {
   }
 }
 
+export const getRooms = rooms => {
+  return {
+    type: GET_ROOMS,
+    rooms
+  }
+}
 
 export const removeRoom = roomId => {
   return {
@@ -35,12 +42,24 @@ export const editRoom = room => {
 };
 
 export const readRoom = roomId => async dispatch => {
-  console.log("I'm in... reading room ", `/api/rooms/${roomId}`)
   const response = await csrfFetch(`/api/rooms/${roomId}`);
   const room = await response.json();
   dispatch(getRoom(room))
   return room;
 };
+
+
+export const readRooms = () => async dispatch => {
+  const response = await csrfFetch(`/api/rooms/`);
+  const rooms = await response.json();
+  rooms.forEach(room => {
+    console.log(room.id);
+  })
+  dispatch(getRooms(rooms))
+  return rooms;
+};
+
+
 
 export const createRoom = room => async dispatch => {
   const { ownerId,
@@ -70,7 +89,8 @@ export const createRoom = room => async dispatch => {
 };
 
 export const deleteRoom = (roomId, userId) => async dispatch => {
-  const response = await csrfFetch(`api/rooms/${roomId}`, {
+  console.log('HELLO!')
+  const response = await csrfFetch(`/api/rooms/${roomId}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify({ userId: window.store.getState().session.user.id })
@@ -103,7 +123,7 @@ export const updateRoom = (room, userId) => async dispatch => {
   dispatch(editRoom(room));
 };
 
-const initialroom = { myRooms: {}, currentRoom: {}, roomsList: {} };
+const initialroom = { myRooms: {}, currentRoom: {}, roomsList: [] };
 
 export default function roomReducer(state = initialroom, action) {
   let newState;
@@ -122,7 +142,13 @@ export default function roomReducer(state = initialroom, action) {
       return newState;
     case GET_ROOM:
       newState = { ...state }
-      newState.currentRoom = action.room;
+      newState.roomsList = action.room;
+      return newState;
+    case GET_ROOMS:
+      newState = { ...state };
+      action.rooms.forEach(room => {
+        newState.roomsList.push(room);
+      });
       return newState;
     default:
       return state;

@@ -17,6 +17,16 @@ button {
   margin: 0;
 }
 
+.session-links {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.add-room {
+  margin-right: 0;
+}
+
 .profile-email {
   font-style: italic;
   width: auto;
@@ -41,8 +51,15 @@ li {
   justify-content: space-between;
 }
 
+.user-settings {
+  margin-right: 15px;
+}
+
 .user-settings button {
+  margin-right: 3px;
   float: right;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .profile-dropdown {
@@ -58,4 +75,9 @@ li {
   padding: 6px;
   white-space: nowrap;
   width: auto;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
 }

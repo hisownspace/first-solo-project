@@ -15,8 +15,8 @@ function MakeNewListing() {
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [errors, setErrors] = useState([]);
-  const ownerId = sessionUser.id;
+  const [errors, setErrors] = useState(false);
+  const ownerId = sessionUser?.id;
 
   if (!sessionUser) return <Redirect to="/" />;
 
@@ -24,40 +24,39 @@ function MakeNewListing() {
     e.preventDefault();
     if (imageUrl && city && country && address) {
       setErrors([]);
-      const room = await dispatch(roomActions.createRoom({ ownerId, amenities, city, state, country, address, zip, imageUrl }))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-          return data;
-        });
-        history.push(`/rooms/${room.id}`);
+      const room = await dispatch(roomActions.createRoom({ ownerId, amenities, city, state, country, address, zip, imageUrl }));
+      history.push(`/rooms/${room.id}`);
+      return room;
     }
-    return setErrors(['Please fill out the required fields']);
+    return setErrors(true);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
+    <form className='add-room' onSubmit={handleSubmit}>
+      <h2>Make New Listing</h2>
+      {/* <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
-      <label className={address ? 'completed-input' : 'empty-input'}>
-        {address ? "address: " : "Required Field: address"}
+      </ul> */}
+      <label>
+        {'Address: '}
         <input
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          required
+          // required
         />
       </label>
+      {address || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {"City: "}
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          required
+          // required
         />
       </label>
+      {city || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {"State: "}
         <input
@@ -66,6 +65,7 @@ function MakeNewListing() {
           onChange={(e) => setState(e.target.value)}
         />
       </label>
+      <p className='error'></p> 
       <label>
         {"Zip: "}
         <input
@@ -74,24 +74,27 @@ function MakeNewListing() {
           onChange={(e) => setZip(e.target.value)}
         />
       </label>
+      <p className='error'></p> 
       <label>
         {"Country: "}
         <input
           type="text"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
-          required
+          // required
         />
       </label>
+      {country || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {"Photo: "}
         <input
           type="text"
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
-          required
+          // required
         />
       </label>
+      {imageUrl || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {"Amenities: "}
         <input
@@ -100,7 +103,7 @@ function MakeNewListing() {
           onChange={(e) => setAmenities(e.target.value)}
         />
       </label>
-      <button type="submit">Sign Up</button>
+      <button type="submit">Create Listing</button>
     </form>
   );
 }
