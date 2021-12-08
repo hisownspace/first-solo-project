@@ -4,70 +4,95 @@ import { useHistory, Redirect } from 'react-router-dom';
 import * as SessionActions from '../../store/session';
 
 function Calendar() {
-  const [ month, setMonth ] = useState(new Date().getMonth());
-  const [ days, setDate ] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [month, setMonth] = useState(date.toLocaleString('default', { month: 'long' }));
+  const [days, setDays] = useState([]);
+  const [firstDayOfWeek, setFirstDayOfWeek] = useState();
+  const [firstDayOfWeekArr, setFirstDayOfWeekArr] = useState([]);
+  const [lastDay, setLastDay] = useState(0);
+  const [firstSelectedDate, setFirstSelectedDate] = useState();
+  const [lastSelectedDate, setLastSelectedDate] = useState();
 
-  const changeMonth = () => {
-    setDate(prevDate => new Date(prevDate.getFullYear(), prevDate.getMonth(), 1));
-  }
+  useEffect(() => {
+    date.setDate(1);
+    setFirstDayOfWeek(date.getDay());
+    setFirstDayOfWeekArr([]);
+    for (let i = 0; i < firstDayOfWeek; i += 1) {
+      setFirstDayOfWeekArr(prevState => {return [...prevState, i]});
+    }
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(-1);
+    setLastDay(date.getDate());
+    setDays([]);
+    for (let i = 1; i <= lastDay; i += 1) {
+      setDays(prevState => {return [...prevState, i]});
+    }
+  }, [lastDay]);
+
+  const selectDate = e => {
+    if (!firstSelectedDate) {
+      setFirstSelectedDate(e.target.innerText);
+    } else {
+      setLastSelectedDate(e.target.innerText);
+    }
+  };
+
+  const nextMonth = () => {
+    date.setMonth(date.getMonth() + 1)
+    setMonth(date.getMonth());
+  };
+
+  useEffect(() => {
+
+  }, [firstSelectedDate]);
+
+  const clearCalendar = () => {
+    setFirstSelectedDate();
+    setLastSelectedDate();
+  };
 
   return (
   <div className='calendar'>
     <div className="month">      
-      <ul>
-        <li className="prev">&#10094;</li>
-        <li className="next">&#10095;</li>
-        <li>
-          August<br />
-          <span>2021</span>
-        </li>
-      </ul>
-    </div>
-
-    <ul className="weekdays">
-      <li>Mo</li>
-      <li>Tu</li>
-      <li>We</li>
-      <li>Th</li>
-      <li>Fr</li>
-      <li>Sa</li>
-      <li>Su</li>
+    <ul>
+      <li className="prev">{'<'}</li>
+      <li className="next" onClick={nextMonth}>{'>'}</li>
+      <li>
+        {month}<br />
+        <span>2021</span>
+      </li>
     </ul>
+  </div>
 
-    <ul className="days">
+  <ul className="weekdays">
+    <li>Su</li>
+    <li>Mo</li>
+    <li>Tu</li>
+    <li>We</li>
+    <li>Th</li>
+    <li>Fr</li>
+    <li>Sa</li>
+  </ul>
 
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li><span className="active">10</span></li>
-      <li>11</li>
-      <li>12</li>
-      <li>13</li>
-      <li>14</li>
-      <li>15</li>
-      <li>16</li>
-      <li>17</li>
-      <li>18</li>
-      <li>19</li>
-      <li>20</li>
-      <li>21</li>
-      <li>22</li>
-      <li>23</li>
-      <li>24</li>
-      <li>25</li>
-      <li>26</li>
-      <li>27</li>
-      <li>28</li>
-      <li>29</li>
-      <li>30</li>
-      <li>31</li>
-    </ul>
+  <ul className="days">
+    {firstDayOfWeekArr.map(day => {
+      return <li key={day}></li>
+    })}
+    {days.map(day => {
+      let element;
+      if (day > firstSelectedDate && day < lastSelectedDate) {
+        element = <li key={day} className='calendar-date active' onClick={selectDate}>{day}</li>
+      } else if (day === +firstSelectedDate) {
+        element = <li key={day} className='calendar-date first-date' onClick={selectDate}>{day}</li>
+      } else if (day === +lastSelectedDate) {
+        element = <li key={day} className='calendar-date last-date' onClick={selectDate}>{day}</li>
+      } else {
+        element = <li key={day} onClick={selectDate}>{day}</li>
+      }
+      return element;
+    })}
+  </ul>
+  <div onClick={clearCalendar}>CLEAR</div>
   </div>
   )
 }

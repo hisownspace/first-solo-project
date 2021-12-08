@@ -1,12 +1,12 @@
 .empty-input {
   
 }
-.main {
+/* .main {
   height: 100vh;
   width: 500px;
   margin:auto;
   font-size: 1.5em;
-}
+} */
 
 .add-room {
   position: absolute;

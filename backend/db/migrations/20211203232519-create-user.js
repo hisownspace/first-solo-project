@@ -32,8 +32,7 @@ module.exports = {
         type: Sequelize.STRING(50)
       },
       owner: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

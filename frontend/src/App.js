@@ -8,6 +8,7 @@ import MakeNewListing from "./components/MakeNewListing";
 import RoomDetail from "./components/RoomDetail/RoomDetail";
 import Calendar from "./components/Calendar";
 import RoomsList from "./components/RoomsList";
+import UpdateListing from "./components/UpdateListing";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/rooms/make">
             <MakeNewListing />
+          </Route>
+          <Route path="/rooms/:roomId/edit">
+            <UpdateListing />
           </Route>
           <Route path='/rooms/:roomId'>
             <RoomDetail />

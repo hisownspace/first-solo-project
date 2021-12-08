@@ -110,10 +110,10 @@ export const updateRoom = (room, userId) => async dispatch => {
     title,
     description,
     id } = room;
-  const response = await csrfFetch(`api/rooms/${id}`, {
+  const response = await csrfFetch(`/api/rooms/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify({ userId: window.store.getState().session.user.id,
+    body: JSON.stringify({ userId,
       imageUrl,
       amenities,
       city,

@@ -60,26 +60,26 @@ body {font-family: Verdana, sans-serif;}
   color: #777;
 }
 
-.days li .active {
+.active {
   padding: 5px;
   background: #1abc9c;
   color: white !important
 }
 
+.first-date {
+  padding: 5px;
+  background: #29af34;
+  color: white !important
+}
+
+.last-date {
+  padding: 5px;
+  background: #2422a8;
+  color: white !important
+}
+
 .calendar {
   width: 500px;
-}
-
-/* Add media queries for smaller screens */
-@media screen and (max-width:720px) {
-  .weekdays li, .days li {width: 13.1%;}
-}
-
-@media screen and (max-width: 420px) {
-  .weekdays li, .days li {width: 12.5%;}
-  .days li .active {padding: 2px;}
-}
-
-@media screen and (max-width: 290px) {
-  .weekdays li, .days li {width: 12.2%;}
+  position:absolute;
+  top: 500px;
 }

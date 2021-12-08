@@ -15,28 +15,38 @@ function RoomDetail() {
   const room = useSelector((state) => state.room.currentRoom);
   const sessionUser = useSelector((state) => state.session.user);
   const [amenities, setAmenities] = useState([]);
-  let [ownerButtons, setOwnerButtons] = useState();
-  let [renterOptions, setRenterOptions] = useState();
+  let [ownerButtons, setOwnerButtons] = useState('');
+  let [renterOptions, setRenterOptions] = useState('');
   
   useEffect(() => {
+    console.log('first sessionUser.id', sessionUser.id);
+    console.log('first room.ownerId', room.ownerId);
+    console.log('first room.address', room.address);
     dispatch(roomActions.readRoom(+roomId));
-    console.log(roomId);
-  }, [dispatch, roomId]);
+    // console.log(roomId);
+  }, []);
   
   useEffect(() => {
-    if (room?.amenities) {setAmenities(room.amenities.split(', '))};
-    if (sessionUser?.id === room?.ownerId) {
+    if (room.amenities) {setAmenities(room.amenities.split(', '))};
+    if (sessionUser.id === room.ownerId) {
+      console.log("set owner buttons");
       setOwnerButtons(
-      <>
+        <>
         <button onClick={removeListing}>Remove Listing</button>
         <button onClick={editListing}>Edit Listing</button>
       </>);
+      setRenterOptions(null)
     } else {
+      console.log("set renter options");
       setRenterOptions(
-      <>
+        <>
         <button onClick={makeReservation}>Make Reservation</button>
       </>);
+      setOwnerButtons(null);
     }
+    console.log('second sessionUser.id', sessionUser.id);
+    console.log('second room.ownerId', room.ownerId);
+    console.log('second room.address', room.address);
   }, [room]);
 
   function removeListing() {
@@ -44,13 +54,13 @@ function RoomDetail() {
     if (confirm) {
       console.log('hello there!')
       dispatch(roomActions.deleteRoom(+roomId));
-      history.push(`/`);
+      history.push(`/rooms`);
       return room;
     }
   };
 
   function editListing() {
-      return;
+    return history.push(`/rooms/${room.id}/edit`);
   };
 
   function makeReservation() {
@@ -81,6 +91,7 @@ function RoomDetail() {
       {amenities && amenities.map((amenity, index) => <li key={index}>{amenity}</li>)}
       <li>
         {ownerButtons ? ownerButtons : renterOptions}
+        {/* {renterOptions ? renterOptions : null} */}
       </li>
       </ul>
     </div>

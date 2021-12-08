@@ -14,9 +14,9 @@ router.get(
   restoreUser,
   asyncHandler(async (req, res) => {
     const { roomId } = req.params;
-    console.log('roomid', roomId);
+    // console.log('roomid', roomId);
     const room = await Room.findByPk(roomId);
-    console.log(room);
+    // console.log(room);
     return res.json(room);
   })
 );
