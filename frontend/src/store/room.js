@@ -93,7 +93,7 @@ export const deleteRoom = (roomId, userId) => async dispatch => {
   const response = await csrfFetch(`/api/rooms/${roomId}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify({ userId: window.store.getState().session.user.id })
+    body: JSON.stringify({ userId })
   });
   dispatch(removeRoom(roomId));
 };

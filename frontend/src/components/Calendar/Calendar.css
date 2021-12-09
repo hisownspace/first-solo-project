@@ -61,13 +61,13 @@ body {font-family: Verdana, sans-serif;}
   text-align: center;
   margin-bottom: 5px;
   font-size:12px;
-  color: #777;
+  /* color: #777; */
 }
 
 .active-date {
   padding: 5px;
   background: #1abc9c;
-  color: white
+  color: black
 }
 
 .first-date {
