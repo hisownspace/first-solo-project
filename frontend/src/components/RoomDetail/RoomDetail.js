@@ -37,7 +37,6 @@ function RoomDetail() {
       </>);
       setRenterOptions(null)
     } else {
-      console.log("set renter options");
       setRenterOptions(
         <>
         <button onClick={makeReservation}>Make Reservation</button>
@@ -55,8 +54,7 @@ function RoomDetail() {
   function removeListing() {
     const confirm = window.confirm('Are you sure you want to remove this listing?')
     if (confirm) {
-      console.log('hello there!')
-      dispatch(roomActions.deleteRoom(+roomId));
+      dispatch(roomActions.deleteRoom(+roomId, sessionUser.id));
       history.push(`/rooms`);
       return room;
     }
