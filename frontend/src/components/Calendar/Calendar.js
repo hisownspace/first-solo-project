@@ -47,6 +47,7 @@ function Calendar() {
   useEffect(() => {
     setCheckinDate(new Date(year, month, firstSelectedDate, 4));
     setCheckoutDate(new Date(year, month, lastSelectedDate, 11));
+    console.log(monthName)
   }, [firstSelectedDate, lastSelectedDate, month, year]);
 
   const nextMonth = () => {
@@ -57,6 +58,18 @@ function Calendar() {
     console.log(month);
     console.log(date);
     setLastDay(0);
+    clearCalendar();
+  };
+
+  const prevMonth = () => {
+    setMonth(prevState => prevState - 1);
+    date.setMonth(month - 1);
+    setMonthName(date.toLocaleString('default', { month: 'long' }));
+    setMonth(date.getMonth());
+    console.log(month);
+    console.log(date);
+    setLastDay(0);
+    clearCalendar();
   };
 
   useEffect(() => {
@@ -66,13 +79,15 @@ function Calendar() {
   const clearCalendar = () => {
     setFirstSelectedDate();
     setLastSelectedDate();
+    setCheckinDate();
+    setCheckoutDate();
   };
 
   return (
   <div className='calendar'>
     <div className="month">      
     <ul>
-      <li className="prev">{'<'}</li>
+      <li className="prev" onClick={prevMonth}>{'<'}</li>
       <li className="next" onClick={nextMonth}>{'>'}</li>
       <li>
         {monthName}<br />
@@ -98,18 +113,18 @@ function Calendar() {
     {days.map(day => {
       let element;
       if (day > firstSelectedDate && day < lastSelectedDate) {
-        element = <li key={day} className='calendar-date active-date' onClick={selectDate}>{day}</li>
+        element = <li key={day} className='clickable-date active-date' onClick={selectDate}>{day}</li>
       } else if (day === +firstSelectedDate) {
-        element = <li key={day} className='calendar-date first-date' onClick={selectDate}>{day}</li>
+        element = <li key={day} className='first-date' onClick={selectDate}>{day}</li>
       } else if (day === +lastSelectedDate) {
-        element = <li key={day} className='calendar-date last-date' onClick={selectDate}>{day}</li>
+        element = <li key={day} className='last-date' onClick={selectDate}>{day}</li>
       } else {
-        element = <li key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'calendar-date' : ''}>{day}</li>
+        element = <li key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'clickable-date' : ''}>{day}</li>
       }
       return element;
     })}
   </ul>
-  <div onClick={clearCalendar} className='calendar-date'>CLEAR</div>
+  <div onClick={clearCalendar} className='clickable-date'>CLEAR CALENDAR</div>
   </div>
   )
 }

@@ -69,7 +69,7 @@ li {
   right: 3px;
   padding: 7px 3px;
   z-index: 9;
-  background-color: white;
+  background-color: ;
 }
 
 .profile-dropdown li {
@@ -206,9 +206,7 @@ li {
 }
 
 .reservation-form {
-  /* width: 90%; */
-  margin: 20px;
-  font-size: 25px;
+  margin: 15px 25px;
 }
 
 .reservation-form input{
@@ -224,11 +222,12 @@ li {
 .reservation-checkin input {
   width: 50%;
   border-radius: 15px 0 0 0;
-
+  font-size: 25px;
 }
 .reservation-checkout input {
   width: 50%;
   border-radius: 0 15px 0 0;
+  font-size: 25px;
 }
 .reservation-guests input {
   width: 100%;

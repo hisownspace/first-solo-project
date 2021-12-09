@@ -17,6 +17,8 @@ function RoomDetail() {
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState('');
   let [renterOptions, setRenterOptions] = useState('');
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -143,11 +145,17 @@ function RoomDetail() {
             <div className='pricing-ratings'></div>
             <form className='reservation-form' >
               <label className='reservation-checkin'>
-                <input>
+                <input
+                type='date'
+                value={checkInDate}
+                >
                 </input>
               </label>
               <label className='reservation-checkout'>
-                <input>
+                <input
+                type='date'
+                value={checkOutDate}
+                >
                 </input>
               </label>
               <label className='reservation-guests'>

@@ -5,8 +5,8 @@ const router = express.Router();
 const { restoreUser } = require('../../utils/auth');
 const { setTokenCookie, requireAuth, checkPermissions } = require('../../utils/auth');
 const { Room } = require('../../db/models');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+// const { check } = require('express-validator');
+// const { handleValidationErrors } = require('../../utils/validation');
 
 
 router.get(
@@ -14,9 +14,7 @@ router.get(
   restoreUser,
   asyncHandler(async (req, res) => {
     const { roomId } = req.params;
-    // console.log('roomid', roomId);
     const room = await Room.findByPk(roomId);
-    // console.log(room);
     return res.json(room);
   })
 );
@@ -26,7 +24,6 @@ router.get(
   restoreUser,
   asyncHandler(async (req, res) => {
     const rooms = await Room.findAll({ order: [['updatedAt', 'DESC']], limit: 10 });
-    // console.log(res.json(rooms));
     return res.json(rooms);
   })
 );
@@ -35,7 +32,6 @@ router.post(
   '/',
   restoreUser,
   asyncHandler(async (req, res) => {
-    console.log('in the room creator');
     const {
       ownerId,
       imageUrl,

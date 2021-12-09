@@ -60,7 +60,7 @@ body {font-family: Verdana, sans-serif;}
   width: 13.5%;
   text-align: center;
   margin-bottom: 5px;
-  font-size:12px;
+  font-size:20px;
   /* color: #777; */
 }
 
@@ -84,8 +84,9 @@ body {font-family: Verdana, sans-serif;}
 
 .calendar {
   width: 500px;
+  cursor: default;
 }
 
-.calendar-date {
+.clickable-date {
   cursor: pointer;
 }

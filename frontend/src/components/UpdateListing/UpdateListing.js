@@ -42,7 +42,7 @@ function MakeNewListing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (imageUrl && city && country && address) {
+    if (imageUrl && city && country && address && title && description && zip && state) {
       setErrors([]);
       const room = await dispatch(roomActions.updateRoom({
         imageUrl,
@@ -86,6 +86,7 @@ function MakeNewListing() {
           // required
         />
       </label>
+      {description || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {'Address: '}
         <input
@@ -114,7 +115,7 @@ function MakeNewListing() {
           onChange={(e) => setState(e.target.value)}
         />
       </label>
-      <p className='error'></p> 
+      {state || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {"Zip: "}
         <input
@@ -123,7 +124,7 @@ function MakeNewListing() {
           onChange={(e) => setZip(e.target.value)}
         />
       </label>
-      <p className='error'></p> 
+      {zip || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
       <label>
         {"Country: "}
         <input
