@@ -1,19 +1,10 @@
-.empty-input {
-  
-}
-/* .main {
-  height: 100vh;
-  width: 500px;
-  margin:auto;
-  font-size: 1.5em;
-} */
 
 .add-room {
   position: absolute;
   top: 150px;
   display: flex;
   flex-direction: column;
-  width: 600px;
+  /* width: 600px; */
   border: 1px solid grey;
   box-shadow: 2px 3px 5px rgba(0,0,0,.3);
   padding: 25px;

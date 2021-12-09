@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/hisownspace/first-solo-project/issues"
   },
-  "homepage": "https://github.com/hisownspace/first-solo-project#readme"
+  "homepage": "https://github.com/hisownspace/first-solo-project#readme",
+  "dependencies": {
+    "react-router-hash-link": "^2.4.3"
+  }
 }
