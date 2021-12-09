@@ -17,20 +17,19 @@ function RoomDetail() {
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState('');
   let [renterOptions, setRenterOptions] = useState('');
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   
   useEffect(() => {
-    console.log('first sessionUser.id', sessionUser.id);
-    console.log('first room.ownerId', room.ownerId);
-    console.log('first room.address', room.address);
     dispatch(roomActions.readRoom(+roomId));
-    // console.log(roomId);
   }, []);
   
   useEffect(() => {
     if (room.amenities) {setAmenities(room.amenities.split(', '))};
-    if (sessionUser.id === room.ownerId) {
-      console.log("set owner buttons");
+    if (sessionUser?.id === room.ownerId) {
       setOwnerButtons(
         <>
         <button onClick={removeListing}>Remove Listing</button>
@@ -45,9 +44,6 @@ function RoomDetail() {
       </>);
       setOwnerButtons(null);
     }
-    console.log('second sessionUser.id', sessionUser.id);
-    console.log('second room.ownerId', room.ownerId);
-    console.log('second room.address', room.address);
   }, [room]);
 
   useEffect(() => {   
@@ -72,7 +68,6 @@ function RoomDetail() {
         document.documentElement.scrollTop;
        
     if (winScroll < heightToHideFrom) { 
-       isVisible &&      // to limit setting state only the first time         
          setIsVisible(false);
     } else {
          setIsVisible(true);
@@ -99,7 +94,7 @@ function RoomDetail() {
   return (
     <div className='main-room-display'>
     {isVisible 
-      && 
+      ? 
     <div id="hide">
       <nav>
         <span onClick={scrollTo}>
@@ -112,7 +107,7 @@ function RoomDetail() {
           Reviews
         </span>
       </nav>  
-    </div>}
+    </div> : null}
     <div className='room-detail'>
       <div className='picture-box'>
         {/* <div className='main-image'> */}
@@ -136,14 +131,14 @@ function RoomDetail() {
           <h2>Amenities:</h2>
         <div className='room-display-amenities' ref={amenitiesRef}>
             {amenities && amenities.map((amenity, index) => {
-              if (index < amenities.length / 2) {
+              if (index < amenities.length / 2 && index < 5) {
                 return <div key={index} className={`amenities-left row-${index}`}>{amenity}</div>
-              } else if (index >= amenities.length / 2 && index < 10){
-                return <div key={index} className={`amenities-right row-${index - amenities.length / 2}`}>{amenity}</div>
+              } else if ((index >= amenities.length / 2 || index >= 5) && index < 10){
+                return <div key={index} className={`amenities-right row-${index - Math.floor(amenities.length / 2)}`}>{amenity}</div>
               }
             })}
-            {amenities.length > 10 ? <button onClick={showAmenities}>{`Show all ${amenities.length} amenities`}</button> : null}
         </div>
+            {amenities.length > 10 ? <button style={{width:'25%', margin: "25px auto"}} onClick={showAmenities}>{`Show all ${amenities.length} amenities`}</button> : null}
         </div>
         <div className='reservation-scroller'>
           <div className='reservation-box'>

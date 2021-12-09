@@ -68,6 +68,7 @@ li {
   top: 55px;
   right: 3px;
   padding: 7px 3px;
+  z-index: 9;
 }
 
 .profile-dropdown li {
@@ -78,7 +79,6 @@ li {
 
 .header {
   width: auto;
-  z-index: 1;
   background-color: white;
   height: 150px;
   margin: 0;
@@ -185,10 +185,10 @@ li {
   position: sticky;
   top: 125px;
   align-self: flex-start;
-  border: 1px solid rgba(0, 0, 0);
+  border: 1px solid rgba(126, 123, 123, 0.4);
   border-radius: 20px;
   margin: 30px 0;
-  box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 35px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;

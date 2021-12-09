@@ -28,8 +28,8 @@ function Navigation({ isLoaded }){
   return (
     <ul className='header'>
       <li>
-      <button><NavLink exact to="/">Home</NavLink></button>
-      <button><NavLink exact to="/rooms">Check Listings</NavLink></button>
+      <NavLink exact to="/"><button>Home</button></NavLink>
+      <NavLink exact to="/rooms"><button>Check Listings</button></NavLink>
       {isLoaded && sessionLinks}
       </li>
     </ul>

@@ -77,7 +77,9 @@ router.put(
       zip,
       country,
       address,
-      userId
+      userId,
+      title,
+      description
     } = req.body;
     const { roomId } = req.params;
 
@@ -94,7 +96,9 @@ router.put(
         state,
         zip,
         country,
-        address
+        address,
+        title,
+        description
       });
       await room.save();
       return res.json({

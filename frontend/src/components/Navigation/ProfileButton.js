@@ -36,7 +36,7 @@ function ProfileButton({ user }) {
       <button className='profile-button' onClick={openMenu}>
         <i className="fas fa-users-cog fa-2x"></i>
       </button>
-      <button className='add-room-button'><NavLink exact to="/rooms/make">Try Hosting</NavLink></button>
+      <NavLink exact to="/rooms/make"><button className='add-room-button'>Try Hosting</button></NavLink>
       {showMenu && (
         <ul className="profile-dropdown">
           <li className='profile-username'>{user.username}</li>

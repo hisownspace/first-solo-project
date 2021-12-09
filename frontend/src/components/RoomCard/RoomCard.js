@@ -5,9 +5,11 @@ function RoomCard({ room }) {
 
   return (
   <div className='room-card' onClick={() => history.push(`/rooms/${room.id}`)}>
-    <img alt={room.description} src={room.imageUrl}></img>
-    <p>{room.title}</p>
-    <p>{room.description}</p>
+    <div className='card-image'>
+      <img alt={room.description} src={room.imageUrl}></img>
+    </div>
+    <p style={{fontWeight: 'bold'}}>{room.city}, {room.state}</p>
+    {/* <p>{room.description}</p> */}
   </div>)
 };
 
