@@ -3,7 +3,7 @@ ul {list-style-type: none;}
 body {font-family: Verdana, sans-serif;}
 
 .month {
-  padding: 70px 25px;
+  padding: 70px 35px;
   width: 100%;
   background: #1abc9c;
   text-align: center;
@@ -24,11 +24,15 @@ body {font-family: Verdana, sans-serif;}
 .month .prev {
   float: left;
   padding-top: 10px;
+  margin-right: 15px;
+  cursor:pointer;
 }
 
 .month .next {
   float: right;
   padding-top: 10px;
+  margin-left: 15px;
+  cursor:pointer;
 }
 
 .weekdays {
@@ -39,7 +43,7 @@ body {font-family: Verdana, sans-serif;}
 
 .weekdays li {
   display: inline-block;
-  width: 13.6%;
+  width: 13.5%;
   color: #666;
   text-align: center;
 }
@@ -53,33 +57,35 @@ body {font-family: Verdana, sans-serif;}
 .days li {
   list-style-type: none;
   display: inline-block;
-  width: 13.6%;
+  width: 13.5%;
   text-align: center;
   margin-bottom: 5px;
   font-size:12px;
   color: #777;
 }
 
-.active {
+.active-date {
   padding: 5px;
   background: #1abc9c;
-  color: white !important
+  color: white
 }
 
 .first-date {
   padding: 5px;
   background: #29af34;
-  color: white !important
+  color: white
 }
 
 .last-date {
   padding: 5px;
   background: #2422a8;
-  color: white !important
+  color: white
 }
 
 .calendar {
   width: 500px;
-  position:absolute;
-  top: 500px;
+}
+
+.calendar-date {
+  cursor: pointer;
 }

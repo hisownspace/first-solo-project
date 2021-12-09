@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Redirect, useHistory } from "react-router-dom";
-import { HashLink } from 'react-router-hash-link';
+import { Redirect, useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { csrfFetch } from "../../store/csrf";
 import * as roomActions from "../../store/room";
 
 
@@ -150,7 +148,7 @@ function RoomDetail() {
         <div className='reservation-scroller'>
           <div className='reservation-box'>
             <div className='pricing-ratings'></div>
-            <form className='reservation-form'>
+            <form className='reservation-form' >
               <label className='reservation-checkin'>
                 <input>
                 </input>
@@ -163,7 +161,7 @@ function RoomDetail() {
                 <input>
                 </input>
               </label>
-              <button className='reservation-button'>Reserve</button>
+              <button className='reservation-button' id={sessionUser.id === room.ownerId ? 'disabled' : null} disabled={sessionUser.id === room.ownerId}>Reserve</button>
             </form>
             <div className='itemization'>
               <div className='reservation-items'></div>

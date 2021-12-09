@@ -271,3 +271,12 @@ li {
 #hide span:hover {
   cursor: pointer;
 }
+
+#disabled {
+  background-color: grey;
+  background: grey;
+  transition: none;
+  transform: none;
+  color: black;
+  cursor: default;
+}

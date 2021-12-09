@@ -5,41 +5,58 @@ import * as SessionActions from '../../store/session';
 
 function Calendar() {
   const [date, setDate] = useState(new Date());
-  const [month, setMonth] = useState(date.toLocaleString('default', { month: 'long' }));
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(date.getMonth());
+  const [monthName, setMonthName] = useState(date.toLocaleString('default', { month: 'long' }));
   const [days, setDays] = useState([]);
   const [firstDayOfWeek, setFirstDayOfWeek] = useState();
   const [firstDayOfWeekArr, setFirstDayOfWeekArr] = useState([]);
   const [lastDay, setLastDay] = useState(0);
   const [firstSelectedDate, setFirstSelectedDate] = useState();
   const [lastSelectedDate, setLastSelectedDate] = useState();
+  const [checkinDate, setCheckinDate] = useState();
+  const [checkoutDate, setCheckoutDate] = useState();
 
   useEffect(() => {
     date.setDate(1);
     setFirstDayOfWeek(date.getDay());
     setFirstDayOfWeekArr([]);
-    for (let i = 0; i < firstDayOfWeek; i += 1) {
+    for (let i = 1; i <= firstDayOfWeek; i += 1) {
       setFirstDayOfWeekArr(prevState => {return [...prevState, i]});
+      if (i === 7) {setFirstDayOfWeekArr([])}
     }
     date.setMonth(date.getMonth() + 1);
     date.setDate(-1);
-    setLastDay(date.getDate());
+    setLastDay(date.getDate() + 1);
     setDays([]);
     for (let i = 1; i <= lastDay; i += 1) {
       setDays(prevState => {return [...prevState, i]});
     }
-  }, [lastDay]);
+    setYear(date.getFullYear());
+  }, [lastDay, date]);
 
   const selectDate = e => {
-    if (!firstSelectedDate) {
-      setFirstSelectedDate(e.target.innerText);
-    } else {
-      setLastSelectedDate(e.target.innerText);
+    const selectedDate = parseInt(e.target.innerText);
+    if (!firstSelectedDate /* && bookedDate !== selectedDate */) {
+      setFirstSelectedDate(selectedDate);
+    } else if (!lastSelectedDate || +e.target.innerText > firstSelectedDate) {
+      setLastSelectedDate(selectedDate);
     }
   };
+  
+  useEffect(() => {
+    setCheckinDate(new Date(year, month, firstSelectedDate, 4));
+    setCheckoutDate(new Date(year, month, lastSelectedDate, 11));
+  }, [firstSelectedDate, lastSelectedDate, month, year]);
 
   const nextMonth = () => {
-    date.setMonth(date.getMonth() + 1)
+    setMonth(prevState => prevState + 1);
+    date.setMonth(month + 1);
+    setMonthName(date.toLocaleString('default', { month: 'long' }));
     setMonth(date.getMonth());
+    console.log(month);
+    console.log(date);
+    setLastDay(0);
   };
 
   useEffect(() => {
@@ -58,8 +75,8 @@ function Calendar() {
       <li className="prev">{'<'}</li>
       <li className="next" onClick={nextMonth}>{'>'}</li>
       <li>
-        {month}<br />
-        <span>2021</span>
+        {monthName}<br />
+        <span>{year}</span>
       </li>
     </ul>
   </div>
@@ -81,18 +98,18 @@ function Calendar() {
     {days.map(day => {
       let element;
       if (day > firstSelectedDate && day < lastSelectedDate) {
-        element = <li key={day} className='calendar-date active' onClick={selectDate}>{day}</li>
+        element = <li key={day} className='calendar-date active-date' onClick={selectDate}>{day}</li>
       } else if (day === +firstSelectedDate) {
         element = <li key={day} className='calendar-date first-date' onClick={selectDate}>{day}</li>
       } else if (day === +lastSelectedDate) {
         element = <li key={day} className='calendar-date last-date' onClick={selectDate}>{day}</li>
       } else {
-        element = <li key={day} onClick={selectDate}>{day}</li>
+        element = <li key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'calendar-date' : ''}>{day}</li>
       }
       return element;
     })}
   </ul>
-  <div onClick={clearCalendar}>CLEAR</div>
+  <div onClick={clearCalendar} className='calendar-date'>CLEAR</div>
   </div>
   )
 }
