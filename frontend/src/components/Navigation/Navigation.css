@@ -101,7 +101,6 @@ li {
   max-height: 500px;
   border-radius: 20px;
   overflow: hidden;
-  box-sizing: border-box;
   display: flex;
   flex-direction: row;
 }
@@ -125,7 +124,6 @@ li {
 .picture-box .smaller-images img {
   width: 100%;
   height: 300px;
-  box-sizing: border-box;
   position: relative;
   bottom: 50px;
 }
@@ -193,7 +191,7 @@ li {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  
 }
 
 .description {
@@ -212,6 +210,7 @@ li {
 
 .reservation-form input{
   height: 75px;
+  font-size: 25px;
 }
 
 .reservation-checkin {
@@ -240,8 +239,6 @@ li {
 .reservation-button {
   box-shadow: none;
   background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
-  transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s !important;
-  transform: scale(0.96);
   width: 100%;
   border-radius: 15px;
   margin-top: 20px;
@@ -289,5 +286,5 @@ li {
   border-top: 1px solid grey;
   padding: 50px;
   display:flex;
-  
+
 }

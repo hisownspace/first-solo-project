@@ -1,24 +1,17 @@
 * {box-sizing: border-box;}
 ul {list-style-type: none;}
-body {font-family: Verdana, sans-serif;}
+body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
 
 .month {
   padding: 70px 35px;
   width: 100%;
-  background: #1abc9c;
+  background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
   text-align: center;
 }
 
-.month ul {
-  margin: 0;
-  padding: 0;
-}
-
-.month ul li {
-  color: white;
-  font-size: 20px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+.month-header span{
+  font-size: 50px;
+  margin: 10px;
 }
 
 .month .prev {
@@ -38,10 +31,9 @@ body {font-family: Verdana, sans-serif;}
 .weekdays {
   margin: 0;
   padding: 10px 0;
-  background-color: #ddd;
 }
 
-.weekdays li {
+.weekdays div {
   display: inline-block;
   width: 13.5%;
   color: #666;
@@ -50,43 +42,77 @@ body {font-family: Verdana, sans-serif;}
 
 .days {
   padding: 10px 0;
-  background: #eee;
   margin: 0;
 }
 
-.days li {
+.days div {
   list-style-type: none;
   display: inline-block;
-  width: 13.5%;
+  width: 14%;
+  height: 185px;
   text-align: center;
   margin-bottom: 5px;
-  font-size:20px;
-  /* color: #777; */
+  line-height: 4.5em;
+  font-size:40px;
 }
 
-.active-date {
-  padding: 5px;
-  background: #1abc9c;
-  color: black
+.days div * {
+  vertical-align: center;
 }
-
-.first-date {
-  padding: 5px;
-  background: #29af34;
-  color: white
-}
-
-.last-date {
-  padding: 5px;
-  background: #2422a8;
-  color: white
-}
-
-.calendar {
-  width: 500px;
-  cursor: default;
+.square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 
 .clickable-date {
   cursor: pointer;
+}
+.clickable-date:hover {
+  cursor: pointer;
+  border-radius:  50%;
+  color: black;
+  z-index: -10;
+}
+
+.clickable-date-clear {
+  cursor: pointer;
+}
+
+.active-date div {
+  position: relative;
+  background-color: rgb(247, 247, 247);
+  width: 160%;
+  right: 30%;
+  z-index: -1;
+}
+
+.active-date {
+  color: black;
+  padding: 0 -150px;
+}
+
+.first-date {
+  background: black;
+  color: white;
+  border-radius: 50% 0 0 50%;
+  border-radius: 50%;;
+}
+
+.last-date {
+  background: black;
+  color: white;
+  border-radius: 0 50% 50% 0;
+  border-radius: 50%;
+}
+
+.calendar {
+  width: 100%;
+  cursor: default;
+}
+
+
+.booked-date div {
+  text-decoration: line-through;
+  color: grey;
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import * as roomActions from "../../store/room";
+import * as rentalActions from "../../store/rental";
 import Calendar from "../Calendar/Calendar";
 
 
@@ -11,25 +12,36 @@ function RoomDetail() {
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const history = useHistory();
+  const calendarRef = useRef();
   const amenitiesRef = useRef();
   
   const room = useSelector((state) => state.room.currentRoom);
   const sessionUser = useSelector((state) => state.session.user);
+  const roomRentals = useSelector((state) => state.rental.roomRentals);
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState('');
   let [renterOptions, setRenterOptions] = useState('');
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
+  const [bookedDatesArr, setBookedDatesArr] = useState([]);
+  const [guests, setGuests] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-  useEffect(() => {
-  }, [checkOutDate, checkInDate])
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   inputRef.current.focus({ preventScroll: true })
+  //   labelRef.current.focus({ preventScroll: true })
+  //   formRef.current.focus({ preventScroll: true })
+  //   console.log(formRef.current)
+  //   console.log(inputRef.current)
+  //   console.log(labelRef.current)
+  // }, [])
+  // useEffect(() => {
+  // }, [checkOutDate, checkInDate])
   
   useEffect(() => {
     dispatch(roomActions.readRoom(+roomId));
+    dispatch(rentalActions.readRoomRentals(+roomId));
   }, []);
   
   useEffect(() => {
@@ -65,6 +77,25 @@ function RoomDetail() {
     }
   };
 
+  useEffect(() => {
+    console.log(roomRentals)
+    const bookedDatesArr = roomRentals && roomRentals?.map(rental => {
+      const startDate = {
+        year: new Date(rental.checkIn).getFullYear(),
+        month: new Date(rental.checkIn).getMonth(),
+        day: new Date(rental.checkIn).getDate()
+      };
+      const endDate = {
+        year: new Date(rental.checkOut).getFullYear(),
+        month: new Date(rental.checkOut).getMonth(),
+        day: new Date(rental.checkOut).getDate()
+      };
+      return [startDate, endDate];
+    });
+
+    setBookedDatesArr(bookedDatesArr);
+  }, [roomRentals]);
+
   const listenToScroll = () => {
     let heightToHideFrom = 740;
     const winScroll = document.body.scrollTop || 
@@ -77,8 +108,13 @@ function RoomDetail() {
     }  
   };
 
-  const scrollTo = e => {
-    amenitiesRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  const scrollTo = async (e, location) => {
+    e.preventDefault();
+    if (location === 'calendar') {
+      calendarRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      amenitiesRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   };
 
   function editListing() {
@@ -93,8 +129,27 @@ function RoomDetail() {
   };
 
   const submitReservation = e => {
-    e.preventDefault()
-    console.log(checkInDate, checkOutDate)
+    e.preventDefault();
+    
+    const inYear = checkInDate.slice(0,4);
+    const inMonth = checkInDate.slice(5,7) - 1;
+    const inDay = checkInDate.slice(8,10);
+
+    const outYear = checkOutDate.slice(0,4);
+    const outMonth = checkOutDate.slice(5,7) - 1;
+    const outDay = checkOutDate.slice(8,10);
+
+    console.log(inYear, inMonth, inDay);
+    console.log(outYear, outMonth, outDay);
+
+    dispatch(rentalActions.createRental({ 
+      renterId: sessionUser.id,
+      roomId: room.id,
+      guests,
+      checkIn: new Date(inYear, inMonth, inDay, 16),
+      checkOut: new Date(outYear, outMonth, outDay, 9)
+      
+    }));
   };
 
   if (!sessionUser || !room) return <Redirect to="/" />;
@@ -149,13 +204,15 @@ function RoomDetail() {
             })}
         </div>
             {amenities.length > 10 ? <button style={{width:'25%', margin: "25px auto"}} onClick={showAmenities}>{`Show all ${amenities.length} amenities`}</button> : null}
-        <div className="calendar-div">
-        <Calendar
+        <div ref={calendarRef} className="calendar-div">
+       {sessionUser.id === room.ownerId ? null : <Calendar
         setCheckInDate={setCheckInDate}
         checkInDate={checkInDate}
         setCheckOutDate={setCheckOutDate}
         checkOutDate={checkOutDate}
-        />
+        bookedDatesArr={bookedDatesArr}
+        setBookedDatesArr={setBookedDatesArr}
+        />}
         </div>
         </div>
         <div className='reservation-scroller'>
@@ -165,8 +222,10 @@ function RoomDetail() {
               <label className='reservation-checkin'>
                 <input
                 type='date'
+                onChange={e =>setCheckInDate(e.target.value)}
+                onBlur={e => scrollTo(e, 'calendar')}
                 value={checkInDate}
-                onChange={e => setCheckInDate(e.target.value)}
+                onClick={e => scrollTo(e, 'calendar')}
                 >
                 </input>
               </label>
@@ -174,12 +233,17 @@ function RoomDetail() {
                 <input
                 type='date'
                 value={checkOutDate}
-                onChange={e => e.target.value > checkInDate ? setCheckOutDate(e.target.value) : null}
+                // onChange={e => e.target.value > checkInDate ? setCheckOutDate(e.target.value) : null}
+                onClick={e => scrollTo(e, 'calendar')}
                 >
                 </input>
               </label>
               <label className='reservation-guests'>
-                <input>
+                <input
+                type='number'
+                value={guests}
+                // onChange={e => (e.target.value < 10 && e.target.value > 0)? setGuests(e.target.value): null}
+                >
                 </input>
               </label>
               <button className='reservation-button' id={sessionUser.id === room.ownerId ? 'disabled' : null} disabled={sessionUser.id === room.ownerId}>Reserve</button>

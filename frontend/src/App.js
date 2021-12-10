@@ -9,6 +9,7 @@ import RoomDetail from "./components/RoomDetail/RoomDetail";
 import Calendar from "./components/Calendar";
 import RoomsList from "./components/RoomsList";
 import UpdateListing from "./components/UpdateListing";
+import Reservations from "./components/Reservations";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,8 +39,8 @@ function App() {
           <Route path='/rooms/:roomId'>
             <RoomDetail />
           </Route>
-          <Route path='/calendar'>
-            <Calendar />
+          <Route path='/reservations'>
+            <Reservations />
           </Route>
         </Switch>
       )}

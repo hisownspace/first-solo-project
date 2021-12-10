@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { restoreUser } = require('../../utils/auth');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Rental, Room } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -40,6 +40,26 @@ router.post(
     return res.json({
       user
     });
+  })
+);
+
+
+router.get(
+  '/:userId(\\d+)/rentals',
+  restoreUser,
+  asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+
+    
+    const renterRentals = await Rental.findAll({ where: { renterId: userId }, order: [['updatedAt', 'DESC']], limit: 10 });
+    const ownerRentals = await Rental.findAll({ include: {
+      model: Room,
+      where: {
+        ownerId: userId
+      }
+    }})
+    console.log(ownerRentals);
+    return res.json({renterRentals, ownerRentals});
   })
 );
 
