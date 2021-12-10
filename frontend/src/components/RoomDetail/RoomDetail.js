@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import * as roomActions from "../../store/room";
+import Calendar from "../Calendar/Calendar";
 
 
 
@@ -24,6 +25,8 @@ function RoomDetail() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+  useEffect(() => {
+  }, [checkOutDate, checkInDate])
   
   useEffect(() => {
     dispatch(roomActions.readRoom(+roomId));
@@ -89,6 +92,11 @@ function RoomDetail() {
 
   };
 
+  const submitReservation = e => {
+    e.preventDefault()
+    console.log(checkInDate, checkOutDate)
+  };
+
   if (!sessionUser || !room) return <Redirect to="/" />;
   
   return (
@@ -135,19 +143,30 @@ function RoomDetail() {
                 return <div key={index} className={`amenities-left row-${index}`}>{amenity}</div>
               } else if ((index >= amenities.length / 2 || index >= 5) && index < 10){
                 return <div key={index} className={`amenities-right row-${index - Math.floor(amenities.length / 2)}`}>{amenity}</div>
+              } else {
+                return null;
               }
             })}
         </div>
             {amenities.length > 10 ? <button style={{width:'25%', margin: "25px auto"}} onClick={showAmenities}>{`Show all ${amenities.length} amenities`}</button> : null}
+        <div className="calendar-div">
+        <Calendar
+        setCheckInDate={setCheckInDate}
+        checkInDate={checkInDate}
+        setCheckOutDate={setCheckOutDate}
+        checkOutDate={checkOutDate}
+        />
+        </div>
         </div>
         <div className='reservation-scroller'>
           <div className='reservation-box'>
             <div className='pricing-ratings'></div>
-            <form className='reservation-form' >
+            <form onSubmit={submitReservation} className='reservation-form' >
               <label className='reservation-checkin'>
                 <input
                 type='date'
                 value={checkInDate}
+                onChange={e => setCheckInDate(e.target.value)}
                 >
                 </input>
               </label>
@@ -155,6 +174,7 @@ function RoomDetail() {
                 <input
                 type='date'
                 value={checkOutDate}
+                onChange={e => e.target.value > checkInDate ? setCheckOutDate(e.target.value) : null}
                 >
                 </input>
               </label>

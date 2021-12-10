@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
 import * as SessionActions from '../../store/session';
 
-function Calendar() {
+function Calendar({ setCheckInDate, setCheckOutDate, checkOutDate, checkInDate }) {
   const [date, setDate] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(date.getMonth());
@@ -12,10 +12,10 @@ function Calendar() {
   const [firstDayOfWeek, setFirstDayOfWeek] = useState();
   const [firstDayOfWeekArr, setFirstDayOfWeekArr] = useState([]);
   const [lastDay, setLastDay] = useState(0);
-  const [firstSelectedDate, setFirstSelectedDate] = useState();
-  const [lastSelectedDate, setLastSelectedDate] = useState();
-  const [checkinDate, setCheckinDate] = useState();
-  const [checkoutDate, setCheckoutDate] = useState();
+  const [firstSelectedDate, setFirstSelectedDate] = useState('');
+  const [lastSelectedDate, setLastSelectedDate] = useState('');
+  // const [checkinDate, setCheckinDate] = useState();
+  // const [checkoutDate, setCheckoutDate] = useState();
 
   useEffect(() => {
     date.setDate(1);
@@ -39,24 +39,56 @@ function Calendar() {
     const selectedDate = parseInt(e.target.innerText);
     if (!firstSelectedDate /* && bookedDate !== selectedDate */) {
       setFirstSelectedDate(selectedDate);
-    } else if (!lastSelectedDate || +e.target.innerText > firstSelectedDate) {
+    } else if (+e.target.innerText > firstSelectedDate) {
       setLastSelectedDate(selectedDate);
     }
   };
   
   useEffect(() => {
-    setCheckinDate(new Date(year, month, firstSelectedDate, 4));
-    setCheckoutDate(new Date(year, month, lastSelectedDate, 11));
-    console.log(monthName)
+    let tempCheckIn;
+    let tempCheckOut;
+    let tempMonth = month.toString();
+    if (tempMonth.length === 1) {
+      tempMonth = '0' + (month + 1);
+    } else {
+      tempMonth = month + 1;
+    }
+    if (firstSelectedDate < 10) {
+      tempCheckIn = '0' + firstSelectedDate;
+    } else {
+      tempCheckIn = firstSelectedDate;
+    }
+    if (lastSelectedDate < 10) {
+      tempCheckOut = '0' + lastSelectedDate;
+    } else {
+      tempCheckOut = lastSelectedDate;
+    }
+    tempCheckIn =`${year}-${tempMonth}-${tempCheckIn}`
+    tempCheckOut =`${year}-${tempMonth}-${tempCheckOut}`
+    
+    if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(tempCheckIn)) {
+      setCheckInDate(tempCheckIn);
+    }
+    if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(tempCheckOut)) {
+      setCheckOutDate(tempCheckOut);
+    }
   }, [firstSelectedDate, lastSelectedDate, month, year]);
+
+  useEffect(() => {
+    console.log(checkOutDate.slice(8,10));
+    if (checkOutDate) {
+      setLastSelectedDate(checkOutDate.slice(8,10));
+    }
+    if (checkInDate) {
+      setFirstSelectedDate(checkInDate.slice(8,10));
+    }
+  }, [checkOutDate, checkInDate]);
 
   const nextMonth = () => {
     setMonth(prevState => prevState + 1);
     date.setMonth(month + 1);
     setMonthName(date.toLocaleString('default', { month: 'long' }));
     setMonth(date.getMonth());
-    console.log(month);
-    console.log(date);
     setLastDay(0);
     clearCalendar();
   };
@@ -66,8 +98,6 @@ function Calendar() {
     date.setMonth(month - 1);
     setMonthName(date.toLocaleString('default', { month: 'long' }));
     setMonth(date.getMonth());
-    console.log(month);
-    console.log(date);
     setLastDay(0);
     clearCalendar();
   };
@@ -79,8 +109,8 @@ function Calendar() {
   const clearCalendar = () => {
     setFirstSelectedDate();
     setLastSelectedDate();
-    setCheckinDate();
-    setCheckoutDate();
+    setCheckInDate('');
+    setCheckOutDate('');
   };
 
   return (

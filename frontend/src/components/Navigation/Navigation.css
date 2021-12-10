@@ -69,7 +69,7 @@ li {
   right: 3px;
   padding: 7px 3px;
   z-index: 9;
-  background-color: ;
+  background-color: white;
 }
 
 .profile-dropdown li {
@@ -193,6 +193,7 @@ li {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 .description {
@@ -219,11 +220,13 @@ li {
 .reservation-checkout {
   width: 50%;
 }
+
 .reservation-checkin input {
   width: 50%;
   border-radius: 15px 0 0 0;
   font-size: 25px;
 }
+
 .reservation-checkout input {
   width: 50%;
   border-radius: 0 15px 0 0;
@@ -279,4 +282,12 @@ li {
   transform: none;
   color: black;
   cursor: default;
+}
+
+.calendar-div {
+  margin-top: 50px;
+  border-top: 1px solid grey;
+  padding: 50px;
+  display:flex;
+  
 }
