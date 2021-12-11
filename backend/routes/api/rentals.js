@@ -112,7 +112,7 @@ router.delete(
           ownerId: userId
         }
       }})
-      return res.json(myRentals);
+      return res.json({myRentals, myRoomRentals});
     } else {
       const err = new Error('Unauthorized');
       err.title = 'Unauthorized';

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
 import * as SessionActions from '../../store/session';
 
-function Calendar({ setCheckInDate, setCheckOutDate, checkOutDate, checkInDate, bookedDatesArr }) {
+function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, checkInDate, bookedDatesArr }) {
   const [date, setDate] = useState(new Date());
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(date.getMonth());
@@ -87,6 +87,7 @@ function Calendar({ setCheckInDate, setCheckOutDate, checkOutDate, checkInDate, 
     }
     if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(tempCheckOut)) {
       setCheckOutDate(tempCheckOut);
+      setErrors(false);
     };
     let bookedDates = []
     bookedDatesArr.filter(dateRange => {

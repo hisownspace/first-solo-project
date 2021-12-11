@@ -28,6 +28,10 @@ button {
   margin-right: 0;
 }
 
+.rooms-list {
+  padding: 150px 0;
+}
+
 .profile-email {
   font-style: italic;
   width: auto;
@@ -81,7 +85,7 @@ li {
 .header {
   width: auto;
   background-color: white;
-  height: 150px;
+  height: 150x;
   margin: 0;
   padding: 30px;
   box-shadow: 3px 4px 20px rgb(126, 126, 126, .2);
@@ -96,13 +100,16 @@ li {
 }
 
 .picture-box {
-  max-width: 1600px;
-  width: 100%;
+  max-width: 1750px;
   max-height: 500px;
+  margin: auto;
   border-radius: 20px;
   overflow: hidden;
   display: flex;
   flex-direction: row;
+}
+.reservation-error {
+  color: red;
 }
 
 .picture-box > img {
@@ -120,6 +127,18 @@ li {
   row-gap: 10px;
   column-gap: 10px;
 }
+table {
+  margin: 150px auto;
+  width: 75%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+table img {
+  width: 250px;
+}
 
 .picture-box .smaller-images img {
   width: 100%;
@@ -131,10 +150,10 @@ li {
 .room-display-body {
   position: relative;
   width: 100%;
+  padding: 50px 250px;
   height: 2000px;
   font-size: 20px;
   display: flex;
-  /* flex-direction: row; */
   align-items: flex-start;
 }
 
@@ -175,9 +194,8 @@ li {
 }
 
 .reservation-scroller {
-  width: 50%;
   height: 100%;
-  flex-basis: 33%;
+  flex-basis: 33%
 }
 
 .reservation-box {
@@ -202,6 +220,7 @@ li {
 .room-info {
   margin: 30px;
   flex-basis: 67%;
+  flex-shrink: 2;
 }
 
 .reservation-form {
@@ -284,7 +303,7 @@ li {
 .calendar-div {
   margin-top: 50px;
   border-top: 1px solid grey;
-  padding: 50px;
+  padding-top: 50px;
   display:flex;
-
+  width:auto;
 }

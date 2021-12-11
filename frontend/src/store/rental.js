@@ -60,6 +60,7 @@ export const readMyRentals = userId => async dispatch => {
 export const readRoomRentals = roomId => async dispatch => {
   const response = await csrfFetch(`/api/rooms/${roomId}/rentals`);
   const rentals = await response.json();
+  console.log(rentals);
   dispatch(getRoomRentals(rentals));
   console.log(rentals);
 }
@@ -91,8 +92,9 @@ export const deleteRental = (rentalId, userId) => async dispatch => {
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify({ userId })
   });
+  const rentals = await response.json();
   dispatch(removeRental(rentalId));
-  return response;
+  return rentals;
 };
 
 const initialrental = { myRentals: {}, currentRental: {}, roomRentals: [] };

@@ -1,36 +1,21 @@
-/* .main {
-  position: absolute;
-  top: 5 00px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 75%;
-} */
-
 .room-card {
   width: 100%;
   margin: 10px;
   font-size: 20px;
-  
-  /* border: 1px solid rgba(44, 44, 44, .3); */
-  /* box-shadow: 3px 3px 3px rgba(44, 44, 44, .6); */
-  /* border-radius: 20px; */
-  /* padding: 25px; */
 }
 
 .card-image {
   width: 100%;
   height: 530px; 
-  /* overflow: hidden; */
   object-fit: cover;
 }
 
 .card-image img {
-  /* height: 100%; */
-  /* height: 100%; */
-  width: 530px; /* width of container */
-  height: 530px; /* height of container */
+
+  width: 530px;
+  height: 530px;
   object-fit: cover;
-  /* border: 5px solid black; */
+
 }
 
 .room-card:hover {

@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import './Navigation.css';
+import logo from '../../roomshare_plus_logo.png';
+
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -28,6 +30,7 @@ function Navigation({ isLoaded }){
   return (
     <ul className='header'>
       <li>
+      <NavLink exact to="/"><img alt='roomshare logo' src={logo}></img></NavLink>
       <NavLink exact to="/"><button>Home</button></NavLink>
       <NavLink exact to="/rooms"><button>Check Listings</button></NavLink>
       <NavLink exact to="/reservations"><button>Check Reservations</button></NavLink>

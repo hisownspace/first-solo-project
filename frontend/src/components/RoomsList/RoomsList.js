@@ -16,7 +16,6 @@ function RoomsList() {
 
   return (
     <div className='rooms-list'>
-      <h2>Rooms!</h2>
       <div className='cards'>
       {roomStore.map((room, index) => {
         return roomStore ? <li key={index}><RoomCard room={room} /></li> : null

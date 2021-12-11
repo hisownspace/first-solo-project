@@ -4,7 +4,6 @@
   top: 150px;
   display: flex;
   flex-direction: column;
-  /* width: 600px; */
   border: 1px solid grey;
   box-shadow: 2px 3px 5px rgba(0,0,0,.3);
   padding: 25px;
@@ -18,7 +17,6 @@
 
 .add-room input {
   width: 100%;
-  /* line-height: 2em; */
   font-size: 1.25em;
 }
 .add-room textarea {
