@@ -10,6 +10,7 @@ import Calendar from "./components/Calendar";
 import RoomsList from "./components/RoomsList";
 import UpdateListing from "./components/UpdateListing";
 import Reservations from "./components/Reservations";
+import Splash from "./components/Splash";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ function App() {
       {/* <div className='main'> */}
       {isLoaded && (
         <Switch>
+          <Route exact path ='/'>
+            <Splash />
+          </Route>
           <Route path="/signup">
             <SignupFormPage />
           </Route>

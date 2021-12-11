@@ -156,6 +156,7 @@ function RoomDetail() {
           history.push('/reservations');
     } else {
       setErrors(true);
+      scrollTo(e, 'calendar')
     }
     
   };
@@ -252,9 +253,10 @@ function RoomDetail() {
                 <input
                 type='number'
                 value={guests}
-                // onChange={e => (e.target.value < 10 && e.target.value > 0)? setGuests(e.target.value): null}
+                onChange={e => (e.target.value < 10 && e.target.value > 0)? setGuests(e.target.value): null}
                 >
                 </input>
+                <b>Guests</b>
               </label>
               <button className='reservation-button' id={sessionUser.id === room.ownerId ? 'disabled' : null} disabled={sessionUser.id === room.ownerId}>Reserve</button>
             </form>

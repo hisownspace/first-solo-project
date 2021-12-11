@@ -1,6 +1,6 @@
 button {
   color: beige;
-  background-color: rgb(207, 28, 34);
+  background-color: rgb(240, 91, 96);
   padding: 5px 10px;
   margin: 3px;
   border: none;
@@ -22,6 +22,37 @@ button {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  align-self: flex-start;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+  /* height: 0; */
+  position: relative;
+}
+
+.login-form label {
+  color: white;
+}
+
+.modal {
+  height: 0;
+  position: fixed;
+  top: 25%;
+  right: 45.5%;
+}
+
+.modal button {
+  width: 100%;
+}
+
+.login-form input {
+  width: 100%;
+  margin: 10px 3px;
+  font-size:35px;
+  border-radius: 6px;
 }
 
 .add-room {
@@ -306,4 +337,75 @@ table img {
   padding-top: 50px;
   display:flex;
   width:auto;
+}
+
+.splash-image {
+  width: 100%;
+  margin: 0;
+}
+
+.splash-image:hover {
+  cursor: pointer;
+}
+
+.splash-back {
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.986);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  overflow: hidden;
+}
+
+.splash-logo {
+  position: relative;
+  bottom: 68%;
+  /* width: 400px; */
+  left: 25px;
+}
+
+.splash-logo:hover {
+  cursor: pointer;
+}
+
+.splash-tagline {
+  position: relative;
+  bottom: 7%;
+  left: 65.5%;
+  color: rgba(250, 250, 250, .6);
+  font-size: 35px;
+  font-family: 'Bubbler One', sans-serif;
+}
+
+.splash-tagline:hover {
+  cursor: pointer;
+}
+
+.modal-text {
+  color: white;
+  margin: 10px;
+}
+
+.modal-text-click {
+  margin-left: 0;
+}
+
+.modal-text-click:hover {
+  cursor: pointer;
+  color:rgba(255, 255, 255, 0.5)
+}
+
+.login-form-button {
+  background-color: rgba(240, 91, 96, 0.603);
+  box-shadow: none;
+  color: black;
+}
+
+.login-form-button:hover {
+  background-color: rgba(240, 91, 96, 0.8);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.login-errors {
+  color: red;
 }
