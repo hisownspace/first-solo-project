@@ -18,6 +18,68 @@ button {
   margin: 0;
 }
 
+.header-mid {
+  display: flex;
+}
+
+table img {
+  border-radius: 15px;
+}
+td {
+  margin: 0;
+  padding-right: 20px;
+  border: none;
+}
+table {
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  border-radius: 15px;
+  background: #CCC;
+}
+
+tr:hover {
+  cursor: pointer;
+}
+th {
+  padding-right: 35px;
+}
+
+td:first-child,
+th:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+td:last-child,
+th:last-child {
+  border-radius: 0 10px 10px 0;
+  cursor: default;
+}
+
+tr:nth-child(odd) {
+  background: #FFF;
+  border-radius: 15px;
+  border-radius: 15px;
+}
+
+.header-mid form button {
+  margin-left:0;
+  border-radius: 0 15px 15px 0;
+  border-left: black solid 1px;
+  margin-right: 20px;
+}
+
+.header-mid form input {
+  margin:0;
+  font-size:34px;
+  border-radius: 15px 0 0 15px;
+  width:200px;
+  border-right: none;
+  position: relative;
+  top: 4px;
+}
+
 .session-links {
   display: flex;
   flex-direction: row;
@@ -332,11 +394,14 @@ table img {
 }
 
 .calendar-div {
-  margin-top: 50px;
+  margin: 150px 0px;
   border-top: 1px solid grey;
+  /* border-bottom: 1px solid grey; */
   padding-top: 50px;
+  /* padding-bottom: 50px; */
   display:flex;
   width:auto;
+  /* height: 1500px; */
 }
 
 .splash-image {

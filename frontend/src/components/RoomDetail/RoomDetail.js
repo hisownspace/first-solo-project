@@ -212,6 +212,10 @@ function RoomDetail() {
               }
             })}
         </div>
+          <div className="reviews">
+            <h2>
+              Reviews
+            </h2>
             {amenities.length > 10 ? <button onClick={showAmenities}>{`Show all ${amenities.length} amenities`}</button> : null}
         <div ref={calendarRef} className="calendar-div">
        {sessionUser.id === room.ownerId ? null : <Calendar
@@ -223,6 +227,8 @@ function RoomDetail() {
         setBookedDatesArr={setBookedDatesArr}
         setErrors={setErrors}
         />}
+
+        </div>
         </div>
         </div>
         <div className='reservation-scroller'>
@@ -266,6 +272,7 @@ function RoomDetail() {
             </div>
           </div>
         </div>
+        
       </div>
       <li>
         {room.address}
@@ -279,10 +286,21 @@ function RoomDetail() {
         {room.country}
       </li>
       <li>
-        {ownerButtons ? ownerButtons : renterOptions}
+        {ownerButtons ? ownerButtons : null}
         {/* {renterOptions ? renterOptions : null} */}
       </li>
+
     </div>
+      <iframe
+      title="maps"
+      width="80%"
+      height="750px"
+      style={{border:0}}
+      margin='50px'
+      loading="lazy"
+      allowfullscreen
+      src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD3hn84hMnejar3EM_EdSjZ-RVXhTar-OQ&q=${room.city},${room.state}`}>
+</iframe>
     </div>
   )
 }

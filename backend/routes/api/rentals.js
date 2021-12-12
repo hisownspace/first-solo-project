@@ -88,15 +88,14 @@ router.get(
 
 router.delete(
   '/:rentalId',
-  requireAuth,
+  restoreUser,
   asyncHandler(async (req, res, next) => {
     const { rentalId } = req.params;
     const { userId } = req.body;
     const rental = await Rental.findByPk(rentalId);
-    console.log(rental);
     let canEdit;
     if (rental && userId !== rental.renterId) {
-      const room = Room.findByPk(rental.roomId);
+      const room = await Room.findByPk(rental.roomId);
       canEdit = checkPermissions(userId, room);
     } else {
       canEdit = checkPermissions(userId, rental);

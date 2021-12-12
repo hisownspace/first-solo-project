@@ -57,6 +57,16 @@ export const readRooms = () => async dispatch => {
 };
 
 
+export const searchRooms = (string) => async dispatch => {
+  console.log(string)
+  const response = await csrfFetch(`/api/rooms/search/${string}`);
+  const rooms = await response.json();
+  console.log(rooms)
+  dispatch(getRooms(rooms))
+  return rooms;
+};
+
+
 
 export const createRoom = room => async dispatch => {
   const { ownerId,

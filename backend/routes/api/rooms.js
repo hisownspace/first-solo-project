@@ -1,6 +1,7 @@
 const express = require('express')
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
+const { Op } = require("sequelize");
 
 const { restoreUser } = require('../../utils/auth');
 const { setTokenCookie, requireAuth, checkPermissions } = require('../../utils/auth');
@@ -37,6 +38,27 @@ router.get(
   restoreUser,
   asyncHandler(async (req, res) => {
     const rooms = await Room.findAll({ order: [['updatedAt', 'DESC']], limit: 10 });
+    return res.json(rooms);
+  })
+);
+
+router.get(
+  '/search/:string',
+  restoreUser,
+  asyncHandler(async (req, res) => {
+    const { string } = req.params;
+    const rooms = await Room.findAll(
+      { order: [['updatedAt', 'DESC']],
+        where: { 
+          [Op.or]: {
+            title: { [Op.iLike]: `%${string}%`},
+            description: { [Op.iLike]: `%${string}%`},
+            state: {[Op.iLike]: `%${string}%`},
+            city: {[Op.iLike]: `%${string}%`},
+            amenities: {[Op.iLike]: `%${string}%`},
+          }
+        }
+      });
     return res.json(rooms);
   })
 );

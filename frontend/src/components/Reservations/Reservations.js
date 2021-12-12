@@ -24,8 +24,10 @@ function Reservations() {
 
   const cancelReservation = async (rentalId) => {
     const confirm = window.confirm('Are you sure you want to cancel this reservation?')
+    console.log(confirm)
     if (confirm) {
-      let spark = await dispatch(rentalActions.deleteRental(+rentalId, sessionUser.id));
+
+      let spark = await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id));
       console.log('spark', spark);
       setReload(!reload);
       return history.push('/rooms');
@@ -37,33 +39,35 @@ function Reservations() {
     <h2>Your Reservations!</h2>
     <div className='owner-rentals'>
     <table>
+      <h2>Rooms You Own!</h2>
       <thead>
         <tr>
           <th></th>
-          <th>Location</th>
-          <th>Check-in Date</th>
-          <th>Check-out Date</th>
+          <th align="right">Location</th>
+          <th align="right">Check-in Date</th>
+          <th align="right">Check-out Date</th>
           <th></th>
         </tr>
       </thead>
+        {ownerRentals?.length === 0 ? <h2>No Reservations yet!</h2> : null}
     {ownerRentals?.map(rental => {
               return (
-      <tbody>
+        <tbody>
         <tr>
-          <td>
+          <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)}>
               <img alt={roomList?.find(room => room.id === rental.roomId)?.title}
               src={roomList.find(room => room.id === rental.roomId)?.imageUrl}></img>
           </td>
-          <td>
+          <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} align="right">
               {roomList?.find(room => room.id === rental.roomId)?.title}
           </td>
-          <td>
+          <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} align="right">
             {`${new Date(rental.checkIn).toLocaleString('en-us', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })}`}
           </td>
-          <td>
+          <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} align="right">
             {`${new Date(rental.checkOut).toLocaleString('en-us', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })}`}
           </td>
-          <td>
+          <td align="right">
             <button onClick={() => cancelReservation(rental.id)}>Cancel Reservation</button>
           </td>
         </tr>
@@ -72,37 +76,39 @@ function Reservations() {
     </div>
     <div className='renter-rentals'>
       <table>
+        <h2>Places You're Staying!</h2>
         <thead>
           <tr>
             <th></th>
-            <th>Location</th>
-            <th>Check-in Date</th>
-            <th>Check-out Date</th>
+            <th align="right">Location</th>
+            <th align="right">Check-in Date</th>
+            <th align="right">Check-out Date</th>
             <th></th>
           </tr>
         </thead>
+        <tbody>
       {renterRentals?.map(rental => {
                 return (
-        <tbody>
           <tr>
-            <td>
+            <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)}>
                 <img alt={roomList?.find(room => room.id === rental.roomId)?.title}
                 src={roomList.find(room => room.id === rental.roomId)?.imageUrl}></img>
             </td>
-            <td>
+            <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} align="right">
                 {roomList?.find(room => room.id === rental.roomId)?.title}
             </td>
-            <td>
+            <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} align="right">
               {`${new Date(rental.checkIn).toLocaleString('en-us', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })}`}
             </td>
-            <td>
+            <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} align="right">
               {`${new Date(rental.checkOut).toLocaleString('en-us', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })}`}
             </td>
-            <td>
+            <td align="right">
             <button onClick={() =>cancelReservation(rental.id)}>Cancel Reservation</button>
             </td>
           </tr>
-        </tbody>)})}
+        )})}
+        </tbody>
       </table>
     </div>
     </div>

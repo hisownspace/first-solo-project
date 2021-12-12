@@ -87,6 +87,7 @@ export const createRental = rental => async dispatch => {
 };
 
 export const deleteRental = (rentalId, userId) => async dispatch => {
+  console.log(rentalId, userId);
   const response = await csrfFetch(`/api/rentals/${rentalId}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json'},
