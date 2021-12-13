@@ -20,7 +20,6 @@ function Navigation({ isLoaded }){
   if (sessionUser) {
     sessionLinks = (
       <div className='session-links'>
-        {/* <button className='add-room'><NavLink exact to="/rooms/make">Try Hosting</NavLink></button> */}
         <ProfileButton user={sessionUser} />
       </div>
     );

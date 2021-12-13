@@ -71,9 +71,9 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
 
 .active-date div {
   position: relative;
-  background-color: rgb(247, 247, 247);
-  width: 160%;
-  right: 40%;
+  background-color: rgb(189, 189, 189);
+  width: 167%;
+  right: 35%;
   z-index: -1;
 }
 
