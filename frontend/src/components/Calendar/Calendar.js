@@ -159,7 +159,7 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
       } else if ((day + 1 === +lastSelectedDate)
         && firstSelectedDate !== ''
         && +firstSelectedDate + 1 !== +lastSelectedDate) {
-        element = <><div key={day} className='day-marker clickable-date active-date stretch-right' onClick={selectDate}>{day}</div><div id='stretch-child'></div></>
+        element = <div key={day} className='day-marker clickable-date active-date stretch-right' onClick={selectDate}>{day}</div>
       } else if (day > firstSelectedDate && day < lastSelectedDate) {
         element = <div key={day} className='day-marker active-date clickable-date' onClick={selectDate}>{day}</div>
       } else if (day === +firstSelectedDate) {
