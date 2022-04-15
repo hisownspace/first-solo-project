@@ -74,7 +74,7 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
 
 .active-date {
   border: 1px solid rgba(0, 0, 0, 0);
-  background-color: rgba(189, 189, 189, .2);
+  background-color: rgba(102, 102, 102, 0.05);
 }
 
 .first-date {
@@ -100,12 +100,4 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
 .booked-date {
   text-decoration: line-through;
   color: grey;
-}
-
-#stretch-child {
-  position: absolute;
-  width: 10px;
-  left: 10%;
-  background-color: rgb(189, 189, 189);
-  /* background-color: blue; */
 }
