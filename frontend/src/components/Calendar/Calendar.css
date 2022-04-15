@@ -35,7 +35,6 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   width: 14.1%;
 }
 
-
 .days div {
   display: inline-block;
   width: 14%;
@@ -43,15 +42,6 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   text-align: center;
   line-height: 3em;
   font-size:25px;
-}
-
-.days div * {
-  vertical-align: center;
-}
-.square:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
 }
 
 .clickable-date {
@@ -68,12 +58,8 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   cursor: pointer;
 }
 
-.active-date div {
-  position: relative;
+.active-date {
   background-color: rgb(189, 189, 189);
-  width: 167%;
-  right: 35%;
-  z-index: -1;
 }
 
 .first-date {
@@ -89,14 +75,25 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   border-radius: 50%;
 }
 
+.stretch-right {
+  
+}
+
 .calendar {
   cursor: default;
   width: 500px;
   margin: auto;
 }
 
-
-.booked-date div {
+.booked-date {
   text-decoration: line-through;
   color: grey;
+}
+
+#stretch-child {
+  position: absolute;
+  width: 10px;
+  left: 10%;
+  background-color: rgb(189, 189, 189);
+  /* background-color: blue; */
 }

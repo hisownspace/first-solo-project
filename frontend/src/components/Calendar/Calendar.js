@@ -151,12 +151,18 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
 
     return days.map(day => {
       let element;
-      if (day > firstSelectedDate && day < lastSelectedDate) {
+      if ((day - 1 === +firstSelectedDate)
+        && firstSelectedDate !== ''
+        && lastSelectedDate !== ''
+        && +firstSelectedDate + 1 !== +lastSelectedDate) {
+        element = <div key={day} className='day-marker clickable-date active-date stretch-left' onClick={selectDate}>{day}</div>
+      } else if ((day + 1 === +lastSelectedDate)
+        && firstSelectedDate !== ''
+        && +firstSelectedDate + 1 !== +lastSelectedDate) {
+        element = <><div key={day} className='day-marker clickable-date active-date stretch-right' onClick={selectDate}>{day}</div><div id='stretch-child'></div></>
+      } else if (day > firstSelectedDate && day < lastSelectedDate) {
         element = <div key={day} className='day-marker active-date clickable-date' onClick={selectDate}>{day}</div>
-      } else if (day - 1 === firstSelectedDate && day + 1 === lastSelectedDate) {
-        element = <div key={day} className='day-marker active-date clickable-date stretch-day' onClick={selectDate}>{day}</div>
-      }
-       else if (day === +firstSelectedDate) {
+      } else if (day === +firstSelectedDate) {
         element = <div key={day} className='day-marker first-date' onClick={selectDate}>{day}</div>
       } else if (day === +lastSelectedDate) {
         element = <div key={day} className='day-marker last-date' onClick={selectDate}>{day}</div>
@@ -165,7 +171,7 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
       } else if (bookedDates.includes(day + 1) && !firstSelectedDate) {
         element = <div key={day} className='checkout-only-date'>{day}</div>
       } else {
-        element = <div key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'clickable-date' : ''}><div>{day}</div></div>
+        element = <div key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'clickable-date' : ''}>{day}</div>
       }
       return element;
     })
