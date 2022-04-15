@@ -35,60 +35,60 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   width: 14.1%;
 }
 
-
 .days div {
-  /* list-style-type: none; */
   display: inline-block;
   width: 14%;
   height: 75px;
   text-align: center;
   line-height: 3em;
   font-size:25px;
-}
-
-.days div * {
-  vertical-align: center;
-}
-.square:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
 }
 
 .clickable-date {
   cursor: pointer;
-}
-.clickable-date:hover {
-  cursor: pointer;
-  border-radius:  50%;
   color: black;
-  z-index: -10;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.date {
+  border-radius: 50%;
+  color: black;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.clickable-date:hover {
+  color: black;
+  border-radius: 50%;
+  border: 1px solid #666;
 }
 
 .clickable-date-clear {
   cursor: pointer;
 }
 
-.active-date div {
-  position: relative;
-  background-color: rgb(189, 189, 189);
-  width: 167%;
-  right: 35%;
-  z-index: -1;
+.active-date {
+  border: 1px solid rgba(0, 0, 0, 0);
+  background-color: rgba(102, 102, 102, 0.05);
 }
 
 .first-date {
   background: black;
   color: white;
-  border-radius: 50% 0 0 50%;
-  border-radius: 50%;;
+  border-radius: 50%;
+  border: 1px solid black;
 }
 
 .last-date {
   background: black;
   color: white;
-  border-radius: 0 50% 50% 0;
   border-radius: 50%;
+  border: 1px solid black;
 }
 
 .calendar {
@@ -97,8 +97,7 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   margin: auto;
 }
 
-
-.booked-date div {
+.booked-date {
   text-decoration: line-through;
   color: grey;
 }
