@@ -43,7 +43,7 @@ function RoomDetail() {
   useEffect(() => {
     dispatch(roomActions.readRoom(+roomId));
     dispatch(rentalActions.readRoomRentals(+roomId));
-  }, []);
+  }, [dispatch, roomId]);
   
   useEffect(() => {
     if (room.amenities) {setAmenities(room.amenities.split(', '))};
@@ -61,7 +61,19 @@ function RoomDetail() {
       </>);
       setOwnerButtons(null);
     }
-  }, [room]);
+    function removeListing() {
+      const confirm = window.confirm('Are you sure you want to remove this listing?')
+      if (confirm) {
+        dispatch(roomActions.deleteRoom(+roomId, sessionUser.id));
+        history.push(`/rooms`);
+        return room;
+      }
+    };
+    function editListing() {
+      return history.push(`/rooms/${room.id}/edit`);
+    };
+
+  }, [room, sessionUser?.id, dispatch, history, roomId]);
 
   useEffect(() => {   
     window.addEventListener("scroll", listenToScroll);
@@ -69,17 +81,8 @@ function RoomDetail() {
        window.removeEventListener("scroll", listenToScroll); 
   }, [])
 
-  function removeListing() {
-    const confirm = window.confirm('Are you sure you want to remove this listing?')
-    if (confirm) {
-      dispatch(roomActions.deleteRoom(+roomId, sessionUser.id));
-      history.push(`/rooms`);
-      return room;
-    }
-  };
 
   useEffect(() => {
-    console.log(roomRentals)
     const bookedDatesArr = roomRentals && roomRentals?.map(rental => {
       const startDate = {
         year: new Date(rental.checkIn).getFullYear(),
@@ -110,7 +113,6 @@ function RoomDetail() {
   };
 
   const scrollTo = async (e, location) => {
-    // e.preventDefault();
     if (location === 'calendar') {
       calendarRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
@@ -118,9 +120,6 @@ function RoomDetail() {
     }
   };
 
-  function editListing() {
-    return history.push(`/rooms/${room.id}/edit`);
-  };
 
   function makeReservation() {
     return;
