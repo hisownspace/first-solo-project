@@ -152,18 +152,18 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
     return days.map(day => {
       let element;
       if (day > firstSelectedDate && day < lastSelectedDate) {
-        element = <div key={day} className='day-marker active-date clickable-date' onClick={selectDate}><div>{day}</div></div>
+        element = <div key={day} className='day-marker active-date clickable-date' onClick={selectDate}>{day}</div>
       } else if (day - 1 === firstSelectedDate && day + 1 === lastSelectedDate) {
-        element = <div key={day} className='day-marker active-date clickable-date stretch-day' onClick={selectDate}><div>{day}</div></div>
+        element = <div key={day} className='day-marker active-date clickable-date stretch-day' onClick={selectDate}>{day}</div>
       }
        else if (day === +firstSelectedDate) {
-        element = <div key={day} className='day-marker first-date' onClick={selectDate}><div>{day}</div></div>
+        element = <div key={day} className='day-marker first-date' onClick={selectDate}>{day}</div>
       } else if (day === +lastSelectedDate) {
-        element = <div key={day} className='day-marker last-date' onClick={selectDate}><div>{day}</div></div>
+        element = <div key={day} className='day-marker last-date' onClick={selectDate}>{day}</div>
       } else if (bookedDates.includes(day)) {
-        element = <div key={day} className='booked-date'><div>{day}</div></div>
+        element = <div key={day} className='booked-date'>{day}</div>
       } else if (bookedDates.includes(day + 1) && !firstSelectedDate) {
-        element = <div key={day} className='checkout-only-date'><div>{day}</div></div>
+        element = <div key={day} className='checkout-only-date'>{day}</div>
       } else {
         element = <div key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'clickable-date' : ''}><div>{day}</div></div>
       }
