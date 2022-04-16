@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as SessionActions from '../../store/session';
 import * as rentalActions from '../../store/rental';
 import * as roomActions from '../../store/room';
 
@@ -10,29 +9,28 @@ import * as roomActions from '../../store/room';
 function Reservations() {
   const sessionUser = useSelector((state) => state.session.user);
   const roomList = useSelector((state) => state.room.roomsList);
-  let rentals  
   const ownerRentals = useSelector((state) => state.rental.myRentals.ownerRentals);
   const renterRentals = useSelector((state) => state.rental.myRentals.renterRentals);
-  const [reload, setReload] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   
   useEffect(() => {
-    dispatch(rentalActions.readMyRentals(sessionUser.id));
-    dispatch(roomActions.readRooms());
-  }, []);
+    if (!loaded) {
+      dispatch(rentalActions.readMyRentals(sessionUser.id));
+      dispatch(roomActions.readRooms()).then(() => setLoaded(true));
+    }
+  }, [dispatch, sessionUser.id, setLoaded, loaded]);
 
   const cancelReservation = async (rentalId) => {
     const confirm = window.confirm('Are you sure you want to cancel this reservation?')
     if (confirm) {
 
-      await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id));
-      setReload(!reload);
-      return history.push('/rooms');
+      await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id)).then(() =>setLoaded(!loaded));
     }
   };
   
-  return (
+  return (loaded ?
     <div>
     <h2>Your Reservations!</h2>
     <div className='owner-rentals'>
@@ -109,7 +107,7 @@ function Reservations() {
         </tbody>
       </table>
     </div>
-    </div>
+    </div> : null
   )
 }
 
