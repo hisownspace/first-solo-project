@@ -87,7 +87,7 @@ function Reservations() {
       {renterRentals?.map(rental => {
                 return (
           <tr>
-            <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)} onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)}>
+            <td onClick={() => history.push(`/rooms/${roomList?.find(room => room.id === rental.roomId)?.id}`)}>
                 <img alt={roomList?.find(room => room.id === rental.roomId)?.title}
                 src={roomList.find(room => room.id === rental.roomId)?.imageUrl}></img>
             </td>
