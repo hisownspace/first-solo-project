@@ -32,11 +32,16 @@ function LoginForm() {
   const handleSignUp = (e) => {
     e.preventDefault();
     setErrors([]);
-    if (password === confirmPassword) {
+    if (newPassword === confirmPassword) {
       return dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
         .catch(async (res) => {
           const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
+          console.log(data);
+          if (data && data.errors) {
+            setErrors(data.errors);
+            console.log(data.errors);
+            return errors;
+          }
         });
     } 
     return setSignUpErrors(['Confirm Password field must be the same as the Password field']);
@@ -79,12 +84,12 @@ function LoginForm() {
     </form>
     <div className="modal">
     <form className={formShown === 'signup' ? 'login-form' : 'hidden'} onSubmit={handleSignUp}>
-      {signUpErrors.map((error, idx) => <li className='login-errors' key={idx}>{error}</li>)}
+      {errors.map((error, idx) => <li className='login-errors' key={idx}>{error}</li>)}
       <label>
         Username:
         <input
           type="text"
-          autoComplete="new-password"
+          autoComplete="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -94,7 +99,7 @@ function LoginForm() {
         Email:
         <input
           type="text"
-          autoComplete="new-password"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -104,7 +109,7 @@ function LoginForm() {
         First Name:
         <input
           type="text"
-          autoComplete="new-password"
+          autoComplete="first-name"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
@@ -114,7 +119,7 @@ function LoginForm() {
         Last Name:
         <input
           type="text"
-          autoComplete="new-password"
+          autoComplete="last-name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           required
@@ -128,12 +133,13 @@ function LoginForm() {
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           required
-        />
+          />
       </label>
       <label>
         Confirm Password:
         <input
           type="password"
+          autoComplete="new-password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
