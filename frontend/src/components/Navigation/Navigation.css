@@ -159,11 +159,11 @@ li {
 }
 
 .profile-dropdown {
-  position: relative;
+  position: absolute;
   border: solid black 1px;
   border-radius: 3px;
-  top: 55px;
-  right: 3px;
+  top: 85px;
+  right: 50px;
   padding: 7px 3px;
   z-index: 9;
   background-color: white;
@@ -176,6 +176,7 @@ li {
 }
 
 .header {
+  min-width: 1215px;
   width: auto;
   background-color: white;
   height: 150x;

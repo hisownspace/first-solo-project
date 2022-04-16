@@ -18,15 +18,16 @@ function Reservations() {
   useEffect(() => {
     if (!loaded) {
       dispatch(rentalActions.readMyRentals(sessionUser.id));
-      dispatch(roomActions.readRooms()).then(() => setLoaded(true));
+      dispatch(roomActions.readRooms())
+        .then(() => setLoaded(true));
     }
   }, [dispatch, sessionUser.id, setLoaded, loaded]);
 
   const cancelReservation = async (rentalId) => {
     const confirm = window.confirm('Are you sure you want to cancel this reservation?')
     if (confirm) {
-
-      await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id)).then(() =>setLoaded(!loaded));
+      await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id))
+        .then(() =>setLoaded(!loaded));
     }
   };
   
