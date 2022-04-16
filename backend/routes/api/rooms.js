@@ -28,7 +28,6 @@ router.get(
     const rentals = await Rental.findAll({ where: {
       roomId
     }});
-    console.log(rentals)
     return res.json(rentals);
   })
 );
@@ -115,11 +114,8 @@ router.put(
     const { roomId } = req.params;
 
     const room = await Room.findByPk(+roomId);
-    console.log(room);
-    console.log(userId);
     const canEdit = checkPermissions(userId, room);
     if (canEdit && room) {
-      console.log('can edit');
       await room.set({
         imageUrl,
         amenities,
@@ -160,7 +156,6 @@ router.delete(
       const myRooms = await Room.findAll({ where: {
         ownerId: userId
       } })
-      console.log(room);
       return res.json(room);
     } else {
       const err = new Error('Unauthorized');

@@ -58,7 +58,6 @@ router.get(
         ownerId: userId
       }
     }})
-    console.log(ownerRentals);
     return res.json({renterRentals, ownerRentals});
   })
 );

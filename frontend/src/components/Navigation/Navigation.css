@@ -193,7 +193,8 @@ li {
 }
 
 .picture-box {
-  max-width: 1750px;
+  width: 90%;
+  max-width: 1250px;
   max-height: 500px;
   margin: auto;
   border-radius: 20px;
@@ -211,15 +212,34 @@ li {
   width: 50%;
 }
 
+.main-image {
+  width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden
+}
+
+.main-image img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%
+}
+
+.image-1 {
+  object-fit: cover;
+}
+
 .smaller-images {
-  width: 50%;
-  margin-left: 10px;;
+  width: 45%;
+  margin-left: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   row-gap: 10px;
   column-gap: 10px;
 }
+
 table {
   margin: 150px auto;
   width: 75%;
@@ -335,13 +355,15 @@ table img {
 .reservation-checkin input {
   width: 50%;
   border-radius: 15px 0 0 0;
-  font-size: 25px;
+  font-size: 20px;
+  padding: 15px;
 }
 
 .reservation-checkout input {
   width: 50%;
   border-radius: 0 15px 0 0;
-  font-size: 25px;
+  font-size: 20px;
+  padding: 15px;
 }
 .reservation-guests input {
   width: 100%;

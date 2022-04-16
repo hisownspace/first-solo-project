@@ -37,7 +37,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   }, [lastDay, date]);
 
   const selectDate = e => {
-    console.log('selecting DATE')
     const selectedDate = parseInt(e.target.innerText);
     if (!firstSelectedDate && checkDateRange(selectedDate)) {
       setFirstSelectedDate(selectedDate);
@@ -48,7 +47,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   
   const checkDateRange = (selectedDate) => {
     for (let i = parseInt(firstSelectedDate); i < selectedDate; i += 1) {
-      console.log(selectedDate, i);
       if (bookedDates.includes(i)) {
         return false;
       }

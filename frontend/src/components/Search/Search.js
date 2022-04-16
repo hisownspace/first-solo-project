@@ -8,7 +8,6 @@ import * as roomActions from "../../store/room";
 function RoomSearch() {
   const dispatch = useDispatch();
   const { string } = useParams();
-  console.log(string);
   
   const sessionUser = useSelector((state) => state.session.user);
   const roomStore = useSelector((state) => state.room.roomsList);

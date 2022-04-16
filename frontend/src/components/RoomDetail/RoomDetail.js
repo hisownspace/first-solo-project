@@ -22,23 +22,11 @@ function RoomDetail() {
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState('');
   let [renterOptions, setRenterOptions] = useState('');
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
+  const [checkInDate, setCheckInDate] = useState('mm/dd/yy');
+  const [checkOutDate, setCheckOutDate] = useState('mm/dd/yy');
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  //   inputRef.current.focus({ preventScroll: true })
-  //   labelRef.current.focus({ preventScroll: true })
-  //   formRef.current.focus({ preventScroll: true })
-  //   console.log(formRef.current)
-  //   console.log(inputRef.current)
-  //   console.log(labelRef.current)
-  // }, [])
-  // useEffect(() => {
-  // }, [checkOutDate, checkInDate])
   
   useEffect(() => {
     dispatch(roomActions.readRoom(+roomId));
@@ -139,8 +127,6 @@ function RoomDetail() {
     const outMonth = checkOutDate.slice(5,7) - 1;
     const outDay = checkOutDate.slice(8,10);
 
-    console.log('year', inYear, 'month', inMonth, 'day', inDay);
-    console.log(outYear, outMonth, outDay);
 
     if (outYear && outDay && outMonth > -1 &&
         inYear && inDay && inMonth > -1) {
@@ -181,14 +167,22 @@ function RoomDetail() {
     </div> : null}
     <div className='room-detail'>
       <div className='picture-box'>
-        {/* <div className='main-image'> */}
+        <div className='main-image'>
           <img alt="" src={room.imageUrl}></img>
-        {/* </div> */}
+        </div>
         <div className='smaller-images'>
-          <img alt="" className='image-1' src={room.imageUrl}></img>
-          <img alt="" className='image-2' src={room.imageUrl}></img>
-          <img alt="" className='image-3' src={room.imageUrl}></img>
-          <img alt="" className='image-4' src={room.imageUrl}></img>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
         </div>
       </div>
       <div className='room-display-body'>
@@ -237,20 +231,19 @@ function RoomDetail() {
             <form onSubmit={submitReservation} className='reservation-form' >
               <label className={errors ? 'reservation-checkin reservation-error' : 'reservation-checkin'}>
                 <input
-                type='date'
+                type='text'
                 onChange={e => {setCheckInDate(e.target.value)}}
-                onBlur={e => scrollTo(e, 'calendar')}
                 value={checkInDate}
-                onClick={e => scrollTo(e, 'calendar')}
+                readOnly={true}
                 >
                 </input>
               </label>
               <label className={errors ? 'reservation-checkout reservation-error' : 'reservation-checkout'}>
                 <input
-                type='date'
+                type='text'
                 value={checkOutDate}
-                onClick={e => scrollTo(e, 'calendar')}
                 onChange={e => setCheckOutDate(e.target.value)}
+                readOnly={true}
                 >
                 </input>
               </label>
@@ -265,10 +258,10 @@ function RoomDetail() {
               </label>
               <button className='reservation-button' id={sessionUser.id === room.ownerId ? 'disabled' : null} disabled={sessionUser.id === room.ownerId}>Reserve</button>
             </form>
-            <div className='itemization'>
+            {/* <div className='itemization'>
               <div className='reservation-items'></div>
               <div className='reservation-total'></div>
-            </div>
+            </div> */}
           </div>
         </div>
         

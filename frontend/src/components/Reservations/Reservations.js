@@ -24,11 +24,9 @@ function Reservations() {
 
   const cancelReservation = async (rentalId) => {
     const confirm = window.confirm('Are you sure you want to cancel this reservation?')
-    console.log(confirm)
     if (confirm) {
 
-      let spark = await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id));
-      console.log('spark', spark);
+      await dispatch(rentalActions.deleteRental(rentalId, sessionUser.id));
       setReload(!reload);
       return history.push('/rooms');
     }
