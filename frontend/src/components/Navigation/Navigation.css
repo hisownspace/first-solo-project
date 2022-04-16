@@ -323,6 +323,7 @@ table img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 300px;
   
 }
 
@@ -420,11 +421,11 @@ table img {
   margin: 150px 0px;
   border-top: 1px solid grey;
   /* border-bottom: 1px solid grey; */
-  padding-top: 50px;
+  margin-top: 250px;
+  padding-top: 114px;
   /* padding-bottom: 50px; */
   display:flex;
   width:auto;
-  height: 1500px;
 }
 
 .splash-image {

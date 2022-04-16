@@ -12,8 +12,11 @@ function Navigation({ isLoaded }){
   const [ searchValue, setSearchValue ] = useState('');
   const history = useHistory();
 
-  const searchForRoom = () => {
-   return history.push(`/rooms/search/${searchValue}`)
+  const searchForRoom = e => {
+    e.preventDefault();
+    if (searchValue) {
+      return history.push(`/rooms/search/${searchValue}`)
+    }
   };
 
   let sessionLinks;

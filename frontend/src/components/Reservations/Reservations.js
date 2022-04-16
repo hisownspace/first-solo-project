@@ -16,11 +16,9 @@ function Reservations() {
   const history = useHistory();
   
   useEffect(() => {
-    if (!loaded) {
       dispatch(rentalActions.readMyRentals(sessionUser.id));
       dispatch(roomActions.readRooms())
         .then(() => setLoaded(true));
-    }
   }, [dispatch, sessionUser.id, setLoaded, loaded]);
 
   const cancelReservation = async (rentalId) => {
