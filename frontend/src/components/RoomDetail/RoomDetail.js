@@ -115,7 +115,7 @@ function RoomDetail() {
   };
 
   const datePickerPrompt = () => {
-    setErrors(["Please use calendar below to choose dates"]);
+    setErrors(["Please use calendar to the left to choose dates"]);
     scrollTo("calendar")
   }
 

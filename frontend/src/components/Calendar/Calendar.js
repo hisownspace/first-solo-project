@@ -100,7 +100,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   }, [firstSelectedDate, lastSelectedDate, month, year]);
 
   useEffect(() => {
-    console.log(checkOutDate.slice(8,10));
     if (checkOutDate) {
       setLastSelectedDate(checkOutDate.slice(8,10));
     }
@@ -136,6 +135,23 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
     setCheckOutDate('');
   };
 
+  const checkForPastDate = (day) => {
+    const today = new Date()
+
+    if (date.getFullYear() > today.getFullYear()) {
+      return true;
+    } else if (date.getFullYear() === today.getFullYear() && date.getMonth() > today.getMonth()) {
+      return true;
+    } else if (date.getFullYear() === today.getFullYear() 
+                && date.getMonth() === today.getMonth()
+                && day >= today.getDate()) {
+      return true;
+    } else {
+      // console.log(day, " is before the 16th")
+      return false;
+    }
+  };
+
   const calendarDays = () => {
     let bookedDates = []
     bookedDatesArr.filter(dateRange => {
@@ -159,8 +175,10 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
         element = <div key={day} className='booked-date'>{day}</div>
       } else if (bookedDates.includes(day + 1) && !firstSelectedDate) {
         element = <div key={day} className='checkout-only-date'>{day}</div>
+      } else if (checkForPastDate(day)) {
+        element = <div key={day} onClick={selectDate} className={(!firstSelectedDate || day > firstSelectedDate) ? 'clickable-date' : 'date'}>{day}</div>
       } else {
-        element = <div key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'clickable-date' : 'date'}>{day}</div>
+        element = <div key={day} onClick={selectDate} className="expired-date">{day}</div>
       }
       return element;
     })
