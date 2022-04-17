@@ -302,7 +302,7 @@ function RoomDetail() {
       style={{border:0}}
       margin='50px'
       loading="lazy"
-      allowfullscreen
+      allowFullScreen
       src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD3hn84hMnejar3EM_EdSjZ-RVXhTar-OQ&q=${room.city},${room.state}`}>
 </iframe>
 /</div>

@@ -51,7 +51,7 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
         return false;
       }
     }
-    if (bookedDates.includes(selectedDate) || (bookedDates.includes((selectedDate) + 1) && !firstSelectedDate)) {
+    if (!checkForPastDate(selectedDate) || bookedDates.includes(selectedDate) || (bookedDates.includes((selectedDate) + 1) && !firstSelectedDate)) {
       return false;
     }
     return true;
