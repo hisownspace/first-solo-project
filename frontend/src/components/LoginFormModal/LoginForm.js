@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import * as roomsAction from "../../store/room";
 import { useDispatch } from "react-redux";
+const validator = require("email-validator");
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -29,22 +30,57 @@ function LoginForm() {
     );
   };
 
-  const handleSignUp = (e) => {
+  // const handleSignUp = (e) => {
+  //   e.preventDefault();
+  //   setErrors([]);
+  //   if (newPassword === confirmPassword) {
+  //     return dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
+  //       .catch(async (res) => {
+  //         const data = await res.json();
+  //         console.log(data);
+  //         if (data && data.errors) {
+  //           setErrors(data.errors);
+  //           console.log(data.errors);
+  //           return errors;
+  //         }
+  //       });
+  //   } 
+  //   return setSignUpErrors(['Confirm Password field must be the same as the Password field']);
+  // };
+
+  const handleSignUp = async (e) => {
+    const validationErrors = [];
     e.preventDefault();
-    setErrors([]);
-    if (newPassword === confirmPassword) {
-      return dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
-        .catch(async (res) => {
-          const data = await res.json();
-          console.log(data);
-          if (data && data.errors) {
-            setErrors(data.errors);
-            console.log(data.errors);
-            return errors;
-          }
-        });
-    } 
-    return setSignUpErrors(['Confirm Password field must be the same as the Password field']);
+    console.log(password);
+    if (confirmPassword !== newPassword) {
+      validationErrors.push("Confirm Password field must be the same as the Password field");
+    }
+    if (newPassword.length < 6) {
+      validationErrors.push("Password must be at leastt 6 characters long");
+    }
+    if (username.length < 4) {
+      validationErrors.push("Username must be at least 4 characters long.");
+    }
+    if (!validator.validate(email)) {
+      validationErrors.push("Please enter a valid email");
+    }
+    if (validationErrors.length) {
+      setErrors(validationErrors);
+    } else {
+      const res = await dispatch(sessionActions.signup({ email, username, password: newPassword, firstName, lastName }))
+        .catch(res => res.json())
+      if (res.errors) {
+        let submitErrors = res.errors;
+        console.log(submitErrors);
+        if (submitErrors[0] === "username must be unique") {
+          submitErrors =  ["Username is already taken."]
+        }
+        if (submitErrors[0] === "email must be unique") {
+          submitErrors =  ["Email is already taken."]
+        }
+        setErrors(submitErrors);
+      }
+    }
   };
 
   const demoLogin = () => {
