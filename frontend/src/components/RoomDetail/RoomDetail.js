@@ -12,38 +12,29 @@ function RoomDetail() {
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const history = useHistory();
-  const calendarRef = useRef();
-  const amenitiesRef = useRef();
+  const calendarRef = useRef(1);
+  const amenitiesRef = useRef(2);
+  const locationRef = useRef(3);
   
   const room = useSelector((state) => state.room.currentRoom);
   const sessionUser = useSelector((state) => state.session.user);
   const roomRentals = useSelector((state) => state.rental.roomRentals);
-  const [ errors, setErrors] = useState(false);
+  const [ errors, setErrors] = useState([]);
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState('');
   let [renterOptions, setRenterOptions] = useState('');
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
+  const [checkInDate, setCheckInDate] = useState('mm/dd/yy');
+  const [checkOutDate, setCheckOutDate] = useState('mm/dd/yy');
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  //   inputRef.current.focus({ preventScroll: true })
-  //   labelRef.current.focus({ preventScroll: true })
-  //   formRef.current.focus({ preventScroll: true })
-  //   console.log(formRef.current)
-  //   console.log(inputRef.current)
-  //   console.log(labelRef.current)
-  // }, [])
-  // useEffect(() => {
-  // }, [checkOutDate, checkInDate])
+  const [loaded, setLoaded] = useState(false);
   
   useEffect(() => {
-    dispatch(roomActions.readRoom(+roomId));
+    dispatch(roomActions.readRoom(+roomId))
+      .then(() => setLoaded(true));
     dispatch(rentalActions.readRoomRentals(+roomId));
-  }, []);
+  }, [dispatch, roomId]);
   
   useEffect(() => {
     if (room.amenities) {setAmenities(room.amenities.split(', '))};
@@ -61,7 +52,19 @@ function RoomDetail() {
       </>);
       setOwnerButtons(null);
     }
-  }, [room]);
+    function removeListing() {
+      const confirm = window.confirm('Are you sure you want to remove this listing?')
+      if (confirm) {
+        dispatch(roomActions.deleteRoom(+roomId, sessionUser.id));
+        history.push(`/rooms`);
+        return room;
+      }
+    };
+    function editListing() {
+      return history.push(`/rooms/${room.id}/edit`);
+    };
+
+  }, [room, sessionUser?.id, dispatch, history, roomId]);
 
   useEffect(() => {   
     window.addEventListener("scroll", listenToScroll);
@@ -69,17 +72,8 @@ function RoomDetail() {
        window.removeEventListener("scroll", listenToScroll); 
   }, [])
 
-  function removeListing() {
-    const confirm = window.confirm('Are you sure you want to remove this listing?')
-    if (confirm) {
-      dispatch(roomActions.deleteRoom(+roomId, sessionUser.id));
-      history.push(`/rooms`);
-      return room;
-    }
-  };
 
   useEffect(() => {
-    console.log(roomRentals)
     const bookedDatesArr = roomRentals && roomRentals?.map(rental => {
       const startDate = {
         year: new Date(rental.checkIn).getFullYear(),
@@ -109,22 +103,26 @@ function RoomDetail() {
     }  
   };
 
-  const scrollTo = async (e, location) => {
-    // e.preventDefault();
-    if (location === 'calendar') {
-      calendarRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const scrollTo = async (location) => {
+    console.log(location);
+    if (location === 'calendar'){
+      calendarRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (location === 'location'){
+      locationRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      amenitiesRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      amenitiesRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  function editListing() {
-    return history.push(`/rooms/${room.id}/edit`);
-  };
+  const datePickerPrompt = () => {
+    setErrors(["Please use calendar to the left to choose dates"]);
+    scrollTo("calendar")
+  }
 
   function makeReservation() {
     return;
   }
+
   function showAmenities() {
 
   };
@@ -140,8 +138,6 @@ function RoomDetail() {
     const outMonth = checkOutDate.slice(5,7) - 1;
     const outDay = checkOutDate.slice(8,10);
 
-    console.log('year', inYear, 'month', inMonth, 'day', inDay);
-    console.log(outYear, outMonth, outDay);
 
     if (outYear && outDay && outMonth > -1 &&
         inYear && inDay && inMonth > -1) {
@@ -152,18 +148,18 @@ function RoomDetail() {
             checkIn: new Date(inYear, inMonth, inDay, 16),
             checkOut: new Date(outYear, outMonth, outDay, 9)
           }));
-          setErrors(false);
+          setErrors([]);
           history.push('/reservations');
     } else {
-      setErrors(true);
-      scrollTo(e, 'calendar')
+      setErrors(["Please fill out calendar reservation dates!"]);
+      scrollTo('calendar')
     }
     
   };
 
   if (!sessionUser || !room) return <Redirect to="/" />;
   
-  return (
+  return ( loaded ?
     <div className='main-room-display'>
     {isVisible 
       ? 
@@ -172,7 +168,7 @@ function RoomDetail() {
         <span onClick={scrollTo}>
           Amenities
         </span>
-        <span onClick={scrollTo}>
+        <span onClick={e => scrollTo("location")}>
           Location
         </span>
         <span onClick={scrollTo}>
@@ -182,14 +178,22 @@ function RoomDetail() {
     </div> : null}
     <div className='room-detail'>
       <div className='picture-box'>
-        {/* <div className='main-image'> */}
+        <div className='main-image'>
           <img alt="" src={room.imageUrl}></img>
-        {/* </div> */}
+        </div>
         <div className='smaller-images'>
-          <img alt="" className='image-1' src={room.imageUrl}></img>
-          <img alt="" className='image-2' src={room.imageUrl}></img>
-          <img alt="" className='image-3' src={room.imageUrl}></img>
-          <img alt="" className='image-4' src={room.imageUrl}></img>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
+          <div className="smaller-image-container">
+            <img alt="" className='image-1' src={room.imageUrl}></img>
+          </div>
         </div>
       </div>
       <div className='room-display-body'>
@@ -234,24 +238,23 @@ function RoomDetail() {
         <div className='reservation-scroller'>
           <div className='reservation-box'>
             <div className='pricing-ratings'></div>
-            <p className="reservation-error">{errors ? 'Please fill out reservation dates' : null}</p>
+            <p className="reservation-error">{errors}</p>
             <form onSubmit={submitReservation} className='reservation-form' >
-              <label className={errors ? 'reservation-checkin reservation-error' : 'reservation-checkin'}>
+              <label className={errors.length ? 'reservation-checkin reservation-error' : 'reservation-checkin'}>
                 <input
-                type='date'
-                onChange={e => {setCheckInDate(e.target.value)}}
-                onBlur={e => scrollTo(e, 'calendar')}
+                type='text'
+                onClick={datePickerPrompt}
                 value={checkInDate}
-                onClick={e => scrollTo(e, 'calendar')}
+                readOnly={true}
                 >
                 </input>
               </label>
-              <label className={errors ? 'reservation-checkout reservation-error' : 'reservation-checkout'}>
+              <label className={errors.length ? 'reservation-checkout reservation-error' : 'reservation-checkout'}>
                 <input
-                type='date'
+                type='text'
                 value={checkOutDate}
-                onClick={e => scrollTo(e, 'calendar')}
-                onChange={e => setCheckOutDate(e.target.value)}
+                onClick={datePickerPrompt}
+                readOnly={true}
                 >
                 </input>
               </label>
@@ -266,10 +269,10 @@ function RoomDetail() {
               </label>
               <button className='reservation-button' id={sessionUser.id === room.ownerId ? 'disabled' : null} disabled={sessionUser.id === room.ownerId}>Reserve</button>
             </form>
-            <div className='itemization'>
+            {/* <div className='itemization'>
               <div className='reservation-items'></div>
               <div className='reservation-total'></div>
-            </div>
+            </div> */}
           </div>
         </div>
         
@@ -291,6 +294,7 @@ function RoomDetail() {
       </li>
 
     </div>
+    <div ref={locationRef} className="maps-api">
       <iframe
       title="maps"
       width="80%"
@@ -298,10 +302,12 @@ function RoomDetail() {
       style={{border:0}}
       margin='50px'
       loading="lazy"
-      allowfullscreen
+      allowFullScreen
       src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyD3hn84hMnejar3EM_EdSjZ-RVXhTar-OQ&q=${room.city},${room.state}`}>
 </iframe>
+/</div>
     </div>
+  : null
   )
 }
 

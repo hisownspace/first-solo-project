@@ -37,7 +37,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   }, [lastDay, date]);
 
   const selectDate = e => {
-    console.log('selecting DATE')
     const selectedDate = parseInt(e.target.innerText);
     if (!firstSelectedDate && checkDateRange(selectedDate)) {
       setFirstSelectedDate(selectedDate);
@@ -48,12 +47,11 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   
   const checkDateRange = (selectedDate) => {
     for (let i = parseInt(firstSelectedDate); i < selectedDate; i += 1) {
-      console.log(selectedDate, i);
       if (bookedDates.includes(i)) {
         return false;
       }
     }
-    if (bookedDates.includes(selectedDate) || (bookedDates.includes((selectedDate) + 1) && !firstSelectedDate)) {
+    if (!checkForPastDate(selectedDate) || bookedDates.includes(selectedDate) || (bookedDates.includes((selectedDate) + 1) && !firstSelectedDate)) {
       return false;
     }
     return true;
@@ -102,7 +100,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   }, [firstSelectedDate, lastSelectedDate, month, year]);
 
   useEffect(() => {
-    console.log(checkOutDate.slice(8,10));
     if (checkOutDate) {
       setLastSelectedDate(checkOutDate.slice(8,10));
     }
@@ -138,6 +135,23 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
     setCheckOutDate('');
   };
 
+  const checkForPastDate = (day) => {
+    const today = new Date()
+
+    if (date.getFullYear() > today.getFullYear()) {
+      return true;
+    } else if (date.getFullYear() === today.getFullYear() && date.getMonth() > today.getMonth()) {
+      return true;
+    } else if (date.getFullYear() === today.getFullYear() 
+                && date.getMonth() === today.getMonth()
+                && day >= today.getDate()) {
+      return true;
+    } else {
+      // console.log(day, " is before the 16th")
+      return false;
+    }
+  };
+
   const calendarDays = () => {
     let bookedDates = []
     bookedDatesArr.filter(dateRange => {
@@ -161,8 +175,10 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
         element = <div key={day} className='booked-date'>{day}</div>
       } else if (bookedDates.includes(day + 1) && !firstSelectedDate) {
         element = <div key={day} className='checkout-only-date'>{day}</div>
+      } else if (checkForPastDate(day)) {
+        element = <div key={day} onClick={selectDate} className={(!firstSelectedDate || day > firstSelectedDate) ? 'clickable-date' : 'date'}>{day}</div>
       } else {
-        element = <div key={day} onClick={selectDate} className={!firstSelectedDate || day > firstSelectedDate ? 'clickable-date' : 'date'}>{day}</div>
+        element = <div key={day} onClick={selectDate} className="expired-date">{day}</div>
       }
       return element;
     })

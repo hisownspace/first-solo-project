@@ -101,3 +101,7 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   text-decoration: line-through;
   color: grey;
 }
+
+.expired-date {
+  color: rgba(0, 0, 0, 0.192);
+}
