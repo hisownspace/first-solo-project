@@ -16,10 +16,7 @@ function RoomSearch() {
 
   useEffect(() => {
     (async () => {
-      const rooms = await dispatch(roomActions.searchRooms(string));
-      console.log(rooms);
-      console.log(!rooms.length)
-      if (!rooms.length) history.push('/');
+      dispatch(roomActions.searchRooms(string));
     })();
   }, [dispatch, string, history]);
 
@@ -27,6 +24,7 @@ function RoomSearch() {
 
   return (
     <div className='rooms-list'>
+      <h1>Search results matching the term {`"${string}"`}</h1>
       <div className='cards'>
       {roomStore.map((room, index) => {
         return roomStore ? <li key={index}><RoomCard room={room} /></li> : null
