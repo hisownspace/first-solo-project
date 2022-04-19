@@ -104,7 +104,6 @@ function RoomDetail() {
   };
 
   const scrollTo = async (location) => {
-    console.log(location);
     if (location === 'calendar'){
       calendarRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (location === 'location'){
