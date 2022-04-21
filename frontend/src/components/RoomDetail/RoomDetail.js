@@ -23,8 +23,8 @@ function RoomDetail() {
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState('');
   let [renterOptions, setRenterOptions] = useState('');
-  const [checkInDate, setCheckInDate] = useState('mm/dd/yy');
-  const [checkOutDate, setCheckOutDate] = useState('mm/dd/yy');
+  const [checkInDate, setCheckInDate] = useState('yyyy-mm-dd');
+  const [checkOutDate, setCheckOutDate] = useState('yyyy-mm-dd');
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
@@ -104,7 +104,6 @@ function RoomDetail() {
   };
 
   const scrollTo = async (location) => {
-    console.log(location);
     if (location === 'calendar'){
       calendarRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (location === 'location'){
@@ -244,7 +243,7 @@ function RoomDetail() {
                 <input
                 type='text'
                 onClick={datePickerPrompt}
-                value={checkInDate}
+                value={checkInDate || "yyyy-mm-dd"}
                 readOnly={true}
                 >
                 </input>
@@ -252,7 +251,7 @@ function RoomDetail() {
               <label className={errors.length ? 'reservation-checkout reservation-error' : 'reservation-checkout'}>
                 <input
                 type='text'
-                value={checkOutDate}
+                value={checkOutDate || "yyyy-mm-dd"}
                 onClick={datePickerPrompt}
                 readOnly={true}
                 >

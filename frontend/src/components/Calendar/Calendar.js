@@ -19,6 +19,7 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   // const [checkoutDate, setCheckoutDate] = useState();
 
   useEffect(() => {
+    clearCalendar();
     date.setDate(1);
     setFirstDayOfWeek(date.getDay());
     setFirstDayOfWeekArr([]);
@@ -129,8 +130,8 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
   };
 
   const clearCalendar = () => {
-    setFirstSelectedDate();
-    setLastSelectedDate();
+    setFirstSelectedDate(null);
+    setLastSelectedDate(null);
     setCheckInDate('');
     setCheckOutDate('');
   };
@@ -147,7 +148,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
                 && day >= today.getDate()) {
       return true;
     } else {
-      // console.log(day, " is before the 16th")
       return false;
     }
   };
