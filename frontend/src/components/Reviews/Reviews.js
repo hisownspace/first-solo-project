@@ -31,7 +31,7 @@ const Reviews = () => {
         } else {
           return accum;
         }
-      }, false) ? <button onClick={console.log('hi')}>Add Review</button> : null}
+      }, false) ? <button >Add Review</button> : null}
     </div>
   )
 };
