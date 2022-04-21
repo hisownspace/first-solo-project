@@ -13,7 +13,6 @@ function RoomSearch() {
   const sessionUser = useSelector((state) => state.session.user);
   const roomStore = useSelector((state) => state.room.roomsList);
 
-
   useEffect(() => {
     (async () => {
       dispatch(roomActions.searchRooms(string));
@@ -24,7 +23,7 @@ function RoomSearch() {
 
   return (
     <div className='rooms-list'>
-      <h1>Search results matching the term {`"${string}"`}</h1>
+      <h1>Search Results with the term "{`${string}`}"</h1>
       <div className='cards'>
       {roomStore.map((room, index) => {
         return roomStore ? <li key={index}><RoomCard room={room} /></li> : null
