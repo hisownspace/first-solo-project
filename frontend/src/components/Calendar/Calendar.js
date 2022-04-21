@@ -148,7 +148,6 @@ function Calendar({ setCheckInDate, setCheckOutDate, setErrors, checkOutDate, ch
                 && day >= today.getDate()) {
       return true;
     } else {
-      // console.log(day, " is before the 16th")
       return false;
     }
   };

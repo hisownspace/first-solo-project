@@ -51,7 +51,6 @@ function LoginForm() {
   const handleSignUp = async (e) => {
     const validationErrors = [];
     e.preventDefault();
-    console.log(password);
     if (confirmPassword !== newPassword) {
       validationErrors.push("Confirm Password field must be the same as the Password field");
     }
@@ -71,7 +70,6 @@ function LoginForm() {
         .catch(res => res.json())
       if (res.errors) {
         let submitErrors = res.errors;
-        console.log(submitErrors);
         if (submitErrors[0] === "username must be unique") {
           submitErrors =  ["Username is already taken."]
         }
