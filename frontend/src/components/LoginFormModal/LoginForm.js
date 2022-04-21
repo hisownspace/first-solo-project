@@ -51,6 +51,7 @@ function LoginForm() {
   const handleSignUp = async (e) => {
     const validationErrors = [];
     e.preventDefault();
+
     if (confirmPassword !== newPassword) {
       validationErrors.push("Confirm Password field must be the same as the Password field");
     }
