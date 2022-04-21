@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Reviews = () => {
   const roomReviews = useSelector(state => state.reviews.roomReviews);
