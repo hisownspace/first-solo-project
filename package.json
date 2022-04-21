@@ -1,8 +1,5 @@
 {
-  "name": "authenticate-me",
-  "engines": {
-    "node": "16.x"
-  },
+  "name": "room-share",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
