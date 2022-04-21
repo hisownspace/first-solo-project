@@ -48,7 +48,6 @@ function Navigation({ isLoaded }){
           ></input>
           <button>Search</button>
         </form>
-        {/* <NavLink exact to="/rooms"><button>Check Listings</button></NavLink> */}
         <NavLink exact to="/reservations"><button>Check Reservations</button></NavLink>
       </div>
       {isLoaded && sessionLinks}
