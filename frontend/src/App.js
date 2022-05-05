@@ -10,6 +10,7 @@ import UpdateListing from "./components/UpdateListing";
 import Reservations from "./components/Reservations";
 import Splash from "./components/Splash";
 import RoomSearch from "./components/Search";
+import "./components/Calendar";
 
 function App() {
   const dispatch = useDispatch();
