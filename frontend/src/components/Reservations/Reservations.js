@@ -29,7 +29,7 @@ function Reservations() {
     }
   };
   
-  return (loaded ?
+  return (/*loaded ?*/
     <div>
     <h2>Your Reservations!</h2>
     <div className='owner-rentals'>
@@ -106,7 +106,7 @@ function Reservations() {
         </tbody>
       </table>
     </div>
-    </div> : null
+    </div> /*: null*/
   )
 }
 
