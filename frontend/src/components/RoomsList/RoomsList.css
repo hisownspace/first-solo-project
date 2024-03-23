@@ -1,43 +1,48 @@
 .rooms-list {
   position: absolute;
   top: 100px;
-  width: 100%;
+  margin: 0 auto;
 }
 
 .room-card-list {
   display: grid;
-  grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
+  grid-template-columns: 15.5% 15.5% 15.5% 15.5% 15.5% 15.5%;
   grid-row-gap: 55px;
-  width: 85%;
-  grid-column-gap: 15px;
+  width: 92.5%;
+  grid-column-gap: 1.25%;
   margin: auto;
+  padding-left: 0;
 }
 
 @media screen and (max-width: 1700px) {
   .room-card-list {
-    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-columns: 18% 18% 18% 18% 18%;
+    grid-column-gap: 1.5%;
   }
 }
 
 @media screen and (max-width: 1500px) {
   .room-card-list {
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 22% 22% 22% 22%;
+    grid-column-gap: 1.75%;
   }
 }
 
 @media screen and (max-width: 1200px) {
   .room-card-list {
-    grid-template-columns: 33.3% 33.3% 33.3%;
+    grid-template-columns: 31.3% 31.3% 31.3%;
+    grid-column-gap: 2%;
   }
 }
 
 @media screen and (max-width: 900px) {
   .room-card-list {
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 47.75% 47.75%;
+    grid-column-gap: 2.25%;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 500px) {
   .room-card-list {
     grid-template-columns: auto;
   }
