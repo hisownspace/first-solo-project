@@ -58,7 +58,7 @@ function LoginForm() {
       );
     }
     if (newPassword.length < 6) {
-      validationErrors.push("Password must be at leastt 6 characters long");
+      validationErrors.push("Password must be at least 6 characters long");
     }
     if (username.length < 4) {
       validationErrors.push("Username must be at least 4 characters long.");
