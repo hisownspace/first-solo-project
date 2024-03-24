@@ -9,7 +9,7 @@ const {
   requireAuth,
   checkPermissions,
 } = require("../../utils/auth");
-const { Room, Rental } = require("../../db/models");
+const { Room, Rental, Favorite } = require("../../db/models");
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 
@@ -20,6 +20,31 @@ router.get(
     const { roomId } = req.params;
     const room = await Room.findByPk(roomId);
     return res.json(room);
+  }),
+);
+
+router.post(
+  "/:roomId(\\d+)/favorite",
+  asyncHandler(async (req, res) => {
+    const { userId } = req.body;
+    const { roomId } = req.params;
+    const existingFavorite = await Favorite.findOne({
+      where: {
+        roomId,
+        userId,
+      },
+    });
+    if (!existingFavorite) {
+      await Favorite.create({ roomId, userId });
+    } else {
+      await existingFavorite.destroy();
+    }
+    const userFavs = await Favorite.findAll({
+      where: {
+        userId,
+      },
+    });
+    return res.json(userFavs.map((el) => el.roomId));
   }),
 );
 

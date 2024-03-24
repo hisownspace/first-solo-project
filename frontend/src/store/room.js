@@ -95,10 +95,6 @@ export const createRoom = (room) => async (dispatch) => {
   return room;
 };
 
-// export const favoriteRoom = (roomId, userId) => async (dispatch) => {
-//   const response = await csrfFetch()
-// }
-
 export const deleteRoom = (roomId, userId) => async (dispatch) => {
   const response = await csrfFetch(`/api/rooms/${roomId}`, {
     method: "DELETE",

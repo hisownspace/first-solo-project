@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { restoreUser } = require("../../utils/auth");
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User, Rental, Room } = require("../../db/models");
+const { User, Rental, Room, Favorite } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
@@ -43,6 +43,19 @@ router.post(
     return res.json({
       user,
     });
+  }),
+);
+
+router.get(
+  "/:userId(\\d+)/favorites",
+  asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    const favorites = await Favorite.findAll({
+      where: {
+        userId,
+      },
+    });
+    return res.json(favorites.map((el) => el.roomId));
   }),
 );
 

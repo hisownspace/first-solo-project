@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import RoomCard from "../RoomCard";
 import * as roomActions from "../../store/room";
+import { favoritesRetrieved } from "../../store/session";
 
 function RoomsList() {
   const dispatch = useDispatch();
@@ -13,7 +14,10 @@ function RoomsList() {
 
   useEffect(() => {
     dispatch(roomActions.readRooms());
-  }, []);
+    if (sessionUser) {
+      dispatch(favoritesRetrieved(sessionUser.id));
+    }
+  }, [sessionUser]);
 
   if (!sessionUser) return <Redirect to="/" />;
 

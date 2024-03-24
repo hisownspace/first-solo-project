@@ -2,13 +2,20 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import { favoriteRoom } from "../../store/session";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function RoomCard({ room }) {
+  const dispatch = useDispatch();
   const history = useHistory();
+  const favorites = useSelector((state) => state.session.user.favorites);
+  const userId = useSelector((state) => state.session.user.id);
 
   const toggleFavorite = async (e) => {
     e.stopPropagation();
     // put thunktion here
+    dispatch(favoriteRoom(room.id, userId));
   };
 
   return (
@@ -18,16 +25,16 @@ function RoomCard({ room }) {
     >
       <div className="card-image">
         <img alt={room.description} src={room.imageUrl}></img>
-        {false ? (
+        {favorites?.includes(room.id) ? (
           <FontAwesomeIcon
             onClick={toggleFavorite}
-            className="favorite-icon"
-            icon={faHeart}
+            className="favorite-icon-selected"
+            icon={faHeartSolid}
           />
         ) : (
           <FontAwesomeIcon
-            className="favorite-icon-selected"
-            icon={faHeartSolid}
+            className="favorite-icon"
+            icon={faHeart}
             onClick={toggleFavorite}
           />
         )}
