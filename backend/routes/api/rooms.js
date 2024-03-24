@@ -1,69 +1,77 @@
-const express = require('express')
-const asyncHandler = require('express-async-handler');
+const express = require("express");
+const asyncHandler = require("express-async-handler");
 const router = express.Router();
 const { Op } = require("sequelize");
 
-const { restoreUser } = require('../../utils/auth');
-const { setTokenCookie, requireAuth, checkPermissions } = require('../../utils/auth');
-const { Room, Rental } = require('../../db/models');
+const { restoreUser } = require("../../utils/auth");
+const {
+  setTokenCookie,
+  requireAuth,
+  checkPermissions,
+} = require("../../utils/auth");
+const { Room, Rental } = require("../../db/models");
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 
-
 router.get(
-  '/:roomId(\\d+)',
+  "/:roomId(\\d+)",
   restoreUser,
   asyncHandler(async (req, res) => {
     const { roomId } = req.params;
     const room = await Room.findByPk(roomId);
     return res.json(room);
-  })
+  }),
 );
 
 router.get(
-  '/:roomId(\\d+)/rentals',
+  "/:roomId(\\d+)/rentals",
   restoreUser,
   asyncHandler(async (req, res) => {
     const { roomId } = req.params;
-    const rentals = await Rental.findAll({ where: {
-      roomId
-    }});
+    const rentals = await Rental.findAll({
+      where: {
+        roomId,
+      },
+    });
     return res.json(rentals);
-  })
+  }),
 );
 
 router.get(
-  '/',
+  "/",
   restoreUser,
   asyncHandler(async (req, res) => {
-    const rooms = await Room.findAll({ order: [['updatedAt', 'DESC']], limit: 10 });
+    const rooms = await Room.findAll({
+      order: [["updatedAt", "DESC"]],
+      limit: 10,
+    });
     return res.json(rooms);
-  })
+  }),
 );
 
 router.get(
-  '/search/:string',
+  "/search/:string",
   restoreUser,
   asyncHandler(async (req, res) => {
     const { string } = req.params;
-    const rooms = await Room.findAll(
-      { order: [['updatedAt', 'DESC']],
-        where: { 
-          [Op.or]: {
-            title: { [Op.iLike]: `%${string}%`},
-            description: { [Op.iLike]: `%${string}%`},
-            state: {[Op.iLike]: `%${string}%`},
-            city: {[Op.iLike]: `%${string}%`},
-            amenities: {[Op.iLike]: `%${string}%`},
-          }
-        }
-      });
+    const rooms = await Room.findAll({
+      order: [["updatedAt", "DESC"]],
+      where: {
+        [Op.or]: {
+          title: { [Op.iLike]: `%${string}%` },
+          description: { [Op.iLike]: `%${string}%` },
+          state: { [Op.iLike]: `%${string}%` },
+          city: { [Op.iLike]: `%${string}%` },
+          amenities: { [Op.iLike]: `%${string}%` },
+        },
+      },
+    });
     return res.json(rooms);
-  })
+  }),
 );
 
 router.post(
-  '/',
+  "/",
   restoreUser,
   asyncHandler(async (req, res) => {
     const {
@@ -76,7 +84,7 @@ router.post(
       country,
       address,
       title,
-      description
+      description,
     } = req.body;
 
     const room = await Room.create({
@@ -89,14 +97,14 @@ router.post(
       country,
       address,
       title,
-      description
+      description,
     });
     return res.json(room);
-  })
+  }),
 );
 
 router.put(
-  '/:roomId',
+  "/:roomId",
   restoreUser,
   asyncHandler(async (req, res, next) => {
     const {
@@ -109,7 +117,7 @@ router.put(
       address,
       userId,
       title,
-      description
+      description,
     } = req.body;
     const { roomId } = req.params;
 
@@ -125,26 +133,24 @@ router.put(
         country,
         address,
         title,
-        description
+        description,
       });
       await room.save();
       return res.json({
-        room
+        room,
       });
     } else {
-      const err = new Error('Unauthorized');
-      err.title = 'Unauthorized';
-      err.errors = ['Unauthorized'];
+      const err = new Error("Unauthorized");
+      err.title = "Unauthorized";
+      err.errors = ["Unauthorized"];
       err.status = 401;
       return next(err);
     }
-
-    
-  })
+  }),
 );
-  
+
 router.delete(
-  '/:roomId',
+  "/:roomId",
   requireAuth,
   asyncHandler(async (req, res, next) => {
     const { roomId } = req.params;
@@ -153,18 +159,20 @@ router.delete(
     const canEdit = checkPermissions(userId, room);
     if (canEdit && room) {
       await room.destroy();
-      const myRooms = await Room.findAll({ where: {
-        ownerId: userId
-      } })
+      const myRooms = await Room.findAll({
+        where: {
+          ownerId: userId,
+        },
+      });
       return res.json(room);
     } else {
-      const err = new Error('Unauthorized');
-      err.title = 'Unauthorized';
-      err.errors = ['Unauthorized'];
+      const err = new Error("Unauthorized");
+      err.title = "Unauthorized";
+      err.errors = ["Unauthorized"];
       err.status = 401;
       return next(err);
     }
-  })
+  }),
 );
 
 module.exports = router;

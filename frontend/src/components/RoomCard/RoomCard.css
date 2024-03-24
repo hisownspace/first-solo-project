@@ -3,10 +3,28 @@
   font-size: 14px;
 }
 
+.card-image {
+  position: relative;
+}
+
 .card-image img {
   object-fit: cover;
-  /* height: 12vw; */
   aspect-ratio: 1;
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+}
+
+.favorite-icon-selected {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+  color: red;
 }
 
 .room-card:hover {
