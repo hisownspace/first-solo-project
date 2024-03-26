@@ -1,5 +1,5 @@
-'use strict';
-const bcrypt = require('bcryptjs');
+"use strict";
+const bcrypt = require("bcryptjs");
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -13,41 +13,44 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('Users',
+    return queryInterface.bulkInsert(
+      "Users",
       [
         {
-          email: 'demo@user.io',
-          username: 'Demo-User',
-          firstName: 'Demo',
-          lastName: 'User',
+          email: "demo@user.io",
+          username: "Demo-User",
+          firstName: "Demo",
+          lastName: "User",
           owner: false,
-          hashedPassword: bcrypt.hashSync('password')
+          hashedPassword: bcrypt.hashSync("password"),
         },
         {
           email: "john@doe.com",
-          username: 'JohnDoe',
-          firstName: 'John',
-          lastName: 'Doe',
+          username: "JohnDoe",
+          firstName: "John",
+          lastName: "Doe",
           owner: false,
-          hashedPassword: bcrypt.hashSync('passowrd')
+          hashedPassword: bcrypt.hashSync("passowrd"),
         },
         {
-          email: 'default-owner@room-share.com',
-          username: 'default-owner',
-          firstName: 'Default',
-          lastName: 'Owner',
+          email: "default-owner@room-share.com",
+          username: "default-owner",
+          firstName: "Default",
+          lastName: "Owner",
           owner: true,
-          hashedPassword: bcrypt.hashSync('owner')
+          hashedPassword: bcrypt.hashSync("owner"),
         },
         {
-          email: 'roomrenter@gmail.com',
-          username: 'roomrenter',
-          firstName: 'Room',
-          lastName: 'Renter',
+          email: "roomrenter@gmail.com",
+          username: "roomrenter",
+          firstName: "Room",
+          lastName: "Renter",
           owner: true,
-          hashedPassword: bcrypt.hashSync('renter')
-        }
-      ], {});
+          hashedPassword: bcrypt.hashSync("renter"),
+        },
+      ],
+      {},
+    );
   },
 
   down: (queryInterface, Sequelize) => {
@@ -59,8 +62,14 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Users', {
-      username: { [Op.in]: ['Demo-User', 'JohnDoe', 'roomrenter', 'default-owner'] }
-    }, {});
-  }
+    return queryInterface.bulkDelete(
+      "Users",
+      {
+        username: {
+          [Op.in]: ["Demo-User", "JohnDoe", "roomrenter", "default-owner"],
+        },
+      },
+      {},
+    );
+  },
 };
