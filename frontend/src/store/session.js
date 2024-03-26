@@ -96,8 +96,8 @@ export default function sessionReducer(state = initialSession, action) {
       newState = { ...state };
       if (newState.user) {
         newState.user.favorites = action.favorites;
-        return newState;
       }
+      return newState;
     default:
       return state;
   }

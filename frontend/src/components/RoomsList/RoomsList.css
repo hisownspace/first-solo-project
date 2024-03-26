@@ -1,3 +1,22 @@
+.amenity-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.amenity {
+  display: flex;
+  flex-direction: column;
+}
+
+.amenity-image {
+  width: 75px;
+  color: grey;
+}
+
+.amenity-name {
+  color: grey;
+}
+
 .rooms-list {
   position: absolute;
   top: 100px;

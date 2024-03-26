@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       icon: DataTypes.STRING,
     },
-    {},
+    { timestamps: false, createdAt: false, updatedAt: false },
   );
   Amenity.associate = function (models) {
     // associations can be defined here
