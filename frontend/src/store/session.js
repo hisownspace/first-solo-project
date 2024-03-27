@@ -94,6 +94,7 @@ export default function sessionReducer(state = initialSession, action) {
       return newState;
     case FAVORITE_ROOM:
       newState = { ...state };
+      console.log(newState);
       if (newState.user) {
         newState.user.favorites = action.favorites;
       }

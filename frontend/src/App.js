@@ -22,10 +22,9 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {/* <div className='main'> */}
       {isLoaded && (
         <Switch>
-          <Route exact path ='/'>
+          <Route exact path="/">
             <Splash />
           </Route>
           <Route exact path="/rooms">
@@ -40,15 +39,14 @@ function App() {
           <Route path="/rooms/:roomId/edit">
             <UpdateListing />
           </Route>
-          <Route path='/rooms/:roomId'>
+          <Route path="/rooms/:roomId">
             <RoomDetail />
           </Route>
-          <Route path='/reservations'>
+          <Route path="/reservations">
             <Reservations />
           </Route>
         </Switch>
       )}
-      {/* </div> */}
     </>
   );
 }

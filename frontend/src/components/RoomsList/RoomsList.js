@@ -10,31 +10,40 @@ import { amenitiesRetrieved } from "../../store/amenity";
 function RoomsList() {
   const dispatch = useDispatch();
 
+  const [rooms, setRooms] = useState([]);
+  const [amenities, setAmenities] = useState([]);
+
   const sessionUser = useSelector((state) => state.session.user);
   const roomStore = useSelector((state) => state.room.roomsList);
   const amenitiesStore = useSelector((state) => state.amenity);
 
   useEffect(() => {
-    dispatch(roomActions.readRooms());
     if (sessionUser) {
       dispatch(favoritesRetrieved(sessionUser.id));
     }
+    dispatch(roomActions.readRooms());
     dispatch(amenitiesRetrieved());
-  }, [sessionUser]);
+  }, [
+    dispatch,
+    sessionUser,
+    favoritesRetrieved,
+    roomActions,
+    amenitiesRetrieved,
+  ]);
 
   useEffect(() => {
-    console.log("HELLO");
-    console.log(amenitiesStore);
-  }, [amenitiesStore]);
+    setAmenities(amenitiesStore);
+    setRooms(roomStore);
+  }, [roomStore, amenitiesStore]);
 
   if (!sessionUser) return <Redirect to="/" />;
 
   return (
     <div className="rooms-list">
       <ul className="amenity-list">
-        {amenitiesStore.map((amenity) => {
+        {amenities.map((amenity) => {
           return (
-            <li className="amenity">
+            <li key={amenity.name} className="amenity">
               <img className="amenity-image" src={amenity.icon} />
               <div className="amenity-name">{amenity.name}</div>
             </li>
@@ -42,8 +51,8 @@ function RoomsList() {
         })}
       </ul>
       <ul className="room-card-list">
-        {roomStore.map((room, index) => {
-          return roomStore ? (
+        {rooms.map((room, index) => {
+          return rooms ? (
             <li className="room-card-list-item" key={index}>
               <RoomCard room={room} />
             </li>
