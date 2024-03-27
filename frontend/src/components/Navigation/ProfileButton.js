@@ -37,7 +37,7 @@ function ProfileButton({ user }) {
         <i className="fas fa-bars" />
         <div className="profile-image" />
       </div>
-      <NavLink exact to="/rooms/make">
+      <NavLink className="try-hosting" exact to="/rooms/make">
         Try Hosting
       </NavLink>
       {showMenu && (

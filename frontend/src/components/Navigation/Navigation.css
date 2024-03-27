@@ -12,18 +12,22 @@ button {
 }
 
 .profile-button {
-  font-size: large;
   width: 70px;
   height: 40px;
-  padding: 5px 8px;
-  padding-left: 12px;
-  float: right;
+  padding: 5px 8px 5px 12px;
   margin: 3px;
   border-radius: 24px;
   border: 1px solid grey;
   font-size: 13px;
   display: flex;
   justify-content: space-between;
+}
+
+.profile-button:hover {
+  box-shadow:
+    -2px 2px 3px rgba(0, 0, 0, 0.1),
+    2px 2px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .profile-image {
@@ -174,13 +178,15 @@ tr:nth-child(odd) {
 
 .profile-dropdown {
   position: absolute;
-  border: solid black 1px;
-  border-radius: 3px;
-  top: 85px;
-  right: 50px;
+  border-radius: 5px;
+  top: 50px;
+  right: 45px;
   padding: 7px 3px;
   z-index: 9;
   background-color: white;
+  box-shadow:
+    -2px -2px 3px rgba(0, 0, 0, 0.1),
+    2px 2px 3px rgba(0, 0, 0, 0.1);
 }
 
 .profile-dropdown li {
