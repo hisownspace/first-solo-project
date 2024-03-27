@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
-import * as sessionActions from '../../store/session';
+import { useDispatch } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
+import * as sessionActions from "../../store/session";
 
 function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  
+
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
   };
-  
+
   useEffect(() => {
     if (!showMenu) return;
 
@@ -20,8 +20,8 @@ function ProfileButton({ user }) {
       setShowMenu(false);
     };
 
-    document.addEventListener('click', closeMenu);
-  
+    document.addEventListener("click", closeMenu);
+
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
@@ -32,17 +32,22 @@ function ProfileButton({ user }) {
   };
 
   return (
-    <div className='user-settings'>
-      <button className='profile-button' onClick={openMenu}>
-        <i className="fas fa-users-cog fa-2x"></i>
-      </button>
-      <NavLink exact to="/rooms/make"><button className='add-room-button'>Try Hosting</button></NavLink>
+    <div className="user-settings">
+      <div className="profile-button" onClick={openMenu}>
+        <i className="fas fa-bars" />
+        <div className="profile-image" />
+      </div>
+      <NavLink exact to="/rooms/make">
+        Try Hosting
+      </NavLink>
       {showMenu && (
         <ul className="profile-dropdown">
-          <li className='profile-username'>{user.username}</li>
-          <li className='profile-email'>{user.email}</li>
+          <li className="profile-username">{user.username}</li>
+          <li className="profile-email">{user.email}</li>
           <li>
-            <button className='profile-button' onClick={logout}>Log Out</button>
+            <button className="profile-button" onClick={logout}>
+              Log Out
+            </button>
           </li>
         </ul>
       )}

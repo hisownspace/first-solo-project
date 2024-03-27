@@ -13,9 +13,30 @@ button {
 
 .profile-button {
   font-size: large;
-  height: auto;
-  width: auto;
-  margin: 0;
+  width: 70px;
+  height: 40px;
+  padding: 5px 8px;
+  padding-left: 12px;
+  float: right;
+  margin: 3px;
+  border-radius: 24px;
+  border: 1px solid grey;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-image {
+  height: 27px;
+  width: 27px;
+  border-radius: 50%;
+  border: 1px solid grey;
+  align-self: center;
+  margin-right: 0;
+}
+
+.fa-bars {
+  align-self: center;
 }
 
 .header-mid {
@@ -80,18 +101,10 @@ tr:nth-child(odd) {
   top: 4px;
 }
 
-.session-links {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  align-self: flex-start;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
   width: 375px;
-  /* height: 0; */
   position: relative;
 }
 
@@ -117,8 +130,15 @@ tr:nth-child(odd) {
   border-radius: 6px;
 }
 
-.add-room {
-  margin-right: 0;
+.user-settings a {
+  color: black;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.user-settings a:visited {
+  color: black;
+  text-decoration: none;
 }
 
 .rooms-list {
@@ -134,23 +154,17 @@ tr:nth-child(odd) {
   font-weight: bold;
 }
 
-a {
-  color: beige;
-  text-decoration: none;
-  font-size: x-large;
-}
-a:visited {
-  color: beige;
-  text-decoration: none;
-}
-
-li {
-  display: flex;
-  justify-content: space-between;
+.site-logo {
+  height: 40px;
 }
 
 .user-settings {
   margin-right: 15px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
 }
 
 .user-settings button {
@@ -180,10 +194,13 @@ li {
   width: 100vw;
   z-index: 10;
   background-color: white;
-  height: 140px;
+  height: 80px;
   margin: 0;
   padding: 30px;
   box-shadow: 3px 4px 20px rgb(126, 126, 126, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .main-room-display {
