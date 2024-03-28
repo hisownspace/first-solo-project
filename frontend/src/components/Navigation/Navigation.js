@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -10,6 +10,7 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
+  const searchInput = useRef(null);
 
   const searchForRoom = (e) => {
     e.preventDefault();
@@ -41,9 +42,17 @@ function Navigation({ isLoaded }) {
       <div className="header-mid">
         <form onSubmit={searchForRoom}>
           <input
+            className="search-input"
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            onFocus={() => {
+              searchInput.current.className = "search-input-focused";
+            }}
+            onBlur={() => {
+              searchInput.current.className = "search-input";
+            }}
+            ref={searchInput}
           ></input>
           <button>Search</button>
         </form>

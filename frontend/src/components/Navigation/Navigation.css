@@ -11,6 +11,14 @@ button {
   cursor: pointer;
 }
 
+.search-input {
+  background-color: blue;
+}
+
+.search-input-focused {
+  background-color: black;
+}
+
 .profile-button {
   width: 70px;
   height: 40px;
