@@ -1,26 +1,59 @@
 button {
   color: beige;
   background-color: rgb(240, 91, 96);
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   margin: 3px;
   border: none;
-  border-radius: 3px;
-  box-shadow: 1px 1px 1px rgba(255, 90, 95);
+  /* border-radius: 3px; */
+  /* box-shadow: 1px 1px 1px rgba(255, 90, 95); */
   height: 45px;
   font-size: x-large;
   cursor: pointer;
 }
 
 .search-input {
-  background-color: blue;
+  height: 40px;
+  width: 100px;
+  border-radius: 0 20px 20px 0;
+  border: 1px solid grey;
+  border-left: none;
+  position: absolute;
+  top: 18px;
+  left: 50vw;
+  margin-left: 0;
+}
+
+.try-hosting {
+  height: 40px;
+  width: 100px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.try-hosting:hover {
+  background-color: #f7f7f7;
+  border-radius: 20px;
 }
 
 .search-input-focused {
-  background-color: black;
+  height: 40px;
+  width: 250px;
+  border-radius: 0 20px 20px 0;
+  border: 1px solid grey;
+  outline: none;
+  position: absolute;
+  top: 18px;
+  left: 50vw;
+}
+
+.search-button {
+  height: 40px;
+  border-left: none;
+  width: 0;
 }
 
 .profile-button {
-  width: 70px;
+  width: 75px;
   height: 40px;
   padding: 5px 8px 5px 12px;
   margin: 3px;
@@ -96,22 +129,12 @@ tr:nth-child(odd) {
   border-radius: 15px;
 }
 
-.header-mid form button {
-  margin-left: 0;
-  border-radius: 0 15px 15px 0;
-  border-left: black solid 1px;
-  margin-right: 20px;
-}
-
-.header-mid form input {
-  margin: 0;
-  font-size: 34px;
-  border-radius: 15px 0 0 15px;
-  width: 200px;
-  border-right: none;
-  position: relative;
-  top: 4px;
-}
+/* .header-mid form button { */
+/*   margin-left: 0; */
+/*   border-radius: 0 15px 15px 0; */
+/*   border-left: black solid 1px; */
+/*   margin-right: 20px; */
+/* } */
 
 .login-form {
   display: flex;
@@ -176,7 +199,7 @@ tr:nth-child(odd) {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
-  width: 150px;
+  width: 175px;
 }
 
 .user-settings button {

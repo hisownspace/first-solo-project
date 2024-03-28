@@ -40,6 +40,20 @@ function Navigation({ isLoaded }) {
         <img className="site-logo" alt="roomshare logo" src={logo}></img>
       </NavLink>
       <div className="header-mid">
+        <form className="" onSubmit={searchForRoom}>
+          <input
+            className="date-input"
+            type="date"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          ></input>
+          <input
+            className="date-input"
+            type="date"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          ></input>
+        </form>
         <form onSubmit={searchForRoom}>
           <input
             className="search-input"
@@ -54,7 +68,6 @@ function Navigation({ isLoaded }) {
             }}
             ref={searchInput}
           ></input>
-          <button>Search</button>
         </form>
       </div>
       {isLoaded && sessionLinks}
