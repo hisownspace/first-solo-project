@@ -7,6 +7,8 @@
   position: fixed;
   z-index: 9;
   background-color: white;
+  white-space: nowrap;
+  overflow-x: scroll;
 }
 
 .amenity {
@@ -41,7 +43,7 @@
   grid-row-gap: 125px;
   width: 92.5%;
   grid-column-gap: 1.25%;
-  margin: 80px auto;
+  margin: 90px auto;
   padding-left: 0;
 }
 
@@ -70,6 +72,9 @@
   .room-card-list {
     grid-template-columns: 47.75% 47.75%;
     grid-column-gap: 2.25%;
+  }
+  .room-card-list {
+    margin: 15px auto;
   }
 }
 

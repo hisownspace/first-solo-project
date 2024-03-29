@@ -11,6 +11,29 @@ button {
   cursor: pointer;
 }
 
+.vertical-line {
+  height: 16px;
+  border-left: 1px solid grey;
+  position: absolute;
+  top: 30px;
+  right: 50vw;
+}
+
+.date-button {
+  height: 40px;
+  width: 125px;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid grey;
+  border-right: none;
+  position: absolute;
+  top: 18px;
+  right: 50vw;
+  margin-right: 0;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
 .search-input {
   height: 40px;
   width: 100px;
@@ -21,6 +44,11 @@ button {
   top: 18px;
   left: 50vw;
   margin-left: 0;
+}
+
+.search-input::placeholder {
+  color: black;
+  font-size: 16px;
 }
 
 .try-hosting {
@@ -37,7 +65,7 @@ button {
 
 .search-input-focused {
   height: 40px;
-  width: 250px;
+  width: 225px;
   border-radius: 0 20px 20px 0;
   border: 1px solid grey;
   outline: none;
@@ -238,6 +266,15 @@ tr:nth-child(odd) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen and (max-width: 900px) {
+  .header {
+    display: none;
+  }
+  .amenity-list {
+    top: 0;
+  }
 }
 
 .main-room-display {
