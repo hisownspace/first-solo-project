@@ -1,26 +1,31 @@
-* {box-sizing: border-box;}
-ul {list-style-type: none;}
-body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
+* {
+  box-sizing: border-box;
+}
+ul {
+  list-style-type: none;
+}
+body {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
 
 .month {
   padding: 10px 35px;
-  background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
   text-align: center;
+  font-size: 18px;
 }
 
-.month-header span{
-  font-size: 50px;
+.month-header span {
   margin: 10px;
 }
 
 .month .prev {
   float: left;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .month .next {
   float: right;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .weekdays {
@@ -35,19 +40,19 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   width: 14.1%;
 }
 
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
 .days div {
   display: inline-block;
-  width: 14%;
-  height: 75px;
+  height: 55px;
   text-align: center;
-  line-height: 3em;
-  font-size:25px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none
+  line-height: 55px;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 1px 0;
 }
 
 .clickable-date {
@@ -66,15 +71,14 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   color: black;
   border-radius: 50%;
   border: 1px solid #666;
+  background-color: white;
+  width: 100%;
 }
 
-.clickable-date-clear {
-  cursor: pointer;
-}
-
-.active-date {
+.active-backing {
   border: 1px solid rgba(0, 0, 0, 0);
   background-color: rgba(102, 102, 102, 0.05);
+  z-index: 0;
 }
 
 .first-date {
@@ -82,6 +86,7 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   color: white;
   border-radius: 50%;
   border: 1px solid black;
+  width: 100%;
 }
 
 .last-date {
@@ -89,12 +94,22 @@ body {font-family: 'Roboto', Arial, Helvetica, sans-serif}
   color: white;
   border-radius: 50%;
   border: 1px solid black;
+  width: 100%;
+}
+
+.first-backing {
+  background: linear-gradient(90deg, white 50%, rgba(102, 102, 102, 0.05) 50%);
+}
+
+.last-backing {
+  background: linear-gradient(90deg, rgba(102, 102, 102, 0.05) 50%, white 50%);
 }
 
 .calendar {
   cursor: default;
-  width: 500px;
+  width: 400px;
   margin: auto;
+  height: 465px;
 }
 
 .booked-date {
