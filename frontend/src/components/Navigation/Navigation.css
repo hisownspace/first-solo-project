@@ -12,6 +12,9 @@ button {
 }
 
 .vertical-line {
+  transition:
+    top 0.25s ease-in-out,
+    height 0.25s ease-in-out;
   height: 16px;
   border-left: 1px solid grey;
   position: absolute;
@@ -20,6 +23,11 @@ button {
 }
 
 .date-button {
+  transition:
+    top 0.25s ease-in-out,
+    width 0.25s ease-in-out,
+    height 0.25s ease-in-out,
+    line-height 0.25s ease-in-out;
   height: 40px;
   width: 125px;
   border-radius: 20px 0 0 20px;
@@ -35,6 +43,10 @@ button {
 }
 
 .search-input {
+  transition:
+    top 0.25s ease-in-out,
+    width 0.25s ease-in-out,
+    height 0.25s ease-in-out;
   height: 40px;
   width: 100px;
   border-radius: 0 20px 20px 0;
@@ -46,9 +58,55 @@ button {
   margin-left: 0;
 }
 
+.search-input-focused {
+  width: 225px;
+  outline: none;
+}
+
+.vertical-line-expanded {
+  transition:
+    top 0.25s ease-in-out,
+    height 0.25s ease-in-out;
+  top: 104px;
+  z-index: 100;
+  height: 40px;
+}
+
+.date-button-expanded {
+  transition:
+    top 0.25s ease-in-out,
+    width 0.25s ease-in-out,
+    height 0.25s ease-in-out,
+    line-height 0.25s ease-in-out;
+  width: 250px;
+  height: 85px;
+  top: 80px;
+  right: 50.25vw;
+  border-radius: 42.5px 0 0 42.5px;
+  line-height: 95px;
+  font-size: 20px;
+}
+
+.search-input-expanded {
+  transition:
+    top 0.25s ease-in-out,
+    width 0.25s ease-in-out,
+    height 0.25s ease-in-out;
+  width: 250px;
+  height: 85px;
+  top: 80px;
+  left: 49.75vw;
+  border-radius: 0 42.5px 42.5px 0;
+  font-size: 30px;
+}
+.search-input-expanded::placeholder {
+  font-size: 20px !important;
+}
+
 .search-input::placeholder {
   color: black;
   font-size: 16px;
+  text-align: center;
 }
 
 .try-hosting {
@@ -61,17 +119,6 @@ button {
 .try-hosting:hover {
   background-color: #f7f7f7;
   border-radius: 20px;
-}
-
-.search-input-focused {
-  height: 40px;
-  width: 225px;
-  border-radius: 0 20px 20px 0;
-  border: 1px solid grey;
-  outline: none;
-  position: absolute;
-  top: 18px;
-  left: 50vw;
 }
 
 .search-button {
@@ -157,13 +204,6 @@ tr:nth-child(odd) {
   border-radius: 15px;
 }
 
-/* .header-mid form button { */
-/*   margin-left: 0; */
-/*   border-radius: 0 15px 15px 0; */
-/*   border-left: black solid 1px; */
-/*   margin-right: 20px; */
-/* } */
-
 .login-form {
   display: flex;
   flex-direction: column;
@@ -219,9 +259,14 @@ tr:nth-child(odd) {
 
 .site-logo {
   height: 40px;
+  position: absolute;
+  top: 15px;
 }
 
 .user-settings {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   margin-right: 15px;
   display: flex;
   flex-direction: row-reverse;
@@ -255,6 +300,7 @@ tr:nth-child(odd) {
 }
 
 .header {
+  transition: height 0.25s ease-in-out;
   position: fixed;
   width: 100vw;
   z-index: 10;
@@ -266,6 +312,11 @@ tr:nth-child(odd) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-expanded {
+  transition: height 0.25s ease-in-out;
+  height: 168px;
 }
 
 @media screen and (max-width: 900px) {

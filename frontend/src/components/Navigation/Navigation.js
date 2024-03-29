@@ -13,6 +13,8 @@ function Navigation({ isLoaded }) {
   const [showModal, setShowModal] = useState(false);
   const searchInput = useRef(null);
   const verticalLine = useRef(null);
+  const dateButton = useRef(null);
+  const header = useRef(null);
   const history = useHistory();
 
   const searchForRoom = (e) => {
@@ -21,6 +23,21 @@ function Navigation({ isLoaded }) {
       setSearchValue("");
       searchInput.current.blur();
       return history.push(`/rooms/search/${searchValue}`);
+    }
+  };
+
+  const openCalendarModal = (e) => {
+    setShowModal((state) => !state);
+    if (!header.current.classList.contains("header-expanded")) {
+      header.current.classList.add("header-expanded");
+      searchInput.current.classList.add("search-input-expanded");
+      dateButton.current.classList.add("date-button-expanded");
+      verticalLine.current.classList.add("vertical-line-expanded");
+    } else {
+      header.current.classList.remove("header-expanded");
+      searchInput.current.classList.remove("search-input-expanded");
+      dateButton.current.classList.remove("date-button-expanded");
+      verticalLine.current.classList.remove("vertical-line-expanded");
     }
   };
 
@@ -40,16 +57,15 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <div className="header">
+    <div ref={header} className="header">
       <NavLink exact to="/">
         <img className="site-logo" alt="roomshare logo" src={logo}></img>
       </NavLink>
       <div className="header-mid">
         <div
+          ref={dateButton}
           className="date-button"
-          onClick={() => {
-            setShowModal(true);
-          }}
+          onClick={openCalendarModal}
         >
           Pick Dates
         </div>
@@ -59,23 +75,30 @@ function Navigation({ isLoaded }) {
             className="search-input"
             type="text"
             value={searchValue}
-            placeholder="     Search"
+            placeholder="Search"
             onChange={(e) => setSearchValue(e.target.value)}
             onFocus={() => {
-              searchInput.current.className = "search-input-focused";
+              searchInput.current.classList.add("search-input-focused");
               searchInput.current.placeholder = "";
               verticalLine.current.style.display = "none";
             }}
             onBlur={() => {
-              searchInput.current.className = "search-input";
+              searchInput.current.classList.remove("search-input-focused");
               verticalLine.current.style.display = "inline-block";
-              searchInput.current.placeholder = "     Search";
+              searchInput.current.placeholder = "Search";
             }}
             ref={searchInput}
           />
         </form>
       </div>
-      <CalendarModal showModal={showModal} setShowModal={setShowModal} />
+      <CalendarModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        searchInput={searchInput}
+        verticalLine={verticalLine}
+        dateButton={dateButton}
+        header={header}
+      />
       {isLoaded && sessionLinks}
     </div>
   );
