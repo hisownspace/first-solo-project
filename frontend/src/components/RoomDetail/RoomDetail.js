@@ -246,15 +246,27 @@ function RoomDetail() {
               ) : null}
               <div ref={calendarRef} className="calendar-div">
                 {sessionUser.id === room.ownerId ? null : (
-                  <Calendar
-                    setCheckInDate={setCheckInDate}
-                    checkInDate={checkInDate}
-                    setCheckOutDate={setCheckOutDate}
-                    checkOutDate={checkOutDate}
-                    bookedDatesArr={bookedDatesArr}
-                    setBookedDatesArr={setBookedDatesArr}
-                    setErrors={setErrors}
-                  />
+                  <>
+                    <Calendar
+                      first={true}
+                      setCheckInDate={setCheckInDate}
+                      checkInDate={checkInDate}
+                      setCheckOutDate={setCheckOutDate}
+                      checkOutDate={checkOutDate}
+                      bookedDatesArr={bookedDatesArr}
+                      setBookedDatesArr={setBookedDatesArr}
+                      setErrors={setErrors}
+                    />
+                    <Calendar
+                      setCheckInDate={setCheckInDate}
+                      checkInDate={checkInDate}
+                      setCheckOutDate={setCheckOutDate}
+                      checkOutDate={checkOutDate}
+                      bookedDatesArr={bookedDatesArr}
+                      setBookedDatesArr={setBookedDatesArr}
+                      setErrors={setErrors}
+                    />
+                  </>
                 )}
               </div>
             </div>

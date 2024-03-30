@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Calendar({
+  first,
   setCheckInDate,
   setCheckOutDate,
   setErrors,
@@ -8,9 +9,17 @@ function Calendar({
   checkInDate,
   bookedDatesArr,
 }) {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    new Date(
+      new Date().getFullYear(),
+      first ? new Date().getMonth() : new Date().getMonth() + 1,
+      first ? new Date().getDate() : 1,
+    ),
+  );
   const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(date.getMonth());
+  const [month, setMonth] = useState(
+    first ? new Date().getMonth() : new Date().getMonth() + 1,
+  );
   const [monthName, setMonthName] = useState(
     date.toLocaleString("default", { month: "long" }),
   );
