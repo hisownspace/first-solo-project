@@ -26,7 +26,7 @@ function Navigation({ isLoaded }) {
     }
   };
 
-  const openCalendarModal = (e) => {
+  const toggleCalendarModal = (e) => {
     setShowModal((state) => !state);
     if (!header.current.classList.contains("header-expanded")) {
       header.current.classList.add("header-expanded");
@@ -65,7 +65,7 @@ function Navigation({ isLoaded }) {
         <div
           ref={dateButton}
           className="date-button"
-          onClick={openCalendarModal}
+          onClick={toggleCalendarModal}
         >
           Pick Dates
         </div>
@@ -98,6 +98,7 @@ function Navigation({ isLoaded }) {
         verticalLine={verticalLine}
         dateButton={dateButton}
         header={header}
+        toggleCalendarModal={toggleCalendarModal}
       />
       {isLoaded && sessionLinks}
     </div>
