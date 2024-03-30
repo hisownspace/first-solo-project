@@ -9,43 +9,34 @@ function Calendar({
   bookedDatesArr,
 }) {
   const [date, setDate] = useState(new Date());
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(date.getMonth());
-  const [monthName, setMonthName] = useState(
-    date.toLocaleString("default", { month: "long" }),
+  const [year1, setYear1] = useState(new Date().getFullYear());
+  const [month1, setMonth1] = useState(new Date().getMonth());
+  const [month1Name, setMonth1Name] = useState(
+    new Date().toLocaleString("default", { month: "long" }),
   );
-  const [days, setDays] = useState([]);
-  const [firstDayOfWeek, setFirstDayOfWeek] = useState();
-  const [firstDayOfWeekArr, setFirstDayOfWeekArr] = useState([]);
-  const [lastDay, setLastDay] = useState(0);
+  const [days1, setDays1] = useState([]);
+  const [emptyDaysArr1, setEmptyDaysArr1] = useState([]);
+
   const [firstSelectedDate, setFirstSelectedDate] = useState("");
   const [lastSelectedDate, setLastSelectedDate] = useState("");
   const [bookedDates, setBookedDates] = useState("");
 
   useEffect(() => {
     clearCalendar();
-    date.setDate(1);
-    setFirstDayOfWeek(date.getDay());
-    setFirstDayOfWeekArr([]);
-    for (let i = 1; i <= firstDayOfWeek; i += 1) {
-      setFirstDayOfWeekArr((prevState) => {
-        return [...prevState, i];
-      });
-      if (i === 7) {
-        setFirstDayOfWeekArr([]);
-      }
+    const firstDay = new Date(year1, month1).getDay();
+    setEmptyDaysArr1([]);
+    const emptyDaysArr1 = [];
+    for (let i = 1; i <= firstDay; i += 1) {
+      emptyDaysArr1.push(i);
     }
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(-1);
-    setLastDay(date.getDate() + 1);
-    setDays([]);
-    for (let i = 1; i <= lastDay; i += 1) {
-      setDays((prevState) => {
-        return [...prevState, i];
-      });
+    setEmptyDaysArr1(emptyDaysArr1);
+    const totalDays = [];
+    const daysInMonth = new Date(year1, month1 + 1, 0).getDate();
+    for (let i = 1; i <= daysInMonth; i++) {
+      totalDays.push(i);
     }
-    setYear(date.getFullYear());
-  }, [lastDay, date]);
+    setDays1(totalDays);
+  }, [month1, year1]);
 
   const selectDate = (e) => {
     const selectedDate = parseInt(e.target.innerText);
@@ -78,11 +69,11 @@ function Calendar({
   useEffect(() => {
     let tempCheckIn;
     let tempCheckOut;
-    let tempMonth = month.toString();
+    let tempMonth = month1.toString();
     if (tempMonth.length === 1) {
-      tempMonth = "0" + (month + 1);
+      tempMonth = "0" + (month1 + 1);
     } else {
-      tempMonth = month + 1;
+      tempMonth = month1 + 1;
     }
     if (firstSelectedDate < 10) {
       tempCheckIn = "0" + firstSelectedDate;
@@ -94,8 +85,8 @@ function Calendar({
     } else {
       tempCheckOut = lastSelectedDate;
     }
-    tempCheckIn = `${year}-${tempMonth}-${tempCheckIn}`;
-    tempCheckOut = `${year}-${tempMonth}-${tempCheckOut}`;
+    tempCheckIn = `${year1}-${tempMonth}-${tempCheckIn}`;
+    tempCheckOut = `${year1}-${tempMonth}-${tempCheckOut}`;
 
     if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(tempCheckIn)) {
       setCheckInDate(tempCheckIn);
@@ -107,7 +98,7 @@ function Calendar({
     let bookedDates = [];
     bookedDatesArr
       .filter((dateRange) => {
-        return dateRange[0].month === month || dateRange[1].month === month;
+        return dateRange[0].month === month1 || dateRange[1].month === month1;
       })
       .forEach((dateRange) => {
         for (let i = dateRange[0].day; i <= dateRange[1].day; i += 1) {
@@ -115,7 +106,7 @@ function Calendar({
         }
       });
     setBookedDates(bookedDates);
-  }, [firstSelectedDate, lastSelectedDate, month, year]);
+  }, [firstSelectedDate, lastSelectedDate, month1, year1]);
 
   useEffect(() => {
     if (checkOutDate) {
@@ -128,21 +119,21 @@ function Calendar({
 
   const nextMonth = () => {
     date.setDate(1);
-    setMonth((prevState) => prevState + 1);
-    date.setMonth(month + 1);
-    setMonthName(date.toLocaleString("default", { month: "long" }));
-    setMonth(date.getMonth());
-    setLastDay(0);
+    setMonth1((prevState) => prevState + 1);
+    date.setMonth(month1 + 1);
+    setMonth1Name(date.toLocaleString("default", { month: "long" }));
+    setMonth1(date.getMonth());
+    setYear1(date.getFullYear());
     clearCalendar();
   };
 
   const prevMonth = () => {
     date.setDate(1);
-    setMonth((prevState) => prevState - 1);
-    date.setMonth(month - 1);
-    setMonthName(date.toLocaleString("default", { month: "long" }));
-    setMonth(date.getMonth());
-    setLastDay(0);
+    setMonth1((prevState) => prevState - 1);
+    date.setMonth(month1 - 1);
+    setMonth1Name(date.toLocaleString("default", { month: "long" }));
+    setMonth1(date.getMonth());
+    setYear1(date.getFullYear());
     clearCalendar();
   };
 
@@ -156,16 +147,13 @@ function Calendar({
   const checkForPastDate = (day) => {
     const today = new Date();
 
-    if (date.getFullYear() > today.getFullYear()) {
+    if (year1 > today.getFullYear()) {
+      return true;
+    } else if (year1 === today.getFullYear() && month1 > today.getMonth()) {
       return true;
     } else if (
-      date.getFullYear() === today.getFullYear() &&
-      date.getMonth() > today.getMonth()
-    ) {
-      return true;
-    } else if (
-      date.getFullYear() === today.getFullYear() &&
-      date.getMonth() === today.getMonth() &&
+      year1 === today.getFullYear() &&
+      month1 === today.getMonth() &&
       day >= today.getDate()
     ) {
       return true;
@@ -178,7 +166,7 @@ function Calendar({
     let bookedDates = [];
     bookedDatesArr
       .filter((dateRange) => {
-        return dateRange[0].month === month || dateRange[1].month === month;
+        return dateRange[0].month === month1 || dateRange[1].month === month1;
       })
       .forEach((dateRange) => {
         for (let i = dateRange[0].day; i <= dateRange[1].day; i += 1) {
@@ -186,7 +174,7 @@ function Calendar({
         }
       });
 
-    return days.map((day) => {
+    return days1.map((day) => {
       let element;
       if (day > firstSelectedDate && day < lastSelectedDate) {
         element = (
@@ -253,44 +241,56 @@ function Calendar({
     });
   };
 
-  return (
-    <div className="calendar">
-      <div className="month">
-        <div className="month-header">
-          <span className="prev" onClick={prevMonth}>
-            {"<"}
-          </span>
-          <span className="next" onClick={nextMonth}>
-            {">"}
-          </span>
-          <div>
-            <span>
-              {monthName} {year}
-            </span>
+  const Month = ({ first, next }) => {
+    console.log(first);
+    return (
+      <div className="calendar">
+        <div className="month">
+          <div className="month-header">
+            {first ? (
+              <span className="prev" onClick={prevMonth}>
+                {"<"}
+              </span>
+            ) : (
+              <span className="next" onClick={nextMonth}>
+                {">"}
+              </span>
+            )}
+            <div>
+              <span>
+                {month1Name} {year1}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="weekdays">
-        <div>Su</div>
-        <div>Mo</div>
-        <div>Tu</div>
-        <div>We</div>
-        <div>Th</div>
-        <div>Fr</div>
-        <div>Sa</div>
-      </div>
+        <div className="weekdays">
+          <div>Su</div>
+          <div>Mo</div>
+          <div>Tu</div>
+          <div>We</div>
+          <div>Th</div>
+          <div>Fr</div>
+          <div>Sa</div>
+        </div>
 
-      <div className="days">
-        {firstDayOfWeekArr.map((day) => {
-          return <div key={day}></div>;
-        })}
-        {calendarDays()}
+        <div className="days">
+          {emptyDaysArr1.map((day) => {
+            return <div key={day}></div>;
+          })}
+          {calendarDays()}
+        </div>
+        <div onClick={clearCalendar} className="clickable-date-clear">
+          CLEAR CALENDAR
+        </div>
       </div>
-      <div onClick={clearCalendar} className="clickable-date-clear">
-        CLEAR CALENDAR
-      </div>
-    </div>
+    );
+  };
+  return (
+    <>
+      <Month first={true} />
+      <Month first={false} />
+    </>
   );
 }
 
