@@ -46,7 +46,7 @@ function Calendar({
   const [bookedDates, setBookedDates] = useState("");
 
   useEffect(() => {
-    clearCalendar();
+    // clearCalendar();
     date.setDate(1);
     setFirstDayOfWeek(date.getDay());
     setFirstDayOfWeekArr([]);
@@ -166,7 +166,7 @@ function Calendar({
     setMonthName(date.toLocaleString("default", { month: "long" }));
     setMonth(date.getMonth());
     setLastDay(0);
-    clearCalendar();
+    // clearCalendar();
     if (!first) {
       setSyncForward(true);
     }
@@ -179,7 +179,7 @@ function Calendar({
     setMonthName(date.toLocaleString("default", { month: "long" }));
     setMonth(date.getMonth());
     setLastDay(0);
-    clearCalendar();
+    // clearCalendar();
     if (first) {
       setSyncBackward(true);
     }
