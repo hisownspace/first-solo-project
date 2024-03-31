@@ -19,15 +19,16 @@ function RoomDetail() {
   const roomRentals = useSelector((state) => state.rental.roomRentals);
   const [errors, setErrors] = useState([]);
   const [amenities, setAmenities] = useState([]);
-  let [ownerButtons, setOwnerButtons] = useState("");
-  let [renterOptions, setRenterOptions] = useState("");
+  let [ownerButtons, setOwnerButtons] = useState(null);
 
-  const [checkInDate, setCheckInDate] = useState("yyyy-mm-dd");
-  const [checkOutDate, setCheckOutDate] = useState("yyyy-mm-dd");
+  const [checkInDate, setCheckInDate] = useState("Check In");
+  const [checkOutDate, setCheckOutDate] = useState("Check Out");
   const [firstSelectedDate, setFirstSelectedDate] = useState("");
   const [lastSelectedDate, setLastSelectedDate] = useState("");
   const [firstSelectedMonth, setFirstSelectedMonth] = useState(Infinity);
   const [lastSelectedMonth, setLastSelectedMonth] = useState(Infinity);
+  const [firstSelectedYear, setFirstSelectedYear] = useState("");
+  const [lastSelectedYear, setLastSelectedYear] = useState("");
   const [syncForward, setSyncForward] = useState(false);
   const [syncBackward, setSyncBackward] = useState(false);
 
@@ -52,14 +53,6 @@ function RoomDetail() {
           <button onClick={editListing}>Edit Listing</button>
         </>,
       );
-      setRenterOptions(null);
-    } else {
-      setRenterOptions(
-        <>
-          <button onClick={makeReservation}>Make Reservation</button>
-        </>,
-      );
-      setOwnerButtons(null);
     }
     function removeListing() {
       const confirm = window.confirm(
@@ -136,12 +129,6 @@ function RoomDetail() {
     setErrors(["Please use calendar to the left to choose dates"]);
     scrollTo("calendar");
   };
-
-  function makeReservation() {
-    return;
-  }
-
-  function showAmenities() {}
 
   const submitReservation = (e) => {
     e.preventDefault();
@@ -248,9 +235,7 @@ function RoomDetail() {
             <div className="reviews">
               <h2>Reviews</h2>
               {amenities.length > 10 ? (
-                <button
-                  onClick={showAmenities}
-                >{`Show all ${amenities.length} amenities`}</button>
+                <button>{`Show all ${amenities.length} amenities`}</button>
               ) : null}
               <div ref={calendarRef} className="calendar-div">
                 {sessionUser.id === room.ownerId ? null : (
@@ -272,6 +257,10 @@ function RoomDetail() {
                       setFirstSelectedDate={setFirstSelectedDate}
                       lastSelectedDate={lastSelectedDate}
                       setLastSelectedDate={setLastSelectedDate}
+                      firstSelectedYear={firstSelectedYear}
+                      setFirstSelectedYear={setFirstSelectedYear}
+                      lastSelectedYear={lastSelectedYear}
+                      setLastSelectedYear={setLastSelectedYear}
                       syncForward={syncForward}
                       setSyncForward={setSyncForward}
                       syncBackward={syncBackward}
@@ -292,6 +281,10 @@ function RoomDetail() {
                       firstSelectedDate={firstSelectedDate}
                       setFirstSelectedDate={setFirstSelectedDate}
                       lastSelectedDate={lastSelectedDate}
+                      firstSelectedYear={firstSelectedYear}
+                      setFirstSelectedYear={setFirstSelectedYear}
+                      lastSelectedYear={lastSelectedYear}
+                      setLastSelectedYear={setLastSelectedYear}
                       setLastSelectedDate={setLastSelectedDate}
                       syncForward={syncForward}
                       setSyncForward={setSyncForward}
@@ -318,7 +311,7 @@ function RoomDetail() {
                   <input
                     type="text"
                     onClick={datePickerPrompt}
-                    value={checkInDate || "yyyy-mm-dd"}
+                    value={checkInDate || "Check In"}
                     readOnly={true}
                   ></input>
                 </label>
@@ -331,7 +324,7 @@ function RoomDetail() {
                 >
                   <input
                     type="text"
-                    value={checkOutDate || "yyyy-mm-dd"}
+                    value={checkOutDate || "Check Out"}
                     onClick={datePickerPrompt}
                     readOnly={true}
                   ></input>
@@ -356,10 +349,6 @@ function RoomDetail() {
                   Reserve
                 </button>
               </form>
-              {/* <div className='itemization'>
-              <div className='reservation-items'></div>
-              <div className='reservation-total'></div>
-            </div> */}
             </div>
           </div>
         </div>
@@ -370,10 +359,7 @@ function RoomDetail() {
           {room.zip}
         </li>
         <li>{room.country}</li>
-        <li>
-          {ownerButtons ? ownerButtons : null}
-          {/* {renterOptions ? renterOptions : null} */}
-        </li>
+        <li>{ownerButtons}</li>
       </div>
       <div ref={locationRef} className="maps-api">
         <iframe

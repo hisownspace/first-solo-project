@@ -11,6 +11,10 @@ function Calendar({
   firstSelectedMonth,
   setFirstSelectedMonth,
   lastSelectedMonth,
+  firstSelectedYear,
+  lastSelectedYear,
+  setFirstSelectedYear,
+  setLastSelectedYear,
   setLastSelectedMonth,
   firstSelectedDate,
   setFirstSelectedDate,
@@ -68,12 +72,15 @@ function Calendar({
 
   const selectDate = (e) => {
     const selectedDate = parseInt(e.target.innerText);
+    console.log(year);
     if (!firstSelectedDate && checkDateRange(selectedDate)) {
       setFirstSelectedDate(selectedDate);
       setFirstSelectedMonth(month);
+      setFirstSelectedYear(year);
     } else if (checkDateRange(selectedDate)) {
       setLastSelectedDate(selectedDate);
       setLastSelectedMonth(month);
+      setLastSelectedYear(year);
     }
   };
 
@@ -94,11 +101,12 @@ function Calendar({
   };
 
   useEffect(() => {
-    console.log(firstSelectedMonth);
     let tempCheckIn;
     let tempCheckOut;
     let tempFirstMonth = firstSelectedMonth.toString();
     let tempLastMonth = lastSelectedMonth.toString();
+    let tempFirstYear = firstSelectedYear;
+    let tempLastYear = lastSelectedYear;
     if (tempFirstMonth.length === 1) {
       tempFirstMonth = "0" + (firstSelectedMonth + 1);
     } else {
@@ -119,10 +127,8 @@ function Calendar({
     } else {
       tempCheckOut = lastSelectedDate;
     }
-    tempCheckIn = `${year}-${tempFirstMonth}-${tempCheckIn}`;
-    tempCheckOut = `${year}-${tempLastMonth}-${tempCheckOut}`;
-    console.log(tempCheckIn);
-    console.log(tempCheckOut);
+    tempCheckIn = `${tempFirstYear}-${tempFirstMonth}-${tempCheckIn}`;
+    tempCheckOut = `${tempLastYear}-${tempLastMonth}-${tempCheckOut}`;
 
     if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(tempCheckIn)) {
       setCheckInDate(tempCheckIn);
@@ -233,9 +239,20 @@ function Calendar({
       });
 
     return days.map((day) => {
-      const inDate = new Date(year, firstSelectedMonth, firstSelectedDate);
-      const outDate = new Date(year, lastSelectedMonth, lastSelectedDate);
+      const inDate = new Date(
+        firstSelectedYear,
+        firstSelectedMonth,
+        firstSelectedDate,
+      );
+      const outDate = new Date(
+        lastSelectedYear,
+        lastSelectedMonth,
+        lastSelectedDate,
+      );
       const calendarDate = new Date(year, month, day);
+      // console.log("inDate", inDate);
+      // console.log("outDate", outDate);
+      // console.log("calendarDate", calendarDate);
       let element;
       if (
         inDate < calendarDate &&
