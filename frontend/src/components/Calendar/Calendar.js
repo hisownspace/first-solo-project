@@ -8,6 +8,18 @@ function Calendar({
   checkOutDate,
   checkInDate,
   bookedDatesArr,
+  firstSelectedMonth,
+  setFirstSelectedMonth,
+  lastSelectedMonth,
+  setLastSelectedMonth,
+  firstSelectedDate,
+  setFirstSelectedDate,
+  lastSelectedDate,
+  setLastSelectedDate,
+  syncForward,
+  setSyncForward,
+  syncBackward,
+  setSyncBackward,
 }) {
   const [date, setDate] = useState(
     new Date(
@@ -27,10 +39,6 @@ function Calendar({
   const [firstDayOfWeek, setFirstDayOfWeek] = useState();
   const [firstDayOfWeekArr, setFirstDayOfWeekArr] = useState([]);
   const [lastDay, setLastDay] = useState(0);
-  const [firstSelectedDate, setFirstSelectedDate] = useState("");
-  const [lastSelectedDate, setLastSelectedDate] = useState("");
-  const [firstSelectedMonth, setFirstSelectedMonth] = useState(-1);
-  const [lastSelectedMonth, setLastSelectedMonth] = useState(15);
   const [bookedDates, setBookedDates] = useState("");
 
   useEffect(() => {
@@ -63,10 +71,7 @@ function Calendar({
     if (!firstSelectedDate && checkDateRange(selectedDate)) {
       setFirstSelectedDate(selectedDate);
       setFirstSelectedMonth(month);
-    } else if (
-      +e.target.innerText > firstSelectedDate &&
-      checkDateRange(selectedDate)
-    ) {
+    } else if (checkDateRange(selectedDate)) {
       setLastSelectedDate(selectedDate);
       setLastSelectedMonth(month);
     }
@@ -156,6 +161,9 @@ function Calendar({
     setMonth(date.getMonth());
     setLastDay(0);
     clearCalendar();
+    if (!first) {
+      setSyncForward(true);
+    }
   };
 
   const prevMonth = () => {
@@ -166,13 +174,29 @@ function Calendar({
     setMonth(date.getMonth());
     setLastDay(0);
     clearCalendar();
+    if (first) {
+      setSyncBackward(true);
+    }
   };
+
+  useEffect(() => {
+    if (syncForward && first) {
+      setSyncForward(false);
+      nextMonth();
+    }
+    if (syncBackward && !first) {
+      setSyncBackward(false);
+      prevMonth();
+    }
+  }, [syncForward, syncBackward]);
 
   const clearCalendar = () => {
     setFirstSelectedDate("");
     setLastSelectedDate("");
     setCheckInDate("");
     setCheckOutDate("");
+    setFirstSelectedMonth(Infinity);
+    setLastSelectedMonth(Infinity);
   };
 
   const checkForPastDate = (day) => {
@@ -209,25 +233,24 @@ function Calendar({
       });
 
     return days.map((day) => {
-      console.log("day", day);
-      console.log("firstSelectedDate", firstSelectedDate);
-      console.log("month", month);
-      console.log("firstSelectedMonth", firstSelectedMonth);
       const inDate = new Date(year, firstSelectedMonth, firstSelectedDate);
       const outDate = new Date(year, lastSelectedMonth, lastSelectedDate);
       const calendarDate = new Date(year, month, day);
-      console.log(
-        "=========================================>",
-        calendarDate == outDate,
-        calendarDate,
-        outDate,
-      );
+      if (inDate === calendarDate || outDate === calendarDate) {
+        console.log(
+          "=========================================>",
+          calendarDate === outDate,
+          calendarDate === inDate,
+          calendarDate,
+          outDate,
+        );
+      }
       let element;
       if (
         inDate < calendarDate &&
         outDate > calendarDate &&
-        firstSelectedMonth !== -1 &&
-        lastSelectedMonth != 15
+        firstSelectedMonth !== Infinity &&
+        lastSelectedMonth !== Infinity
       ) {
         element = (
           <div className="active-backing">
@@ -272,9 +295,11 @@ function Calendar({
         element = (
           <div
             key={day}
-            onClick={selectDate}
+            onClick={
+              !firstSelectedDate || inDate < calendarDate ? selectDate : null
+            }
             className={
-              !firstSelectedDate || day > firstSelectedDate
+              !firstSelectedDate || inDate < calendarDate
                 ? "clickable-date"
                 : "date"
             }
@@ -297,12 +322,15 @@ function Calendar({
     <div className="calendar">
       <div className="month">
         <div className="month-header">
-          <span className="prev" onClick={prevMonth}>
-            {"<"}
-          </span>
-          <span className="next" onClick={nextMonth}>
-            {">"}
-          </span>
+          {first ? (
+            <span className="prev" onClick={prevMonth}>
+              {"<"}
+            </span>
+          ) : (
+            <span className="next" onClick={nextMonth}>
+              {">"}
+            </span>
+          )}
           <div>
             <span>
               {monthName} {year}

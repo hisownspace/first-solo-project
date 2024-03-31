@@ -21,8 +21,16 @@ function RoomDetail() {
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState("");
   let [renterOptions, setRenterOptions] = useState("");
+
   const [checkInDate, setCheckInDate] = useState("yyyy-mm-dd");
   const [checkOutDate, setCheckOutDate] = useState("yyyy-mm-dd");
+  const [firstSelectedDate, setFirstSelectedDate] = useState("");
+  const [lastSelectedDate, setLastSelectedDate] = useState("");
+  const [firstSelectedMonth, setFirstSelectedMonth] = useState(Infinity);
+  const [lastSelectedMonth, setLastSelectedMonth] = useState(Infinity);
+  const [syncForward, setSyncForward] = useState(false);
+  const [syncBackward, setSyncBackward] = useState(false);
+
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
@@ -256,6 +264,18 @@ function RoomDetail() {
                       bookedDatesArr={bookedDatesArr}
                       setBookedDatesArr={setBookedDatesArr}
                       setErrors={setErrors}
+                      firstSelectedMonth={firstSelectedMonth}
+                      setFirstSelectedMonth={setFirstSelectedMonth}
+                      lastSelectedMonth={lastSelectedMonth}
+                      setLastSelectedMonth={setLastSelectedMonth}
+                      firstSelectedDate={firstSelectedDate}
+                      setFirstSelectedDate={setFirstSelectedDate}
+                      lastSelectedDate={lastSelectedDate}
+                      setLastSelectedDate={setLastSelectedDate}
+                      syncForward={syncForward}
+                      setSyncForward={setSyncForward}
+                      syncBackward={syncBackward}
+                      setSyncBackward={setSyncBackward}
                     />
                     <Calendar
                       setCheckInDate={setCheckInDate}
@@ -265,6 +285,18 @@ function RoomDetail() {
                       bookedDatesArr={bookedDatesArr}
                       setBookedDatesArr={setBookedDatesArr}
                       setErrors={setErrors}
+                      firstSelectedMonth={firstSelectedMonth}
+                      setFirstSelectedMonth={setFirstSelectedMonth}
+                      lastSelectedMonth={lastSelectedMonth}
+                      setLastSelectedMonth={setLastSelectedMonth}
+                      firstSelectedDate={firstSelectedDate}
+                      setFirstSelectedDate={setFirstSelectedDate}
+                      lastSelectedDate={lastSelectedDate}
+                      setLastSelectedDate={setLastSelectedDate}
+                      syncForward={syncForward}
+                      setSyncForward={setSyncForward}
+                      syncBackward={syncBackward}
+                      setSyncBackward={setSyncBackward}
                     />
                   </>
                 )}

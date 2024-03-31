@@ -67,6 +67,10 @@ body {
   border: 1px solid rgba(255, 255, 255, 0);
 }
 
+.clickable-date-clear {
+  cursor: pointer;
+}
+
 .clickable-date:hover {
   color: black;
   border-radius: 50%;
