@@ -236,15 +236,6 @@ function Calendar({
       const inDate = new Date(year, firstSelectedMonth, firstSelectedDate);
       const outDate = new Date(year, lastSelectedMonth, lastSelectedDate);
       const calendarDate = new Date(year, month, day);
-      if (inDate === calendarDate || outDate === calendarDate) {
-        console.log(
-          "=========================================>",
-          calendarDate === outDate,
-          calendarDate === inDate,
-          calendarDate,
-          outDate,
-        );
-      }
       let element;
       if (
         inDate < calendarDate &&
@@ -253,28 +244,24 @@ function Calendar({
         lastSelectedMonth !== Infinity
       ) {
         element = (
-          <div className="active-backing">
-            <div
-              key={day}
-              className="active-date clickable-date"
-              onClick={selectDate}
-            >
+          <div key={day} className="active-backing">
+            <div className="active-date clickable-date" onClick={selectDate}>
               {day}
             </div>
           </div>
         );
       } else if (inDate.toString() === calendarDate.toString()) {
         element = (
-          <div className="first-backing">
-            <div key={day} className="first-date" onClick={selectDate}>
+          <div key={day} className="first-backing">
+            <div className="first-date" onClick={selectDate}>
               {day}
             </div>
           </div>
         );
       } else if (outDate.toString() === calendarDate.toString()) {
         element = (
-          <div className="last-backing">
-            <div key={day} className="last-date" onClick={selectDate}>
+          <div key={day} className="last-backing">
+            <div className="last-date" onClick={selectDate}>
               {day}
             </div>
           </div>
