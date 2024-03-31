@@ -29,6 +29,8 @@ function Calendar({
   const [lastDay, setLastDay] = useState(0);
   const [firstSelectedDate, setFirstSelectedDate] = useState("");
   const [lastSelectedDate, setLastSelectedDate] = useState("");
+  const [firstSelectedMonth, setFirstSelectedMonth] = useState(-1);
+  const [lastSelectedMonth, setLastSelectedMonth] = useState(15);
   const [bookedDates, setBookedDates] = useState("");
 
   useEffect(() => {
@@ -60,11 +62,13 @@ function Calendar({
     const selectedDate = parseInt(e.target.innerText);
     if (!firstSelectedDate && checkDateRange(selectedDate)) {
       setFirstSelectedDate(selectedDate);
+      setFirstSelectedMonth(month);
     } else if (
       +e.target.innerText > firstSelectedDate &&
       checkDateRange(selectedDate)
     ) {
       setLastSelectedDate(selectedDate);
+      setLastSelectedMonth(month);
     }
   };
 
@@ -85,13 +89,20 @@ function Calendar({
   };
 
   useEffect(() => {
+    console.log(firstSelectedMonth);
     let tempCheckIn;
     let tempCheckOut;
-    let tempMonth = month.toString();
-    if (tempMonth.length === 1) {
-      tempMonth = "0" + (month + 1);
+    let tempFirstMonth = firstSelectedMonth.toString();
+    let tempLastMonth = lastSelectedMonth.toString();
+    if (tempFirstMonth.length === 1) {
+      tempFirstMonth = "0" + (firstSelectedMonth + 1);
     } else {
-      tempMonth = month + 1;
+      tempFirstMonth = firstSelectedMonth + 1;
+    }
+    if (tempLastMonth.length === 1) {
+      tempLastMonth = "0" + (lastSelectedMonth + 1);
+    } else {
+      tempLastMonth = lastSelectedMonth + 1;
     }
     if (firstSelectedDate < 10) {
       tempCheckIn = "0" + firstSelectedDate;
@@ -103,8 +114,10 @@ function Calendar({
     } else {
       tempCheckOut = lastSelectedDate;
     }
-    tempCheckIn = `${year}-${tempMonth}-${tempCheckIn}`;
-    tempCheckOut = `${year}-${tempMonth}-${tempCheckOut}`;
+    tempCheckIn = `${year}-${tempFirstMonth}-${tempCheckIn}`;
+    tempCheckOut = `${year}-${tempLastMonth}-${tempCheckOut}`;
+    console.log(tempCheckIn);
+    console.log(tempCheckOut);
 
     if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(tempCheckIn)) {
       setCheckInDate(tempCheckIn);
@@ -156,8 +169,8 @@ function Calendar({
   };
 
   const clearCalendar = () => {
-    setFirstSelectedDate(null);
-    setLastSelectedDate(null);
+    setFirstSelectedDate("");
+    setLastSelectedDate("");
     setCheckInDate("");
     setCheckOutDate("");
   };
@@ -196,8 +209,26 @@ function Calendar({
       });
 
     return days.map((day) => {
+      console.log("day", day);
+      console.log("firstSelectedDate", firstSelectedDate);
+      console.log("month", month);
+      console.log("firstSelectedMonth", firstSelectedMonth);
+      const inDate = new Date(year, firstSelectedMonth, firstSelectedDate);
+      const outDate = new Date(year, lastSelectedMonth, lastSelectedDate);
+      const calendarDate = new Date(year, month, day);
+      console.log(
+        "=========================================>",
+        calendarDate == outDate,
+        calendarDate,
+        outDate,
+      );
       let element;
-      if (day > firstSelectedDate && day < lastSelectedDate) {
+      if (
+        inDate < calendarDate &&
+        outDate > calendarDate &&
+        firstSelectedMonth !== -1 &&
+        lastSelectedMonth != 15
+      ) {
         element = (
           <div className="active-backing">
             <div
@@ -209,7 +240,7 @@ function Calendar({
             </div>
           </div>
         );
-      } else if (day === +firstSelectedDate) {
+      } else if (inDate.toString() === calendarDate.toString()) {
         element = (
           <div className="first-backing">
             <div key={day} className="first-date" onClick={selectDate}>
@@ -217,7 +248,7 @@ function Calendar({
             </div>
           </div>
         );
-      } else if (day === +lastSelectedDate) {
+      } else if (outDate.toString() === calendarDate.toString()) {
         element = (
           <div className="last-backing">
             <div key={day} className="last-date" onClick={selectDate}>
