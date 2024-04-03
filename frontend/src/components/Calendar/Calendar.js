@@ -285,9 +285,9 @@ function Calendar({
       let element;
       if (
         inDate < calendarDate &&
-        (outDate > calendarDate || tempOutDate > calendarDate) &&
+        ((outDate > calendarDate &&
         firstSelectedMonth !== Infinity &&
-        lastSelectedMonth !== Infinity &&
+        lastSelectedMonth !== Infinity) || tempOutDate > calendarDate) &&
         idx === 0
       ) {
         element = (
@@ -300,9 +300,9 @@ function Calendar({
         );
       } else if (
         inDate < calendarDate &&
-        (outDate > calendarDate || tempOutDate > calendarDate) &&
+        ((outDate > calendarDate &&
         firstSelectedMonth !== Infinity &&
-        lastSelectedMonth !== Infinity &&
+        lastSelectedMonth !== Infinity) || tempOutDate > calendarDate) &&
         idx === days.length-1
       ) {
         element = (
