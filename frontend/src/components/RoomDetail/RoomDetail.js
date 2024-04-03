@@ -31,6 +31,9 @@ function RoomDetail() {
   const [lastSelectedYear, setLastSelectedYear] = useState("");
   const [syncForward, setSyncForward] = useState(false);
   const [syncBackward, setSyncBackward] = useState(false);
+  const [tempLastSelectedDate, setTempLastSelectedDate] = useState("");
+  const [tempLastSelectedMonth, setTempLastSelectedMonth] = useState("");
+  const [tempLastSelectedYear, setTempLastSelectedYear] = useState("");
 
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
@@ -265,6 +268,12 @@ function RoomDetail() {
                       setSyncForward={setSyncForward}
                       syncBackward={syncBackward}
                       setSyncBackward={setSyncBackward}
+              tempLastSelectedDate={tempLastSelectedDate}
+              tempLastSelectedMonth={tempLastSelectedMonth}
+              tempLastSelectedYear={tempLastSelectedYear}
+              setTempLastSelectedDate={setTempLastSelectedDate}
+              setTempLastSelectedMonth={setTempLastSelectedMonth}
+              setTempLastSelectedYear={setTempLastSelectedYear}
                     />
                     <Calendar
                       setCheckInDate={setCheckInDate}
@@ -290,6 +299,12 @@ function RoomDetail() {
                       setSyncForward={setSyncForward}
                       syncBackward={syncBackward}
                       setSyncBackward={setSyncBackward}
+              tempLastSelectedDate={tempLastSelectedDate}
+              tempLastSelectedMonth={tempLastSelectedMonth}
+              tempLastSelectedYear={tempLastSelectedYear}
+              setTempLastSelectedDate={setTempLastSelectedDate}
+              setTempLastSelectedMonth={setTempLastSelectedMonth}
+              setTempLastSelectedYear={setTempLastSelectedYear}
                     />
                   </>
                 )}
