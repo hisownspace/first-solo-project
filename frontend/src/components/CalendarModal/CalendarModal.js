@@ -20,6 +20,9 @@ function CalendarModal({
   const [lastSelectedDate, setLastSelectedDate] = useState("");
   const [lastSelectedMonth, setLastSelectedMonth] = useState("");
   const [lastSelectedYear, setLastSelectedYear] = useState("");
+  const [tempLastSelectedDate, setTempLastSelectedDate] = useState("");
+  const [tempLastSelectedMonth, setTempLastSelectedMonth] = useState("");
+  const [tempLastSelectedYear, setTempLastSelectedYear] = useState("");
   return (
     <>
       {showModal && (
@@ -45,6 +48,12 @@ function CalendarModal({
               setLastSelectedMonth={setLastSelectedMonth}
               lastSelectedYear={lastSelectedYear}
               setLastSelectedYear={setLastSelectedYear}
+              tempLastSelectedDate={tempLastSelectedDate}
+              tempLastSelectedMonth={tempLastSelectedMonth}
+              tempLastSelectedYear={tempLastSelectedYear}
+              setTempLastSelectedDate={setTempLastSelectedDate}
+              setTempLastSelectedMonth={setTempLastSelectedMonth}
+              setTempLastSelectedYear={setTempLastSelectedYear}
             />
             <Calendar
               first={false}
@@ -66,6 +75,12 @@ function CalendarModal({
               setLastSelectedMonth={setLastSelectedMonth}
               lastSelectedYear={lastSelectedYear}
               setLastSelectedYear={setLastSelectedYear}
+              tempLastSelectedDate={tempLastSelectedDate}
+              tempLastSelectedMonth={tempLastSelectedMonth}
+              tempLastSelectedYear={tempLastSelectedYear}
+              setTempLastSelectedDate={setTempLastSelectedDate}
+              setTempLastSelectedMonth={setTempLastSelectedMonth}
+              setTempLastSelectedYear={setTempLastSelectedYear}
             />
           </div>
         </Modal>

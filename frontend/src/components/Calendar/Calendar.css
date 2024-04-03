@@ -81,8 +81,34 @@ body {
 
 .active-backing {
   border: 1px solid rgba(0, 0, 0, 0);
-  background-color: rgba(102, 102, 102, 0.05);
+  background-color: rgba(102, 102, 102, 0.09);
   z-index: 0;
+}
+
+.transition-last {
+  background: linear-gradient(90deg, rgba(102, 102, 102, 0.09), rgba(102, 102, 102, 0.01));
+  width: 200%;
+  display: grid !important;
+  grid-template-rows: 1fr 1fr;
+}
+
+.transition-last > .active-date {
+  width: 50%;
+  margin-right: 0;
+}
+
+.transition-first {
+  background: linear-gradient(90deg, rgba(102, 102, 102, 0.01), rgba(102, 102, 102, 0.09));
+  width: 200%;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  right: 100%;
+}
+
+.transition-first > .active-date {
+  margin-left: 0;
+  position: relative;
 }
 
 .first-date {
@@ -102,11 +128,11 @@ body {
 }
 
 .first-backing {
-  background: linear-gradient(90deg, white 50%, rgba(102, 102, 102, 0.05) 50%);
+  background: linear-gradient(90deg, white 50%, rgba(102, 102, 102, 0.09) 50%);
 }
 
 .last-backing {
-  background: linear-gradient(90deg, rgba(102, 102, 102, 0.05) 50%, white 50%);
+  background: linear-gradient(90deg, rgba(102, 102, 102, 0.09) 50%, white 50%);
 }
 
 .calendar {
