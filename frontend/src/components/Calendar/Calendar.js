@@ -452,9 +452,9 @@ function Calendar({
         })}
         {calendarDays()}
       </div>
-      <div onClick={clearCalendar} className="clickable-date-clear">
+      {first ? <div onClick={clearCalendar} className="clickable-date-clear">
         CLEAR CALENDAR
-      </div>
+      </div> : null}
     </div>
   );
 }

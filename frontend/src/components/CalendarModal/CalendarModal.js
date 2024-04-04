@@ -23,6 +23,8 @@ function CalendarModal({
   const [tempLastSelectedDate, setTempLastSelectedDate] = useState("");
   const [tempLastSelectedMonth, setTempLastSelectedMonth] = useState("");
   const [tempLastSelectedYear, setTempLastSelectedYear] = useState("");
+  const [syncForward, setSyncForward] = useState(false);
+  const [syncBackward, setSyncBackward] = useState(false);
   return (
     <>
       {showModal && (
@@ -54,6 +56,10 @@ function CalendarModal({
               setTempLastSelectedDate={setTempLastSelectedDate}
               setTempLastSelectedMonth={setTempLastSelectedMonth}
               setTempLastSelectedYear={setTempLastSelectedYear}
+              syncForward={syncForward}
+              setSyncForward={setSyncForward}
+              syncBackward={syncBackward}
+              setSyncBackward={setSyncBackward}
             />
             <Calendar
               first={false}
@@ -81,6 +87,10 @@ function CalendarModal({
               setTempLastSelectedDate={setTempLastSelectedDate}
               setTempLastSelectedMonth={setTempLastSelectedMonth}
               setTempLastSelectedYear={setTempLastSelectedYear}
+              syncForward={syncForward}
+              setSyncForward={setSyncForward}
+              syncBackward={syncBackward}
+              setSyncBackward={setSyncBackward}
             />
           </div>
         </Modal>
