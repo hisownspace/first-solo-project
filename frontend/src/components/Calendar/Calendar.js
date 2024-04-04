@@ -30,6 +30,9 @@ function Calendar({
   setTempLastSelectedDate,
   setTempLastSelectedMonth,
   setTempLastSelectedYear,
+  checkIn,
+  checkOut,
+  searchInput,
 }) {
   const [date] = useState(
     new Date(
@@ -77,11 +80,10 @@ function Calendar({
     clearCalendar();
   }, [lastDay, date, firstDayOfWeek]);
 
-
   const clearTempDate = (e) => {
-      setTempLastSelectedDate("");
-      setTempLastSelectedMonth("");
-      setTempLastSelectedYear("");
+    setTempLastSelectedDate("");
+    setTempLastSelectedMonth("");
+    setTempLastSelectedYear("");
   };
 
   const selectTempDate = (e) => {
@@ -96,28 +98,43 @@ function Calendar({
     }
   };
 
-
   const selectDate = (e) => {
     const selectedDate = parseInt(e.target.innerText);
     if (!firstSelectedDate && checkDateRange(selectedDate)) {
       setFirstSelectedDate(selectedDate);
       setFirstSelectedMonth(month);
       setFirstSelectedYear(year);
+      checkIn.current.className = "inactive-expanded";
+      checkOut.current.className = "active-expanded";
     } else if (checkDateRange(selectedDate)) {
-      console.log("TRUE!!!!!!!")
+      console.log("TRUE!!!!!!!");
       setLastSelectedDate(selectedDate);
       setLastSelectedMonth(month);
       setLastSelectedYear(year);
+      checkOut.current.className = "inactive-expanded";
+      searchInput.current.id = "active-expanded";
+      searchInput.current.focus();
     }
     clearTempDate();
   };
 
   const checkDateRange = (selectedDate) => {
     const selectedDateObj = new Date(year, month, selectedDate);
-    const firstSelectedDateObj = new Date(firstSelectedYear, firstSelectedMonth, firstSelectedDate);
+    const firstSelectedDateObj = new Date(
+      firstSelectedYear,
+      firstSelectedMonth,
+      firstSelectedDate,
+    );
     for (let i = 0; i < bookedDates.length; i++) {
-      const bookedDateObj = new Date(bookedDates[i].year, bookedDates[i].month, bookedDates[i].day)
-      if (selectedDateObj > bookedDateObj && bookedDateObj > firstSelectedDateObj ) {
+      const bookedDateObj = new Date(
+        bookedDates[i].year,
+        bookedDates[i].month,
+        bookedDates[i].day,
+      );
+      if (
+        selectedDateObj > bookedDateObj &&
+        bookedDateObj > firstSelectedDateObj
+      ) {
         console.log("FALSE!!!!!!!");
         return false;
       }
@@ -170,24 +187,35 @@ function Calendar({
       setErrors(false);
     }
     let bookedDates = [];
-    bookedDatesArr
-      .forEach((dateRange) => {
-        let maxDays;
-        if (dateRange[0].month === dateRange[1].month) {
-          maxDays = dateRange[1].day;
-          for (let i = dateRange[0].day; i <= maxDays; i += 1) {
-            bookedDates.push({day: i, month: dateRange[0].month, year: dateRange[0].year });
-          }
-        } else {
-          maxDays = new Date(dateRange[1].year, dateRange[1].month, 0).getDate();
-          for (let i = dateRange[0].day; i <= maxDays; i += 1) {
-            bookedDates.push({day: i, month: dateRange[0].month, year: dateRange[0].year });
-          }
-          for (let i = 1; i <= dateRange[1].day; i += 1) {
-            bookedDates.push({day: i, month: dateRange[1].month, year: dateRange[1].year });
-          }
+    bookedDatesArr.forEach((dateRange) => {
+      let maxDays;
+      if (dateRange[0].month === dateRange[1].month) {
+        maxDays = dateRange[1].day;
+        for (let i = dateRange[0].day; i <= maxDays; i += 1) {
+          bookedDates.push({
+            day: i,
+            month: dateRange[0].month,
+            year: dateRange[0].year,
+          });
         }
-      });
+      } else {
+        maxDays = new Date(dateRange[1].year, dateRange[1].month, 0).getDate();
+        for (let i = dateRange[0].day; i <= maxDays; i += 1) {
+          bookedDates.push({
+            day: i,
+            month: dateRange[0].month,
+            year: dateRange[0].year,
+          });
+        }
+        for (let i = 1; i <= dateRange[1].day; i += 1) {
+          bookedDates.push({
+            day: i,
+            month: dateRange[1].month,
+            year: dateRange[1].year,
+          });
+        }
+      }
+    });
     setBookedDates(bookedDates);
   }, [firstSelectedDate, lastSelectedDate, month, year]);
 
@@ -253,7 +281,7 @@ function Calendar({
       }
     }
     return false;
-  }
+  };
 
   const checkForPastDate = (day) => {
     const today = new Date();
@@ -305,21 +333,24 @@ function Calendar({
         tempLastSelectedDate,
       );
       const calendarDate = new Date(year, month, day);
-      // console.log("inDate", inDate);
-      // console.log("outDate", outDate);
-      // console.log("calendarDate", calendarDate);
       let element;
       if (
         inDate < calendarDate &&
         ((outDate > calendarDate &&
-        firstSelectedMonth !== Infinity &&
-        lastSelectedMonth !== Infinity) || tempOutDate > calendarDate) &&
+          firstSelectedMonth !== Infinity &&
+          lastSelectedMonth !== Infinity) ||
+          tempOutDate > calendarDate) &&
         idx === 0
       ) {
         element = (
           <div key={day} className="transition-first">
             <div></div>
-            <div className="active-date clickable-date" onClick={selectDate} onMouseEnter={selectTempDate} onMouseLeave={clearTempDate} >
+            <div
+              className="active-date clickable-date"
+              onClick={selectDate}
+              onMouseEnter={selectTempDate}
+              onMouseLeave={clearTempDate}
+            >
               {day}
             </div>
           </div>
@@ -327,13 +358,19 @@ function Calendar({
       } else if (
         inDate < calendarDate &&
         ((outDate > calendarDate &&
-        firstSelectedMonth !== Infinity &&
-        lastSelectedMonth !== Infinity) || tempOutDate > calendarDate) &&
-        idx === days.length-1
+          firstSelectedMonth !== Infinity &&
+          lastSelectedMonth !== Infinity) ||
+          tempOutDate > calendarDate) &&
+        idx === days.length - 1
       ) {
         element = (
           <div key={day} className="transition-last">
-            <div className="active-date clickable-date" onMouseEnter={selectTempDate} onMouseLeave={clearTempDate} onClick={selectDate}>
+            <div
+              className="active-date clickable-date"
+              onMouseEnter={selectTempDate}
+              onMouseLeave={clearTempDate}
+              onClick={selectDate}
+            >
               {day}
             </div>
           </div>
@@ -341,35 +378,53 @@ function Calendar({
       } else if (
         inDate < calendarDate &&
         ((outDate > calendarDate &&
-        firstSelectedMonth !== Infinity &&
-        lastSelectedMonth !== Infinity)
-        || tempOutDate > calendarDate)
+          firstSelectedMonth !== Infinity &&
+          lastSelectedMonth !== Infinity) ||
+          tempOutDate > calendarDate)
       ) {
         element = (
-          <div key={day} className="active-backing">
-            <div className="active-date clickable-date" onMouseEnter={selectTempDate} onMouseOut={clearTempDate} onClick={selectDate}>
+          <div
+            key={day}
+            onMouseEnter={selectTempDate}
+            className="active-backing"
+          >
+            <div
+              className="active-date clickable-date"
+              onMouseOut={clearTempDate}
+              onClick={selectDate}
+            >
               {day}
             </div>
           </div>
         );
       } else if (inDate.toString() === calendarDate.toString()) {
-        // console.log(lastSelectedDate);
-      {element = !isNaN(parseInt(lastSelectedDate)) || tempLastSelectedDate ? (
-          <div key={day} className="first-backing">
-            <div className="first-date">
-              {day}
-            </div>
-          </div>
-        ) : 
-         (
-            <div onMouseLeave={clearTempDate} className="first-date">
-              {day}
-            </div>
-          )};
-      } else if (outDate.toString() === calendarDate.toString() || tempOutDate.toString() === calendarDate.toString()) {
+        {
+          element =
+            !isNaN(parseInt(lastSelectedDate)) || tempLastSelectedDate ? (
+              <div key={day} className="first-backing">
+                <div className="first-date">{day}</div>
+              </div>
+            ) : (
+              <div onMouseLeave={clearTempDate} className="first-date">
+                {day}
+              </div>
+            );
+        }
+      } else if (
+        outDate.toString() === calendarDate.toString() ||
+        tempOutDate.toString() === calendarDate.toString()
+      ) {
         element = (
           <div key={day} className="last-backing">
-            <div className={tempLastSelectedDate ? "last-date clickable-date" : "last-date"} onMouseLeave={clearTempDate} onClick={selectDate}>
+            <div
+              className={
+                tempLastSelectedDate
+                  ? "last-date temp-clickable-date"
+                  : "last-date"
+              }
+              onMouseLeave={clearTempDate}
+              onClick={selectDate}
+            >
               {day}
             </div>
           </div>
@@ -394,7 +449,11 @@ function Calendar({
               !firstSelectedDate || inDate < calendarDate ? selectDate : null
             }
             onMouseLeave={clearTempDate}
-            onMouseEnter={!firstSelectedDate || inDate < calendarDate ? selectTempDate : null}
+            onMouseEnter={
+              !firstSelectedDate || inDate < calendarDate
+                ? selectTempDate
+                : null
+            }
             className={
               !firstSelectedDate || inDate < calendarDate
                 ? "clickable-date"
@@ -452,9 +511,11 @@ function Calendar({
         })}
         {calendarDays()}
       </div>
-      {first ? <div onClick={clearCalendar} className="clickable-date-clear">
-        CLEAR CALENDAR
-      </div> : null}
+      {first ? (
+        <div onClick={clearCalendar} className="clickable-date-clear">
+          CLEAR CALENDAR
+        </div>
+      ) : null}
     </div>
   );
 }

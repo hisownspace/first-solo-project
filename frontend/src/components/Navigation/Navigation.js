@@ -11,10 +11,14 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   const [searchValue, setSearchValue] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
   const searchInput = useRef(null);
   const verticalLine = useRef(null);
   const dateButton = useRef(null);
   const header = useRef(null);
+  const checkIn = useRef(null);
+  const checkOut = useRef(null);
   const history = useHistory();
 
   const searchForRoom = (e) => {
@@ -36,6 +40,7 @@ function Navigation({ isLoaded }) {
     } else {
       header.current.classList.remove("header-expanded");
       searchInput.current.classList.remove("search-input-expanded");
+      searchInput.current.id = "";
       dateButton.current.classList.remove("date-button-expanded");
       verticalLine.current.classList.remove("vertical-line-expanded");
     }
@@ -62,13 +67,30 @@ function Navigation({ isLoaded }) {
         <img className="site-logo" alt="roomshare logo" src={logo}></img>
       </NavLink>
       <div className="header-mid">
-        <div
-          ref={dateButton}
-          className="date-button"
-          onClick={toggleCalendarModal}
-        >
-          Pick Dates
-        </div>
+        {showModal ? (
+          <div
+            ref={dateButton}
+            className="date-button"
+            onClick={toggleCalendarModal}
+          >
+            <div ref={checkIn} className="active-expanded">
+              <p>Check In Date</p>
+              <p>{checkInDate}</p>
+            </div>
+            <div ref={checkOut} className="inactive-expanded">
+              <p>Check Out Date</p>
+              <p>{checkOutDate}</p>
+            </div>
+          </div>
+        ) : (
+          <div
+            ref={dateButton}
+            className="date-button"
+            onClick={toggleCalendarModal}
+          >
+            Pick Dates
+          </div>
+        )}
         <div className="vertical-line" ref={verticalLine} />
         <form onSubmit={searchForRoom}>
           <input
@@ -92,6 +114,10 @@ function Navigation({ isLoaded }) {
         </form>
       </div>
       <CalendarModal
+        checkInDate={checkInDate}
+        checkOutDate={checkOutDate}
+        setCheckInDate={setCheckInDate}
+        setCheckOutDate={setCheckOutDate}
         showModal={showModal}
         setShowModal={setShowModal}
         searchInput={searchInput}
@@ -99,6 +125,8 @@ function Navigation({ isLoaded }) {
         dateButton={dateButton}
         header={header}
         toggleCalendarModal={toggleCalendarModal}
+        checkIn={checkIn}
+        checkOut={checkOut}
       />
       {isLoaded && sessionLinks}
     </div>
