@@ -10,10 +10,14 @@ function CalendarModal({
   dateButton,
   verticalLine,
   toggleCalendarModal,
+  checkInDate,
+  checkOutDate,
+  setCheckInDate,
+  setCheckOutDate,
+  checkIn,
+  checkOut,
 }) {
   const [errors, setErrors] = useState("");
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
   const [firstSelectedDate, setFirstSelectedDate] = useState("");
   const [firstSelectedMonth, setFirstSelectedMonth] = useState("");
   const [firstSelectedYear, setFirstSelectedYear] = useState("");
@@ -31,8 +35,8 @@ function CalendarModal({
             <Calendar
               first={true}
               bookedDatesArr={[]}
-              setCheckInDate={() => {}}
-              setCheckOutDate={() => {}}
+              setCheckInDate={setCheckInDate}
+              setCheckOutDate={setCheckOutDate}
               setErrors={setErrors}
               checkInDate={checkInDate}
               checkOutDate={checkOutDate}
@@ -54,6 +58,9 @@ function CalendarModal({
               setTempLastSelectedDate={setTempLastSelectedDate}
               setTempLastSelectedMonth={setTempLastSelectedMonth}
               setTempLastSelectedYear={setTempLastSelectedYear}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              searchInput={searchInput}
             />
             <Calendar
               first={false}
@@ -81,6 +88,7 @@ function CalendarModal({
               setTempLastSelectedDate={setTempLastSelectedDate}
               setTempLastSelectedMonth={setTempLastSelectedMonth}
               setTempLastSelectedYear={setTempLastSelectedYear}
+              searchInput={searchInput}
             />
           </div>
         </Modal>

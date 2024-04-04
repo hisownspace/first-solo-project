@@ -60,6 +60,9 @@ body {
   color: black;
   border: 1px solid rgba(255, 255, 255, 0);
 }
+.temp-clickable-date {
+  cursor: pointer;
+}
 
 .date {
   border-radius: 50%;
@@ -69,6 +72,7 @@ body {
 
 .clickable-date-clear {
   cursor: pointer;
+  margin-top: 35px;
 }
 
 .clickable-date:hover {
@@ -86,7 +90,11 @@ body {
 }
 
 .transition-last {
-  background: linear-gradient(90deg, rgba(102, 102, 102, 0.09), rgba(102, 102, 102, 0.01));
+  background: linear-gradient(
+    90deg,
+    rgba(102, 102, 102, 0.09),
+    rgba(102, 102, 102, 0.01)
+  );
   width: 200%;
   display: grid !important;
   grid-template-rows: 1fr 1fr;
@@ -98,7 +106,11 @@ body {
 }
 
 .transition-first {
-  background: linear-gradient(90deg, rgba(102, 102, 102, 0.01), rgba(102, 102, 102, 0.09));
+  background: linear-gradient(
+    90deg,
+    rgba(102, 102, 102, 0.01),
+    rgba(102, 102, 102, 0.09)
+  );
   width: 200%;
   display: grid !important;
   grid-template-columns: 1fr 1fr;
@@ -139,6 +151,7 @@ body {
   cursor: default;
   width: 400px;
   margin: auto;
+  margin-left: 5px;
   height: 465px;
 }
 

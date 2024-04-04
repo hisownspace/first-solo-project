@@ -40,6 +40,7 @@ button {
   text-align: center;
   line-height: 40px;
   cursor: pointer;
+  background-color: white;
 }
 
 .search-input {
@@ -72,19 +73,43 @@ button {
   height: 40px;
 }
 
+#active-expanded {
+  background-color: white;
+  /* box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3); */
+}
+
+.active-expanded {
+  width: 49%;
+  height: 90%;
+  margin: 3px auto;
+  border-radius: 40px;
+  background-color: white;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+}
+
+.inactive-expanded {
+  width: 49%;
+  height: 90%;
+  margin: 3px auto;
+  border-radius: 40px;
+  background-color: #dddddd;
+}
+
 .date-button-expanded {
   transition:
     top 0.25s ease-in-out,
     width 0.25s ease-in-out,
     height 0.25s ease-in-out,
     line-height 0.25s ease-in-out;
-  width: 250px;
+  width: 450px;
   height: 85px;
   top: 80px;
   right: 50.25vw;
   border-radius: 42.5px 0 0 42.5px;
-  line-height: 95px;
-  font-size: 20px;
+  font-size: 14px;
+  display: flex;
+  line-height: 15px;
+  background-color: #dddddd;
 }
 
 .search-input-expanded {
@@ -92,12 +117,13 @@ button {
     top 0.25s ease-in-out,
     width 0.25s ease-in-out,
     height 0.25s ease-in-out;
-  width: 250px;
+  width: 450px;
   height: 85px;
   top: 80px;
   left: 49.75vw;
   border-radius: 0 42.5px 42.5px 0;
   font-size: 30px;
+  background-color: #dddddd;
 }
 .search-input-expanded::placeholder {
   font-size: 20px !important;
