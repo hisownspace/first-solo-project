@@ -23,20 +23,19 @@ function Navigation({ isLoaded }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const searchForRoom = (e) => {
+  const searchForRoom = async (e) => {
     e.preventDefault();
-    if (searchValue) {
+    // if (searchValue) {
       setSearchValue("");
       searchInput.current.blur();
-      console.log(searchValue);
-      console.log(checkInDate);
-      console.log(checkOutDate);
       if (showModal) {
         toggleCalendarModal(e);
       }
-      dispatch(searchRooms({ searchValue, checkInDate, checkOutDate }));
+      console.log("searching for room")
+      const rooms = await dispatch(searchRooms({ searchValue, checkInDate, checkOutDate }));
+      console.log(rooms);
       // return history.push(`/rooms/search/${searchValue}`);
-    }
+    // }
   };
 
   const toggleCalendarModal = (e) => {
@@ -114,6 +113,7 @@ function Navigation({ isLoaded }) {
               verticalLine.current.style.display = "none";
               e.target.select();
             }}
+            required={false}
             onBlur={() => {
               searchInput.current.classList.remove("search-input-focused");
               verticalLine.current.style.display = "inline-block";

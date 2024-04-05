@@ -68,6 +68,7 @@ function CalendarModal({
               checkIn={checkIn}
               checkOut={checkOut}
               searchInput={searchInput}
+              fromModal={true}
             />
             <Calendar
               first={false}
@@ -103,6 +104,7 @@ function CalendarModal({
               checkOut={checkOut}
               searchInput={searchInput}
               searchForRoom={searchForRoom}
+              fromModal={true}
             />
           </div>
         </Modal>

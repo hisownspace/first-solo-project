@@ -150,8 +150,8 @@ function RoomDetail() {
           renterId: sessionUser.id,
           roomId: room.id,
           guests,
-          checkIn: new Date(inYear, inMonth, inDay, 16),
-          checkOut: new Date(outYear, outMonth, outDay, 9),
+          checkIn: new Date(inYear, inMonth, inDay),
+          checkOut: new Date(outYear, outMonth, outDay),
         }),
       );
       setErrors([]);
@@ -268,12 +268,12 @@ function RoomDetail() {
                       setSyncForward={setSyncForward}
                       syncBackward={syncBackward}
                       setSyncBackward={setSyncBackward}
-              tempLastSelectedDate={tempLastSelectedDate}
-              tempLastSelectedMonth={tempLastSelectedMonth}
-              tempLastSelectedYear={tempLastSelectedYear}
-              setTempLastSelectedDate={setTempLastSelectedDate}
-              setTempLastSelectedMonth={setTempLastSelectedMonth}
-              setTempLastSelectedYear={setTempLastSelectedYear}
+                      tempLastSelectedDate={tempLastSelectedDate}
+                      tempLastSelectedMonth={tempLastSelectedMonth}
+                      tempLastSelectedYear={tempLastSelectedYear}
+                      setTempLastSelectedDate={setTempLastSelectedDate}
+                      setTempLastSelectedMonth={setTempLastSelectedMonth}
+                      setTempLastSelectedYear={setTempLastSelectedYear}
                     />
                     <Calendar
                       setCheckInDate={setCheckInDate}
@@ -299,12 +299,12 @@ function RoomDetail() {
                       setSyncForward={setSyncForward}
                       syncBackward={syncBackward}
                       setSyncBackward={setSyncBackward}
-              tempLastSelectedDate={tempLastSelectedDate}
-              tempLastSelectedMonth={tempLastSelectedMonth}
-              tempLastSelectedYear={tempLastSelectedYear}
-              setTempLastSelectedDate={setTempLastSelectedDate}
-              setTempLastSelectedMonth={setTempLastSelectedMonth}
-              setTempLastSelectedYear={setTempLastSelectedYear}
+                      tempLastSelectedDate={tempLastSelectedDate}
+                      tempLastSelectedMonth={tempLastSelectedMonth}
+                      tempLastSelectedYear={tempLastSelectedYear}
+                      setTempLastSelectedDate={setTempLastSelectedDate}
+                      setTempLastSelectedMonth={setTempLastSelectedMonth}
+                      setTempLastSelectedYear={setTempLastSelectedYear}
                     />
                   </>
                 )}

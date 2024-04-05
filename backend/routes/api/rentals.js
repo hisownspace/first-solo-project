@@ -16,7 +16,10 @@ router.post(
   "/",
   restoreUser,
   asyncHandler(async (req, res, next) => {
-    const { renterId, roomId, guests, checkIn, checkOut } = req.body;
+    let { renterId, roomId, guests, checkIn, checkOut } = req.body;
+
+    checkIn = new Date(checkIn);
+    checkOut = new Date(checkOut);
 
     const rentals = await Rental.findAll({
       where: {
@@ -60,6 +63,9 @@ router.post(
       }
       return false;
     }, true);
+
+    console.log("type of checkIn: ", typeof checkIn);
+    console.log("type of checkOut: ", typeof checkOut);
 
     if (valid) {
       const rental = await Rental.create({

@@ -78,13 +78,20 @@ router.post(
   "/search",
   restoreUser,
   asyncHandler(async (req, res) => {
-    const { searchValue, checkInDate, checkOutDate } = req.body;
-    const rooms = await Rental.findAll({
+    let { searchValue, checkInDate, checkOutDate } = req.body;
+    if (checkInDate === "" || checkOutDate === "") {
+      checkInDate = new Date(0,0,0,0,0,0);
+      checkOutDate = new Date(0,0,0,0,0,0);
+    }
+    console.log(checkInDate);
+
+    checkInDate = new Date(checkInDate);
+    checkOutDate = new Date(checkOutDate);
+
+    checkOutDate.setDate(checkOutDate.getDate() + 1);
+
+    let rooms = await Room.findAll({
       order: [["updatedAt", "DESC"]],
-      // where: {},
-      include: [
-        {
-          model: Room,
           where: {
             [Op.or]: {
               title: { [Op.iLike]: `%${searchValue}%` },
@@ -94,9 +101,22 @@ router.post(
               amenities: { [Op.iLike]: `%${searchValue}%` },
             },
           },
+      include: [
+        {
+          model: Rental,
+          required: false,
+          where: {
+            [Op.or]: {
+              checkIn: { [Op.gt]: (checkInDate), [Op.lt]: (checkOutDate)  },
+              checkOut: { [Op.gt]: (checkInDate), [Op.lt]: (checkOutDate) }
+            }
+          }
         },
       ],
     });
+    rooms = rooms.filter(el => {
+      return el.Rentals.length === 0;
+    })
     console.log(rooms);
     return res.json(rooms);
   }),

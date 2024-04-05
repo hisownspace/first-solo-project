@@ -33,7 +33,8 @@ function Calendar({
   checkIn,
   checkOut,
   searchInput,
-  searchForRoom
+  searchForRoom,
+  fromModal,
 }) {
   const [date] = useState(
     new Date(
@@ -111,16 +112,20 @@ function Calendar({
       setFirstSelectedDate(selectedDate);
       setFirstSelectedMonth(month);
       setFirstSelectedYear(year);
-      checkIn.current.className = "inactive-expanded";
-      checkOut.current.className = "active-expanded";
+      if (fromModal) {
+        checkIn.current.className = "inactive-expanded";
+        checkOut.current.className = "active-expanded";
+      }
     } else if (checkDateRange(selectedDate)) {
       console.log("TRUE!!!!!!!");
       setLastSelectedDate(selectedDate);
       setLastSelectedMonth(month);
       setLastSelectedYear(year);
-      checkOut.current.className = "inactive-expanded";
-      searchInput.current.id = "active-expanded";
-      searchInput.current.focus();
+      if (fromModal) {
+        checkOut.current.className = "inactive-expanded";
+        searchInput.current.id = "active-expanded";
+        searchInput.current.focus();
+      }
     }
     clearTempDate();
   };
