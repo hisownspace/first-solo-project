@@ -26,7 +26,13 @@ function Navigation({ isLoaded }) {
     if (searchValue) {
       setSearchValue("");
       searchInput.current.blur();
-      return history.push(`/rooms/search/${searchValue}`);
+      console.log(searchValue);
+      console.log(checkInDate);
+      console.log(checkOutDate);
+      if (showModal) {
+        toggleCalendarModal(e);
+      }
+      // return history.push(`/rooms/search/${searchValue}`);
     }
   };
 
@@ -99,10 +105,11 @@ function Navigation({ isLoaded }) {
             value={searchValue}
             placeholder="Search"
             onChange={(e) => setSearchValue(e.target.value)}
-            onFocus={() => {
+            onFocus={(e) => {
               searchInput.current.classList.add("search-input-focused");
               searchInput.current.placeholder = "";
               verticalLine.current.style.display = "none";
+              e.target.select();
             }}
             onBlur={() => {
               searchInput.current.classList.remove("search-input-focused");
@@ -127,6 +134,7 @@ function Navigation({ isLoaded }) {
         toggleCalendarModal={toggleCalendarModal}
         checkIn={checkIn}
         checkOut={checkOut}
+        searchForRoom={searchForRoom}
       />
       {isLoaded && sessionLinks}
     </div>

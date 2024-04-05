@@ -163,3 +163,16 @@ body {
 .expired-date {
   color: rgba(0, 0, 0, 0.192);
 }
+
+.search-button-container {
+  display: flex;
+  margin-top: 25px;
+  justify-content: end;
+}
+
+.search-button {
+  font-size: 15px;
+  width: 225px;
+  border-radius: 5px;
+  margin-right: 0;
+}

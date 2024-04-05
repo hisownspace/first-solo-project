@@ -33,6 +33,7 @@ function Calendar({
   checkIn,
   checkOut,
   searchInput,
+  searchForRoom
 }) {
   const [date] = useState(
     new Date(
@@ -79,6 +80,12 @@ function Calendar({
     setYear(date.getFullYear());
     clearCalendar();
   }, [lastDay, date, firstDayOfWeek]);
+
+  const submitSearch = () => {
+    console.log(checkInDate);
+    console.log(checkOutDate);
+    console.log(searchInput.current.value);
+  }
 
   const clearTempDate = (e) => {
     setTempLastSelectedDate("");
@@ -515,7 +522,7 @@ function Calendar({
         <div onClick={clearCalendar} className="clickable-date-clear">
           CLEAR CALENDAR
         </div>
-      ) : null}
+      ) : <div className="search-button-container"><button className="search-button" onClick={searchForRoom}>Search For Available Rooms</button></div>}
     </div>
   );
 }

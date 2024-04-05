@@ -16,6 +16,7 @@ function CalendarModal({
   setCheckOutDate,
   checkIn,
   checkOut,
+  searchForRoom
 }) {
   const [errors, setErrors] = useState("");
   const [firstSelectedDate, setFirstSelectedDate] = useState("");
@@ -98,7 +99,10 @@ function CalendarModal({
               setSyncForward={setSyncForward}
               syncBackward={syncBackward}
               setSyncBackward={setSyncBackward}
+              checkIn={checkIn}
+              checkOut={checkOut}
               searchInput={searchInput}
+              searchForRoom={searchForRoom}
             />
           </div>
         </Modal>
