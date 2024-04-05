@@ -74,6 +74,34 @@ router.get(
   }),
 );
 
+router.post(
+  "/search",
+  restoreUser,
+  asyncHandler(async (req, res) => {
+    const { searchValue, checkInDate, checkOutDate } = req.body;
+    const rooms = await Rental.findAll({
+      order: [["updatedAt", "DESC"]],
+      // where: {},
+      include: [
+        {
+          model: Room,
+          where: {
+            [Op.or]: {
+              title: { [Op.iLike]: `%${searchValue}%` },
+              description: { [Op.iLike]: `%${searchValue}%` },
+              state: { [Op.iLike]: `%${searchValue}%` },
+              city: { [Op.iLike]: `%${searchValue}%` },
+              amenities: { [Op.iLike]: `%${searchValue}%` },
+            },
+          },
+        },
+      ],
+    });
+    console.log(rooms);
+    return res.json(rooms);
+  }),
+);
+
 router.get(
   "/search/:string",
   restoreUser,

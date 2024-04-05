@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import "./Navigation.css";
 import CalendarModal from "../CalendarModal";
+import { searchRooms } from "../../store/room";
 import logo from "../../roomshare_plus_logo.png";
 
 function Navigation({ isLoaded }) {
@@ -20,6 +21,7 @@ function Navigation({ isLoaded }) {
   const checkIn = useRef(null);
   const checkOut = useRef(null);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const searchForRoom = (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ function Navigation({ isLoaded }) {
       if (showModal) {
         toggleCalendarModal(e);
       }
+      dispatch(searchRooms({ searchValue, checkInDate, checkOutDate }));
       // return history.push(`/rooms/search/${searchValue}`);
     }
   };
