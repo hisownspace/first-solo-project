@@ -34,6 +34,7 @@ function RoomsList() {
   useEffect(() => {
     setAmenities(amenitiesStore);
     setRooms(roomStore);
+    console.log(roomStore);
   }, [roomStore, amenitiesStore]);
 
   if (!sessionUser) return <Redirect to="/" />;

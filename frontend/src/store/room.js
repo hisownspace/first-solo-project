@@ -41,6 +41,17 @@ export const editRoom = (room) => {
   };
 };
 
+export const searchRooms = (searchTerms) => async (dispatch) => {
+  const { checkInDate, checkOutDate, searchValue } = searchTerms;
+  const response = await csrfFetch("/api/rooms/search", {
+    method: "POST",
+    body: JSON.stringify({ checkInDate, checkOutDate, searchValue }),
+  });
+  const rooms = await response.json();
+  dispatch(getRooms(rooms));
+  return rooms;
+};
+
 export const readRoom = (roomId) => async (dispatch) => {
   const response = await csrfFetch(`/api/rooms/${roomId}`);
   const room = await response.json();
@@ -55,12 +66,12 @@ export const readRooms = () => async (dispatch) => {
   return rooms;
 };
 
-export const searchRooms = (string) => async (dispatch) => {
-  const response = await csrfFetch(`/api/rooms/search/${string}`);
-  const rooms = await response.json();
-  dispatch(getRooms(rooms));
-  return rooms;
-};
+// export const searchRooms = (string) => async (dispatch) => {
+//   const response = await csrfFetch(`/api/rooms/search/${string}`);
+//   const rooms = await response.json();
+//   dispatch(getRooms(rooms));
+//   return rooms;
+// };
 
 export const createRoom = (room) => async (dispatch) => {
   const {

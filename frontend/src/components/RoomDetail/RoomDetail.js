@@ -19,10 +19,22 @@ function RoomDetail() {
   const roomRentals = useSelector((state) => state.rental.roomRentals);
   const [errors, setErrors] = useState([]);
   const [amenities, setAmenities] = useState([]);
-  let [ownerButtons, setOwnerButtons] = useState("");
-  let [renterOptions, setRenterOptions] = useState("");
-  const [checkInDate, setCheckInDate] = useState("yyyy-mm-dd");
-  const [checkOutDate, setCheckOutDate] = useState("yyyy-mm-dd");
+  let [ownerButtons, setOwnerButtons] = useState(null);
+
+  const [checkInDate, setCheckInDate] = useState("Check In");
+  const [checkOutDate, setCheckOutDate] = useState("Check Out");
+  const [firstSelectedDate, setFirstSelectedDate] = useState("");
+  const [lastSelectedDate, setLastSelectedDate] = useState("");
+  const [firstSelectedMonth, setFirstSelectedMonth] = useState(Infinity);
+  const [lastSelectedMonth, setLastSelectedMonth] = useState(Infinity);
+  const [firstSelectedYear, setFirstSelectedYear] = useState("");
+  const [lastSelectedYear, setLastSelectedYear] = useState("");
+  const [syncForward, setSyncForward] = useState(false);
+  const [syncBackward, setSyncBackward] = useState(false);
+  const [tempLastSelectedDate, setTempLastSelectedDate] = useState("");
+  const [tempLastSelectedMonth, setTempLastSelectedMonth] = useState("");
+  const [tempLastSelectedYear, setTempLastSelectedYear] = useState("");
+
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
@@ -44,14 +56,6 @@ function RoomDetail() {
           <button onClick={editListing}>Edit Listing</button>
         </>,
       );
-      setRenterOptions(null);
-    } else {
-      setRenterOptions(
-        <>
-          <button onClick={makeReservation}>Make Reservation</button>
-        </>,
-      );
-      setOwnerButtons(null);
     }
     function removeListing() {
       const confirm = window.confirm(
@@ -129,12 +133,6 @@ function RoomDetail() {
     scrollTo("calendar");
   };
 
-  function makeReservation() {
-    return;
-  }
-
-  function showAmenities() {}
-
   const submitReservation = (e) => {
     e.preventDefault();
 
@@ -152,8 +150,8 @@ function RoomDetail() {
           renterId: sessionUser.id,
           roomId: room.id,
           guests,
-          checkIn: new Date(inYear, inMonth, inDay, 16),
-          checkOut: new Date(outYear, outMonth, outDay, 9),
+          checkIn: new Date(inYear, inMonth, inDay),
+          checkOut: new Date(outYear, outMonth, outDay),
         }),
       );
       setErrors([]);
@@ -240,21 +238,75 @@ function RoomDetail() {
             <div className="reviews">
               <h2>Reviews</h2>
               {amenities.length > 10 ? (
-                <button
-                  onClick={showAmenities}
-                >{`Show all ${amenities.length} amenities`}</button>
+                <button>{`Show all ${amenities.length} amenities`}</button>
               ) : null}
               <div ref={calendarRef} className="calendar-div">
                 {sessionUser.id === room.ownerId ? null : (
-                  <Calendar
-                    setCheckInDate={setCheckInDate}
-                    checkInDate={checkInDate}
-                    setCheckOutDate={setCheckOutDate}
-                    checkOutDate={checkOutDate}
-                    bookedDatesArr={bookedDatesArr}
-                    setBookedDatesArr={setBookedDatesArr}
-                    setErrors={setErrors}
-                  />
+                  <>
+                    <Calendar
+                      first={true}
+                      setCheckInDate={setCheckInDate}
+                      checkInDate={checkInDate}
+                      setCheckOutDate={setCheckOutDate}
+                      checkOutDate={checkOutDate}
+                      bookedDatesArr={bookedDatesArr}
+                      setBookedDatesArr={setBookedDatesArr}
+                      setErrors={setErrors}
+                      firstSelectedMonth={firstSelectedMonth}
+                      setFirstSelectedMonth={setFirstSelectedMonth}
+                      lastSelectedMonth={lastSelectedMonth}
+                      setLastSelectedMonth={setLastSelectedMonth}
+                      firstSelectedDate={firstSelectedDate}
+                      setFirstSelectedDate={setFirstSelectedDate}
+                      lastSelectedDate={lastSelectedDate}
+                      setLastSelectedDate={setLastSelectedDate}
+                      firstSelectedYear={firstSelectedYear}
+                      setFirstSelectedYear={setFirstSelectedYear}
+                      lastSelectedYear={lastSelectedYear}
+                      setLastSelectedYear={setLastSelectedYear}
+                      syncForward={syncForward}
+                      setSyncForward={setSyncForward}
+                      syncBackward={syncBackward}
+                      setSyncBackward={setSyncBackward}
+                      tempLastSelectedDate={tempLastSelectedDate}
+                      tempLastSelectedMonth={tempLastSelectedMonth}
+                      tempLastSelectedYear={tempLastSelectedYear}
+                      setTempLastSelectedDate={setTempLastSelectedDate}
+                      setTempLastSelectedMonth={setTempLastSelectedMonth}
+                      setTempLastSelectedYear={setTempLastSelectedYear}
+                    />
+                    <Calendar
+                      setCheckInDate={setCheckInDate}
+                      checkInDate={checkInDate}
+                      setCheckOutDate={setCheckOutDate}
+                      checkOutDate={checkOutDate}
+                      bookedDatesArr={bookedDatesArr}
+                      setBookedDatesArr={setBookedDatesArr}
+                      setErrors={setErrors}
+                      firstSelectedMonth={firstSelectedMonth}
+                      setFirstSelectedMonth={setFirstSelectedMonth}
+                      lastSelectedMonth={lastSelectedMonth}
+                      setLastSelectedMonth={setLastSelectedMonth}
+                      firstSelectedDate={firstSelectedDate}
+                      setFirstSelectedDate={setFirstSelectedDate}
+                      lastSelectedDate={lastSelectedDate}
+                      firstSelectedYear={firstSelectedYear}
+                      setFirstSelectedYear={setFirstSelectedYear}
+                      lastSelectedYear={lastSelectedYear}
+                      setLastSelectedYear={setLastSelectedYear}
+                      setLastSelectedDate={setLastSelectedDate}
+                      syncForward={syncForward}
+                      setSyncForward={setSyncForward}
+                      syncBackward={syncBackward}
+                      setSyncBackward={setSyncBackward}
+                      tempLastSelectedDate={tempLastSelectedDate}
+                      tempLastSelectedMonth={tempLastSelectedMonth}
+                      tempLastSelectedYear={tempLastSelectedYear}
+                      setTempLastSelectedDate={setTempLastSelectedDate}
+                      setTempLastSelectedMonth={setTempLastSelectedMonth}
+                      setTempLastSelectedYear={setTempLastSelectedYear}
+                    />
+                  </>
                 )}
               </div>
             </div>
@@ -274,7 +326,7 @@ function RoomDetail() {
                   <input
                     type="text"
                     onClick={datePickerPrompt}
-                    value={checkInDate || "yyyy-mm-dd"}
+                    value={checkInDate || "Check In"}
                     readOnly={true}
                   ></input>
                 </label>
@@ -287,7 +339,7 @@ function RoomDetail() {
                 >
                   <input
                     type="text"
-                    value={checkOutDate || "yyyy-mm-dd"}
+                    value={checkOutDate || "Check Out"}
                     onClick={datePickerPrompt}
                     readOnly={true}
                   ></input>
@@ -312,10 +364,6 @@ function RoomDetail() {
                   Reserve
                 </button>
               </form>
-              {/* <div className='itemization'>
-              <div className='reservation-items'></div>
-              <div className='reservation-total'></div>
-            </div> */}
             </div>
           </div>
         </div>
@@ -326,10 +374,7 @@ function RoomDetail() {
           {room.zip}
         </li>
         <li>{room.country}</li>
-        <li>
-          {ownerButtons ? ownerButtons : null}
-          {/* {renterOptions ? renterOptions : null} */}
-        </li>
+        <li>{ownerButtons}</li>
       </div>
       <div ref={locationRef} className="maps-api">
         <iframe

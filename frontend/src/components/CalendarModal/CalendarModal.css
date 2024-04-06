@@ -1,4 +1,5 @@
 .modal-calendar-container {
   padding-left: 50px;
   padding-right: 50px;
+  display: flex;
 }
