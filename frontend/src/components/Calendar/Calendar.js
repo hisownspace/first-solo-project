@@ -527,7 +527,7 @@ function Calendar({
         <div onClick={clearCalendar} className="clickable-date-clear">
           CLEAR CALENDAR
         </div>
-      ) : <div className="search-button-container"><button className="search-button" onClick={searchForRoom}>Search For Available Rooms</button></div>}
+      ) : fromModal ? <div className="search-button-container"><button className="search-button" onClick={searchForRoom}>Search For Available Rooms</button></div> : null}
     </div>
   );
 }

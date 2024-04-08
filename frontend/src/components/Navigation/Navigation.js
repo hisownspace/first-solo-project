@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import "./Navigation.css";
 import CalendarModal from "../CalendarModal";
-import { searchRooms } from "../../store/room";
+import { clearSearch, searchReceived, searchRooms } from "../../store/room";
 import logo from "../../roomshare_plus_logo.png";
 
 function Navigation({ isLoaded }) {
@@ -25,18 +25,19 @@ function Navigation({ isLoaded }) {
 
   const searchForRoom = async (e) => {
     e.preventDefault();
-    // if (searchValue) {
       setSearchValue("");
       searchInput.current.blur();
       if (showModal) {
         toggleCalendarModal(e);
       }
-      console.log("searching for room")
       const rooms = await dispatch(searchRooms({ searchValue, checkInDate, checkOutDate }));
-      console.log(rooms);
-      // return history.push(`/rooms/search/${searchValue}`);
-    // }
+      await dispatch(searchReceived())
+      return history.push(`/`);
   };
+
+  const clearSearchBool = e => {
+    dispatch(clearSearch());
+  }
 
   const toggleCalendarModal = (e) => {
     setShowModal((state) => !state);
@@ -71,9 +72,9 @@ function Navigation({ isLoaded }) {
 
   return (
     <div ref={header} className="header">
-      <NavLink exact to="/">
+      <Link onClick={clearSearchBool} to="/rooms">
         <img className="site-logo" alt="roomshare logo" src={logo}></img>
-      </NavLink>
+      </Link>
       <div className="header-mid">
         {showModal ? (
           <div

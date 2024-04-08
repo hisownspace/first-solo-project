@@ -10,9 +10,10 @@ function RoomDetail() {
   const dispatch = useDispatch();
   const { roomId } = useParams();
   const history = useHistory();
-  const calendarRef = useRef(1);
-  const amenitiesRef = useRef(2);
-  const locationRef = useRef(3);
+  const calendarRef = useRef(null);
+  const amenitiesRef = useRef(null);
+  const locationRef = useRef(null);
+  const reviewsRef = useRef(null)
 
   const room = useSelector((state) => state.room.currentRoom);
   const sessionUser = useSelector((state) => state.session.user);
@@ -120,11 +121,16 @@ function RoomDetail() {
         behavior: "smooth",
         block: "start",
       });
-    } else {
+    } else if (location === "amenities") {
       amenitiesRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
+    } else if (location === "reviews") {
+      reviewsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      })
     }
   };
 
@@ -169,9 +175,9 @@ function RoomDetail() {
       {isVisible ? (
         <div id="hide">
           <nav>
-            <span onClick={scrollTo}>Amenities</span>
+            <span onClick={e => scrollTo("amenities")}>Amenities</span>
             <span onClick={(e) => scrollTo("location")}>Location</span>
-            <span onClick={scrollTo}>Reviews</span>
+            <span onClick={e =>scrollTo("reviews")}>Reviews</span>
           </nav>
         </div>
       ) : null}
@@ -203,8 +209,9 @@ function RoomDetail() {
             <section>
               <p className="description">{room.description}</p>
             </section>
+            <div ref={amenitiesRef} className="scroll-border"></div>
             <h2>Amenities:</h2>
-            <div className="room-display-amenities" ref={amenitiesRef}>
+            <div className="room-display-amenities">
               {amenities &&
                 amenities.map((amenity, index) => {
                   if (index < amenities.length / 2 && index < 5) {
@@ -235,6 +242,7 @@ function RoomDetail() {
                   }
                 })}
             </div>
+            <div ref={reviewsRef} className="scroll-border"></div>
             <div className="reviews">
               <h2>Reviews</h2>
               {amenities.length > 10 ? (
@@ -310,6 +318,29 @@ function RoomDetail() {
                 )}
               </div>
             </div>
+      <div ref={locationRef} className="maps-api">
+        <h2>Location</h2>
+        <ul>
+          <li>{room.address}</li>
+          <li>
+            {room.city + ", "}
+            {room.state + " "}
+            {room.zip}
+          </li>
+          <li>{room.country}</li>
+          <li>{ownerButtons}</li>
+        </ul>
+        <iframe
+          title="maps"
+          width="100%"
+          height="500px"
+          style={{ border: 0 }}
+          margin-bottom="50px"
+          loading="lazy"
+          allowFullScreen
+          src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB2831JHe127Y5QT6sKtvHfGuxpo0rKYHY&q=${room.address},${room.city},${room.state},${room.zip}`}
+        ></iframe>
+      </div>
           </div>
           <div className="reservation-scroller">
             <div className="reservation-box">
@@ -367,27 +398,6 @@ function RoomDetail() {
             </div>
           </div>
         </div>
-        <li>{room.address}</li>
-        <li>
-          {room.city + ", "}
-          {room.state + " "}
-          {room.zip}
-        </li>
-        <li>{room.country}</li>
-        <li>{ownerButtons}</li>
-      </div>
-      <div ref={locationRef} className="maps-api">
-        <iframe
-          title="maps"
-          width="500px"
-          height="500px"
-          style={{ border: 0 }}
-          margin="50px"
-          loading="lazy"
-          allowFullScreen
-          src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB2831JHe127Y5QT6sKtvHfGuxpo0rKYHY&q=${room.city},${room.state}`}
-        ></iframe>
-        /
       </div>
     </div>
   ) : null;

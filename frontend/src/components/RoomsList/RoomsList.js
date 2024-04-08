@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 
 import RoomCard from "../RoomCard";
 import * as roomActions from "../../store/room";
@@ -9,6 +9,8 @@ import { amenitiesRetrieved } from "../../store/amenity";
 
 function RoomsList() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  // const { clear } = location.state.clear;
 
   const [rooms, setRooms] = useState([]);
   const [amenities, setAmenities] = useState([]);
@@ -16,12 +18,22 @@ function RoomsList() {
   const sessionUser = useSelector((state) => state.session.user);
   const roomStore = useSelector((state) => state.room.roomsList);
   const amenitiesStore = useSelector((state) => state.amenity);
+  const search = useSelector(state => state.room.search);
 
   useEffect(() => {
+    console.log(location);
     if (sessionUser) {
       dispatch(favoritesRetrieved(sessionUser.id));
     }
-    dispatch(roomActions.readRooms());
+    if (!search) {
+      dispatch(roomActions.readRooms());
+    } else {
+      // dispatch(roomActions.getRooms(roomStore));
+    }
+    if (location.state?.clear) {
+      dispatch(roomActions.clearSearch());
+      location.state.clear = false;
+    }
     dispatch(amenitiesRetrieved());
   }, [
     dispatch,
@@ -29,13 +41,22 @@ function RoomsList() {
     favoritesRetrieved,
     roomActions,
     amenitiesRetrieved,
+    search
   ]);
 
   useEffect(() => {
     setAmenities(amenitiesStore);
     setRooms(roomStore);
-    console.log(roomStore);
-  }, [roomStore, amenitiesStore]);
+  }, [amenitiesStore, roomStore]);
+
+
+  useEffect(() => {
+    return () => {
+      if (!search) {
+      dispatch(roomActions.clearRooms());
+      }
+    }
+  }, [])
 
   if (!sessionUser) return <Redirect to="/" />;
 

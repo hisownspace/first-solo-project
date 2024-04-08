@@ -5,6 +5,9 @@ const GET_ROOMS = "room/get-list";
 const ADD_ROOM = "room/add";
 const REMOVE_ROOM = "room/remove";
 const EDIT_ROOM = "room/edit";
+const SEARCH_RECEIVED = "room/SEARCH_RECEIVED";
+const SEARCH_CLEARED = "room/SEARCH_CLEARED";
+const ROOMS_CLEARED = "room/ROOMS_CLEARED"
 
 export const getRoom = (room) => {
   return {
@@ -41,6 +44,18 @@ export const editRoom = (room) => {
   };
 };
 
+export const searchReceived = () => {
+   return { type: SEARCH_RECEIVED }
+}
+
+export const clearSearch = () => {
+   return { type: SEARCH_CLEARED }
+}
+
+export const clearRooms = () => {
+  return { type: ROOMS_CLEARED }
+}
+
 export const searchRooms = (searchTerms) => async (dispatch) => {
   const { checkInDate, checkOutDate, searchValue } = searchTerms;
   const response = await csrfFetch("/api/rooms/search", {
@@ -49,6 +64,7 @@ export const searchRooms = (searchTerms) => async (dispatch) => {
   });
   const rooms = await response.json();
   dispatch(getRooms(rooms));
+  dispatch(searchReceived())
   return rooms;
 };
 
@@ -147,7 +163,7 @@ export const updateRoom = (room, userId) => async (dispatch) => {
   dispatch(editRoom(room));
 };
 
-const initialroom = { myRooms: {}, currentRoom: {}, roomsList: [] };
+const initialroom = { myRooms: {}, currentRoom: {}, roomsList: [], search: false };
 
 export default function roomReducer(state = initialroom, action) {
   let newState;
@@ -157,7 +173,7 @@ export default function roomReducer(state = initialroom, action) {
       delete newState[action.roomId];
       return newState;
     case ADD_ROOM:
-      newState = { ...state };
+      newState = { ...state, [action.room.id]: action.room };
       newState.myRooms[action.room.id] = action.room;
       return newState;
     case EDIT_ROOM:
@@ -165,12 +181,21 @@ export default function roomReducer(state = initialroom, action) {
       newState.myRooms[action.room.id] = action.room;
       return newState;
     case GET_ROOM:
-      newState = { ...state };
+      newState = { ...state, currentRoom: action.room };
       newState.currentRoom = action.room;
       return newState;
     case GET_ROOMS:
-      newState = { ...state };
-      newState.roomsList = action.rooms;
+      newState = { ...state, roomsList: [ ...action.rooms ]};
+      console.log(newState);
+      return newState;
+    case SEARCH_RECEIVED:
+      newState = { ...state, search: true };
+      return newState;
+    case SEARCH_CLEARED:
+      newState = { ...state, search: false};
+      return newState;
+    case ROOMS_CLEARED:
+      newState = { ...state, roomsList: [] }
       return newState;
     default:
       return state;

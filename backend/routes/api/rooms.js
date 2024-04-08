@@ -89,6 +89,7 @@ router.post(
     checkOutDate = new Date(checkOutDate);
 
     checkOutDate.setDate(checkOutDate.getDate() + 1);
+    console.log(searchValue);
 
     let rooms = await Room.findAll({
       order: [["updatedAt", "DESC"]],
