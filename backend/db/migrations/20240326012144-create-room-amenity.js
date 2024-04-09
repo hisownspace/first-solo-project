@@ -4,14 +4,20 @@ module.exports = {
     return queryInterface.createTable(
       "RoomAmenities",
       {
-        amenity_id: {
+
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+        amenityId: {
           type: Sequelize.INTEGER,
         },
-        room_id: {
+        roomId: {
           type: Sequelize.INTEGER,
         },
       },
-      { timestamps: false, createdAt: false, updatedAt: false },
     );
   },
   down: (queryInterface, Sequelize) => {

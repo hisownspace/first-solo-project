@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import * as roomActions from "../../store/room";
 import * as rentalActions from "../../store/rental";
 import Calendar from "../Calendar/Calendar";
+import { amenitiesRetrieved, roomAmenitiesRetrieved } from "../../store/amenity";
 
 function RoomDetail() {
   const dispatch = useDispatch();
@@ -18,6 +19,8 @@ function RoomDetail() {
   const room = useSelector((state) => state.room.currentRoom);
   const sessionUser = useSelector((state) => state.session.user);
   const roomRentals = useSelector((state) => state.rental.roomRentals);
+  const roomAmenities = useSelector(state => state.amenity.roomAmenities)
+  const allAmenities = useSelector(state => state.amenity.amenities)
   const [errors, setErrors] = useState([]);
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState(null);
@@ -42,13 +45,20 @@ function RoomDetail() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    dispatch(roomAmenitiesRetrieved(+roomId));
     dispatch(roomActions.readRoom(+roomId)).then(() => setLoaded(true));
+    dispatch(amenitiesRetrieved());
     dispatch(rentalActions.readRoomRentals(+roomId));
+
   }, [dispatch, roomId]);
 
   useEffect(() => {
-    if (room.amenities) {
-      setAmenities(room.amenities.split(", "));
+    if (roomAmenities) {
+      const tempAmenities = [];
+      for (let i = 0; i < roomAmenities.length; i++) {
+        tempAmenities.push(allAmenities.find(el => el.id == roomAmenities[i].amenityId)?.name);
+      }
+      setAmenities(tempAmenities);
     }
     if (sessionUser?.id === room.ownerId) {
       setOwnerButtons(
@@ -71,7 +81,7 @@ function RoomDetail() {
     function editListing() {
       return history.push(`/rooms/${room.id}/edit`);
     }
-  }, [room, sessionUser?.id, dispatch, history, roomId]);
+  }, [room, sessionUser?.id, dispatch, history, roomId, allAmenities]);
 
   useEffect(() => {
     window.addEventListener("scroll", listenToScroll);
@@ -356,7 +366,7 @@ function RoomDetail() {
                 >
                   <input
                     type="text"
-                    onClick={datePickerPrompt}
+                    onClick={(sessionUser?.id === room.ownerId) ? null : datePickerPrompt}
                     value={checkInDate || "Check In"}
                     readOnly={true}
                   ></input>
@@ -371,7 +381,7 @@ function RoomDetail() {
                   <input
                     type="text"
                     value={checkOutDate || "Check Out"}
-                    onClick={datePickerPrompt}
+                    onClick={(sessionUser?.id === room.ownerId) ? null : datePickerPrompt}
                     readOnly={true}
                   ></input>
                 </label>
@@ -379,6 +389,7 @@ function RoomDetail() {
                   <input
                     type="number"
                     value={guests}
+                    readOnly={(sessionUser?.id === room.ownerId)}
                     onChange={(e) =>
                       e.target.value < 10 && e.target.value > 0
                         ? setGuests(e.target.value)

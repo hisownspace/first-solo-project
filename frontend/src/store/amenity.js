@@ -1,6 +1,14 @@
 import { csrfFetch } from "./csrf";
 
 const GET_AMENITIES = "amenity/GET";
+const GET_ROOM_AMENITIES = "amenity/GET_ROOM"
+
+export const getRoomAmenities = amenities => {
+  return {
+    type: GET_ROOM_AMENITIES,
+    amenities
+  }
+}
 
 export const getAmenities = (amenities) => {
   return {
@@ -16,13 +24,23 @@ export const amenitiesRetrieved = () => async (dispatch) => {
   dispatch(getAmenities(amenities));
 };
 
-const initialState = [];
+export const roomAmenitiesRetrieved = (roomId) => async (dispatch) => {
+  const res = await fetch(`/api/rooms/${roomId}/amenities`)
+  const amenities = await res.json();
+  console.log(amenities)
+  dispatch(getRoomAmenities(amenities));
+}
+
+const initialState = { amenities: [], roomAmenities: [] };
 
 export default function amenityReducer(state = initialState, action) {
   let newState;
   switch (action.type) {
     case GET_AMENITIES:
-      newState = action.amenities;
+      newState = { ...state, amenities: [...action.amenities] }
+      return newState;
+    case GET_ROOM_AMENITIES:
+      newState = { ...state, roomAmenities: [...action.amenities]}
       return newState;
     default:
       return state;

@@ -3,9 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   const RoomAmenity = sequelize.define(
     "RoomAmenity",
     {
-      amenity_id: DataTypes.INTEGER,
-      room_id: DataTypes.INTEGER,
+      amenityId: DataTypes.INTEGER,
+      roomId: DataTypes.INTEGER,
+
     },
+    { timestamps: false, createdAt: false, updatedAt: false },
     {},
   );
   RoomAmenity.associate = function (models) {

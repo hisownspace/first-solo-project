@@ -9,7 +9,7 @@ const {
   requireAuth,
   checkPermissions,
 } = require("../../utils/auth");
-const { Room, Rental, Favorite } = require("../../db/models");
+const { Room, Rental, Favorite, RoomAmenity } = require("../../db/models");
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 
@@ -151,7 +151,7 @@ router.post(
     const {
       ownerId,
       imageUrl,
-      amenities,
+      roomAmenities,
       city,
       state,
       zip,
@@ -161,10 +161,11 @@ router.post(
       description,
     } = req.body;
 
+    console.log(roomAmenities);
+    
     const room = await Room.create({
       ownerId,
       imageUrl,
-      amenities,
       city,
       state,
       zip,
@@ -172,10 +173,33 @@ router.post(
       address,
       title,
       description,
+      cost: 900
     });
+
+    for (let i = 0; i < roomAmenities.length; i++) {
+      await RoomAmenity.create({
+        amenityId: roomAmenities[i],
+        roomId: room.id
+      })
+    }
+
     return res.json(room);
   }),
 );
+
+
+router.get(
+  "/:roomId/amenities",
+  restoreUser,
+  asyncHandler(async (req, res, next) => {
+    const { roomId } = req.params;
+    const amenities = await RoomAmenity.findAll({
+      where: { roomId }
+    })
+    console.log(amenities)
+  return res.json(amenities);
+  })
+)
 
 router.put(
   "/:roomId",

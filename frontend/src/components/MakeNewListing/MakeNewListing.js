@@ -8,7 +8,7 @@ function MakeNewListing() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
-  const amenitiesStore = useSelector(state => state.amenity)
+  const amenitiesStore = useSelector(state => state.amenity.amenities)
   const [amenities, setAmenities] = useState([]);
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
@@ -32,8 +32,15 @@ function MakeNewListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (imageUrl && city && country && address && title && description && zip && state) {
+      const roomAmenities = [];
+    for (let i = 0; i < amenities.length; i++) {
+      if (checkedState[i]) {
+        roomAmenities.push(amenities[i].id);
+      }
+    }
       setErrors([]);
-      const room = await dispatch(roomActions.createRoom({ ownerId, amenities, city, state, country, address, zip, imageUrl, title, description }));
+      console.log(roomAmenities);
+      const room = await dispatch(roomActions.createRoom({ ownerId, roomAmenities, city, state, country, address, zip, imageUrl, title, description }));
       history.push(`/rooms/${room.id}`);
       return room;
     }

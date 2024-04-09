@@ -93,7 +93,7 @@ export const createRoom = (room) => async (dispatch) => {
   const {
     ownerId,
     imageUrl,
-    amenities,
+    roomAmenities,
     city,
     state,
     zip,
@@ -107,7 +107,7 @@ export const createRoom = (room) => async (dispatch) => {
     body: JSON.stringify({
       ownerId,
       imageUrl,
-      amenities,
+      roomAmenities,
       city,
       state,
       zip,

@@ -17,7 +17,7 @@ function RoomsList() {
 
   const sessionUser = useSelector((state) => state.session.user);
   const roomStore = useSelector((state) => state.room.roomsList);
-  const amenitiesStore = useSelector((state) => state.amenity);
+  const amenitiesStore = useSelector((state) => state.amenity.amenities);
   const search = useSelector(state => state.room.search);
 
   useEffect(() => {
