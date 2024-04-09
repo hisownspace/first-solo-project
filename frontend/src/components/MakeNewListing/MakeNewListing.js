@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from "react-router-dom";
 import * as roomActions from "../../store/room";
@@ -8,17 +8,24 @@ function MakeNewListing() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
-  const [amenities, setAmenities] = useState("");
+  const amenitiesStore = useSelector(state => state.amenity)
+  const [amenities, setAmenities] = useState([]);
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [checkedState, setCheckedState] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState(false);
   const ownerId = sessionUser?.id;
+
+  
+  useEffect(() => {
+    setAmenities(amenitiesStore);
+  }, []);
 
   if (!sessionUser) return <Redirect to="/" />;
 
@@ -31,6 +38,12 @@ function MakeNewListing() {
       return room;
     }
     return setErrors(true);
+  };
+
+  const handleCheckedState = (e, idx) => {
+    const tempCheckedState = [...checkedState];
+    tempCheckedState[idx] = !tempCheckedState[idx];
+    setCheckedState(tempCheckedState);
   };
 
   return (
@@ -116,15 +129,32 @@ function MakeNewListing() {
             // required
           />
         </label>
-        {imageUrl || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
-        <label>
-          {"Amenities: "}
-          <input
-            type="text"
-            value={amenities}
-            onChange={(e) => setAmenities(e.target.value)}
-          />
-        </label>
+      <ul className="amenities-list">
+        {amenities.map((amenity, idx) => {
+        return (
+        <li
+            key={`amenities-checkbox-div-${amenity.id}`}
+            className={"checkbox-div"}
+          >
+            <label
+              className="checkbox-label"
+              htmlFor={`amenity-checkbox-${amenity.id}`}
+              >
+              {amenity.name}
+            </label>
+            <input
+            className="checkbox-input"
+            type="checkbox"
+            id={`amenity-checkbox-${amenity.id}`}
+            name={amenity.name}
+            value={amenity.id}
+            checked={checkedState[idx] === undefined ? false : checkedState[idx]}
+            onChange={e => handleCheckedState(e, idx)}
+            />
+          </li>
+        )
+      })}
+      </ul>
         <button type="submit">Create Listing</button>
       </form>
     // </div>
