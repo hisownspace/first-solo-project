@@ -83,13 +83,28 @@ router.post(
       checkInDate = new Date(0,0,0,0,0,0);
       checkOutDate = new Date(0,0,0,0,0,0);
     }
-    console.log(checkInDate);
+
+    if (checkInDate === null) {
+      console.log(searchValue);
+      let rooms = await Room.findAll({
+        order: [["updatedAt", "DESC"]],
+        include: [
+          {
+            model: RoomAmenity,
+            where: {
+              amenityId: { [Op.eq]: searchValue }
+            }
+          }
+        ]
+      })
+      console.log(rooms);
+      return res.json(rooms);
+    }
 
     checkInDate = new Date(checkInDate);
     checkOutDate = new Date(checkOutDate);
 
     checkOutDate.setDate(checkOutDate.getDate() + 1);
-    console.log(searchValue);
 
     let rooms = await Room.findAll({
       order: [["updatedAt", "DESC"]],
@@ -99,7 +114,6 @@ router.post(
               description: { [Op.iLike]: `%${searchValue}%` },
               state: { [Op.iLike]: `%${searchValue}%` },
               city: { [Op.iLike]: `%${searchValue}%` },
-              amenities: { [Op.iLike]: `%${searchValue}%` },
             },
           },
       include: [

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect, useLocation, useHistory } from "react-router-dom";
 
 import RoomCard from "../RoomCard";
 import * as roomActions from "../../store/room";
@@ -10,6 +10,7 @@ import { amenitiesRetrieved } from "../../store/amenity";
 function RoomsList() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   // const { clear } = location.state.clear;
 
   const [rooms, setRooms] = useState([]);
@@ -58,6 +59,13 @@ function RoomsList() {
     }
   }, [])
 
+  const amenitySearch = async id => {
+    console.log(id)
+    const rooms = await dispatch(roomActions.searchRooms({searchValue: id, checkOutDate: null, checkInDate: null}));
+    console.log(rooms);
+    return history.push(`/`);
+  }
+
   if (!sessionUser) return <Redirect to="/" />;
 
   return (
@@ -65,7 +73,7 @@ function RoomsList() {
       <ul className="amenity-list">
         {amenities.map((amenity) => {
           return (
-            <li key={amenity.name} className="amenity">
+            <li onClick={e => amenitySearch(amenity.id)}key={amenity.name} className="amenity">
               <img className="amenity-image" src={amenity.icon} />
               <div className="amenity-name">{amenity.name}</div>
             </li>

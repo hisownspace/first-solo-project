@@ -39,8 +39,7 @@ function MakeNewListing() {
       }
     }
       setErrors([]);
-      console.log(roomAmenities);
-      const room = await dispatch(roomActions.createRoom({ ownerId, roomAmenities, city, state, country, address, zip, imageUrl, title, description }));
+      const room = await dispatch(roomActions.createRoom({ ownerId, amenities: roomAmenities, city, state, country, address, zip, imageUrl, title, description }));
       history.push(`/rooms/${room.id}`);
       return room;
     }
