@@ -8,6 +8,7 @@ const EDIT_ROOM = "room/edit";
 const SEARCH_RECEIVED = "room/SEARCH_RECEIVED";
 const SEARCH_CLEARED = "room/SEARCH_CLEARED";
 const ROOMS_CLEARED = "room/ROOMS_CLEARED"
+const ROOM_CLEARED = "room/ROOM_CLEARED"
 
 export const getRoom = (room) => {
   return {
@@ -56,6 +57,10 @@ export const clearRooms = () => {
   return { type: ROOMS_CLEARED }
 }
 
+export const clearRoom = () => {
+  return { type: ROOM_CLEARED }
+}
+
 export const searchRooms = (searchTerms) => async (dispatch) => {
   const { checkInDate, checkOutDate, searchValue } = searchTerms;
   const response = await csrfFetch("/api/rooms/search", {
@@ -102,6 +107,7 @@ export const createRoom = (room) => async (dispatch) => {
     title,
     description,
   } = room;
+  console.log(roomAmenities);
   const response = await csrfFetch("/api/rooms", {
     method: "POST",
     body: JSON.stringify({
@@ -134,7 +140,7 @@ export const deleteRoom = (roomId, userId) => async (dispatch) => {
 export const updateRoom = (room, userId) => async (dispatch) => {
   const {
     imageUrl,
-    amenities,
+    roomAmenities,
     city,
     state,
     zip,
@@ -150,7 +156,7 @@ export const updateRoom = (room, userId) => async (dispatch) => {
     body: JSON.stringify({
       userId,
       imageUrl,
-      amenities,
+      roomAmenities,
       city,
       state,
       zip,
@@ -196,6 +202,9 @@ export default function roomReducer(state = initialroom, action) {
       return newState;
     case ROOMS_CLEARED:
       newState = { ...state, roomsList: [] }
+      return newState;
+    case ROOM_CLEARED:
+      newState = { ...state, currentRoom: {} }
       return newState;
     default:
       return state;

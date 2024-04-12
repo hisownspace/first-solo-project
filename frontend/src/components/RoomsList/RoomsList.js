@@ -60,10 +60,8 @@ function RoomsList() {
   }, [])
 
   const amenitySearch = async id => {
-    console.log(id)
     const rooms = await dispatch(roomActions.searchRooms({searchValue: id, checkOutDate: null, checkInDate: null}));
-    console.log(rooms);
-    return history.push(`/`);
+    // return history.push(`/`);
   }
 
   if (!sessionUser) return <Redirect to="/" />;

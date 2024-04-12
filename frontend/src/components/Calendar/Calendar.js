@@ -417,7 +417,7 @@ function Calendar({
                 <div className="first-date">{day}</div>
               </div>
             ) : (
-              <div onMouseLeave={clearTempDate} className="first-date">
+              <div key={day} onMouseLeave={clearTempDate} className="first-date">
                 {day}
               </div>
             );

@@ -68,7 +68,6 @@ router.get(
   asyncHandler(async (req, res) => {
     const rooms = await Room.findAll({
       order: [["updatedAt", "DESC"]],
-      limit: 10,
     });
     return res.json(rooms);
   }),
@@ -175,7 +174,8 @@ router.post(
       description,
     } = req.body;
 
-    console.log(roomAmenities);
+    console.log("hello@@@@@")
+    console.log("room amenities: ", roomAmenities);
     
     const room = await Room.create({
       ownerId,
@@ -221,7 +221,7 @@ router.put(
   asyncHandler(async (req, res, next) => {
     const {
       imageUrl,
-      amenities,
+      roomAmenities,
       city,
       state,
       zip,
@@ -238,7 +238,7 @@ router.put(
     if (canEdit && room) {
       await room.set({
         imageUrl,
-        amenities,
+        roomAmenities,
         city,
         state,
         zip,
@@ -248,6 +248,13 @@ router.put(
         description,
       });
       await room.save();
+    RoomAmenity.destroy({ where: { roomId }});
+    for (let i = 0; i < roomAmenities.length; i++) {
+      await RoomAmenity.create({
+        amenityId: roomAmenities[i],
+        roomId: room.id
+      })
+    }
       return res.json({
         room,
       });

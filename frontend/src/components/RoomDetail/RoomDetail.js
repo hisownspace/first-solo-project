@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import * as roomActions from "../../store/room";
 import * as rentalActions from "../../store/rental";
 import Calendar from "../Calendar/Calendar";
-import { amenitiesRetrieved, roomAmenitiesRetrieved } from "../../store/amenity";
+import { amenitiesRetrieved, roomAmenitiesRetrieved, roomAmenitiesCleared } from "../../store/amenity";
 
 function RoomDetail() {
   const dispatch = useDispatch();
@@ -49,6 +49,11 @@ function RoomDetail() {
     dispatch(roomActions.readRoom(+roomId)).then(() => setLoaded(true));
     dispatch(amenitiesRetrieved());
     dispatch(rentalActions.readRoomRentals(+roomId));
+
+    return () => {
+      dispatch(roomActions.clearRoom());
+      dispatch(roomAmenitiesCleared(+roomId));
+    }
 
   }, [dispatch, roomId]);
 

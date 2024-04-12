@@ -11,13 +11,16 @@ function MakeNewListing() {
   const { roomId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
   const room = useSelector((state) => state.room.currentRoom);
-  const [amenities, setAmenities] = useState("");
+  const amenitiesStore = useSelector(state => state.amenity.amenities)
+  const roomAmenities = useSelector(state => state.amenity.roomAmenities);
+  const [amenities, setAmenities] = useState([]);
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [checkedState, setCheckedState] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [id, setId] = useState("");
@@ -26,7 +29,7 @@ function MakeNewListing() {
 
   useEffect(() => {
     // dispatch(roomActions.readRoom(+roomId));
-    setAmenities(room.amenities);
+    setAmenities(amenitiesStore);
     setCity(room.city);
     setZip(room.zip);
     setState(room.state);
@@ -38,15 +41,30 @@ function MakeNewListing() {
     setId(room.id);
   }, []);
 
+  useEffect(() => {
+    const tempAmenities = new Array(amenitiesStore.length);
+    for (let i = 0; i < roomAmenities.length; i++) {
+      tempAmenities[roomAmenities[i].amenityId - 1] = true;
+    }
+    setCheckedState(tempAmenities);
+  }, [roomAmenities])
+
   if (!sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (imageUrl && city && country && address && title && description && zip && state) {
+      const roomAmenities = [];
+    for (let i = 0; i < amenities.length; i++) {
+      if (checkedState[i]) {
+        roomAmenities.push(amenities[i].id);
+      }
+    }
       setErrors([]);
+      console.log("room amenities: ", roomAmenities);
       const room = await dispatch(roomActions.updateRoom({
         imageUrl,
-        amenities,
+        roomAmenities,
         city,
         state,
         zip,
@@ -62,9 +80,15 @@ function MakeNewListing() {
     return setErrors(true);
   };
 
+  const handleCheckedState = (e, idx) => {
+    const tempCheckedState = [...checkedState];
+    tempCheckedState[idx] = !tempCheckedState[idx];
+    setCheckedState(tempCheckedState);
+  };
+
   return (
     <form className='add-room' onSubmit={handleSubmit}>
-      <h2>Make New Listing</h2>
+      <h2>Edit Listing</h2>
       {/* <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul> */}
@@ -145,14 +169,32 @@ function MakeNewListing() {
         />
       </label>
       {imageUrl || !errors ? <p className='error'></p> : <p className='error'>Required Field</p>}
-      <label>
-        {"Amenities: "}
-        <input
-          type="text"
-          value={amenities}
-          onChange={(e) => setAmenities(e.target.value)}
-        />
-      </label>
+      <ul className="amenities-list">
+        {amenities.map((amenity, idx) => {
+        return (
+        <li
+            key={`amenities-checkbox-div-${amenity.id}`}
+            className={"checkbox-div"}
+          >
+            <label
+              className="checkbox-label"
+              htmlFor={`amenity-checkbox-${amenity.id}`}
+              >
+              {amenity.name}
+            </label>
+            <input
+            className="checkbox-input"
+            type="checkbox"
+            id={`amenity-checkbox-${amenity.id}`}
+            name={amenity.name}
+            value={amenity.id}
+            checked={checkedState[idx] === undefined ? false : checkedState[idx]}
+            onChange={e => handleCheckedState(e, idx)}
+            />
+          </li>
+        )
+      })}
+      </ul>
       <button type="submit">Edit Listing</button>
     </form>
   );
