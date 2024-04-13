@@ -20,7 +20,8 @@ const createUniqueFilename = filename => {
   const minute = date.getMinutes() < 10 ? "0" + date.getMinutes().toString() : date.getMinutes();
   const second = date.getSeconds() < 10 ? "0" + date.getSeconds().toString() : date.getSeconds();
   const ms = "0" * (3 - date.getMilliseconds().toString().length) + date.getMilliseconds().toString();
-  const newFilename = `${year}${month}${day}${hour}${minute}${second}${ms}-${base}.${ext}`;
+  const randomStr = (Math.random()+.01).toString(36).substring(2, 6);
+  const newFilename = `${year}${month}${day}${hour}${minute}${second}${ms}-${base}-${randomStr}.${ext}`;
    
   return newFilename;
 }
