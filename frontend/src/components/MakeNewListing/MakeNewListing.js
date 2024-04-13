@@ -15,7 +15,7 @@ function MakeNewListing() {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState("");
   const [checkedState, setCheckedState] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -31,7 +31,7 @@ function MakeNewListing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (imageUrl && city && country && address && title && description && zip && state) {
+    if (image && city && country && address && title && description && zip && state) {
       const roomAmenities = [];
     for (let i = 0; i < amenities.length; i++) {
       if (checkedState[i]) {
@@ -39,8 +39,20 @@ function MakeNewListing() {
       }
     }
       setErrors([]);
-      console.log(roomAmenities)
-      const room = await dispatch(roomActions.createRoom({ ownerId, roomAmenities, city, state, country, address, zip, imageUrl, title, description }));
+      const formData = new FormData();
+
+      formData.append("ownerId", ownerId);
+      formData.append("roomAmenities", roomAmenities);
+      formData.append("city", city);
+      formData.append("state", state);
+      formData.append("country", country);
+      formData.append("address", address);
+      formData.append("zip", zip);
+      formData.append("image", image);
+      formData.append("title", title);
+      formData.append("description", description);
+
+      const room = await dispatch(roomActions.createRoom(formData));
       history.push(`/rooms/${room.id}`);
       return room;
     }
@@ -55,7 +67,7 @@ function MakeNewListing() {
 
   return (
     // <div className="add-room-container">
-      <form className='add-room' onSubmit={handleSubmit}>
+      <form encType="multipart/form-data" className='add-room' onSubmit={handleSubmit}>
         <h2>Make New Listing</h2>
         {/* <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
@@ -130,9 +142,9 @@ function MakeNewListing() {
         <label>
           {"Photo: "}
           <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={e => setImage(e.target.files[0])}
             // required
           />
         </label>

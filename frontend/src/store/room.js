@@ -95,34 +95,11 @@ export const readRooms = () => async (dispatch) => {
 // };
 
 export const createRoom = (room) => async (dispatch) => {
-  const {
-    ownerId,
-    imageUrl,
-    roomAmenities,
-    city,
-    state,
-    zip,
-    country,
-    address,
-    title,
-    description,
-  } = room;
-  console.log(roomAmenities);
+  // { ownerId, roomAmenities, city, state, country, address, zip, image, title, description }
   const response = await csrfFetch("/api/rooms", {
     method: "POST",
-    body: JSON.stringify({
-      ownerId,
-      imageUrl,
-      roomAmenities,
-      city,
-      state,
-      zip,
-      country,
-      address,
-      title,
-      description,
-    }),
-  });
+    body: room,
+  }, true);
   room = await response.json();
   dispatch(addRoom(room));
   return room;

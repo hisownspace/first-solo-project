@@ -2,6 +2,8 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const router = express.Router();
 const { Op } = require("sequelize");
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 
 const { restoreUser } = require("../../utils/auth");
 const {
@@ -10,6 +12,7 @@ const {
   checkPermissions,
 } = require("../../utils/auth");
 const { Room, Rental, Favorite, RoomAmenity } = require("../../db/models");
+const { uploadFileToS3 } = require("../../utils/aws_helpers");
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 
@@ -159,11 +162,12 @@ router.get(
 
 router.post(
   "/",
+  upload.single('image'),
   restoreUser,
   asyncHandler(async (req, res) => {
+    console.log("HELLO");
     const {
       ownerId,
-      imageUrl,
       roomAmenities,
       city,
       state,
@@ -173,10 +177,10 @@ router.post(
       title,
       description,
     } = req.body;
+    const file = req.file;
 
-    console.log("hello@@@@@")
-    console.log("room amenities: ", roomAmenities);
-    
+    const imageUrl = await uploadFileToS3(file);
+
     const room = await Room.create({
       ownerId,
       imageUrl,
