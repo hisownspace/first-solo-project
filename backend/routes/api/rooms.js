@@ -82,8 +82,8 @@ router.post(
   asyncHandler(async (req, res) => {
     let { searchValue, checkInDate, checkOutDate } = req.body;
     if (checkInDate === "" || checkOutDate === "") {
-      checkInDate = new Date(0,0,0,0,0,0);
-      checkOutDate = new Date(0,0,0,0,0,0);
+      checkInDate = new Date(0, 0, 0, 0, 0, 0);
+      checkOutDate = new Date(0, 0, 0, 0, 0, 0);
     }
 
     if (checkInDate === null) {
@@ -94,11 +94,11 @@ router.post(
           {
             model: RoomAmenity,
             where: {
-              amenityId: { [Op.eq]: searchValue }
-            }
-          }
-        ]
-      })
+              amenityId: { [Op.eq]: searchValue },
+            },
+          },
+        ],
+      });
       console.log(rooms);
       return res.json(rooms);
     }
@@ -110,30 +110,30 @@ router.post(
 
     let rooms = await Room.findAll({
       order: [["updatedAt", "DESC"]],
-          where: {
-            [Op.or]: {
-              title: { [Op.iLike]: `%${searchValue}%` },
-              description: { [Op.iLike]: `%${searchValue}%` },
-              state: { [Op.iLike]: `%${searchValue}%` },
-              city: { [Op.iLike]: `%${searchValue}%` },
-            },
-          },
+      where: {
+        [Op.or]: {
+          title: { [Op.iLike]: `%${searchValue}%` },
+          description: { [Op.iLike]: `%${searchValue}%` },
+          state: { [Op.iLike]: `%${searchValue}%` },
+          city: { [Op.iLike]: `%${searchValue}%` },
+        },
+      },
       include: [
         {
           model: Rental,
           required: false,
           where: {
             [Op.or]: {
-              checkIn: { [Op.gt]: (checkInDate), [Op.lt]: (checkOutDate)  },
-              checkOut: { [Op.gt]: (checkInDate), [Op.lt]: (checkOutDate) }
-            }
-          }
+              checkIn: { [Op.gt]: checkInDate, [Op.lt]: checkOutDate },
+              checkOut: { [Op.gt]: checkInDate, [Op.lt]: checkOutDate },
+            },
+          },
         },
       ],
     });
-    rooms = rooms.filter(el => {
+    rooms = rooms.filter((el) => {
       return el.Rentals.length === 0;
-    })
+    });
     console.log(rooms);
     return res.json(rooms);
   }),
@@ -162,7 +162,7 @@ router.get(
 
 router.post(
   "/",
-  upload.single('image'),
+  upload.single("image"),
   restoreUser,
   asyncHandler(async (req, res) => {
     console.log("HELLO");
@@ -179,6 +179,8 @@ router.post(
     } = req.body;
     const file = req.file;
 
+    const amenities = roomAmenities.split(",").map(Number);
+
     const imageUrl = await uploadFileToS3(file);
 
     const room = await Room.create({
@@ -191,20 +193,19 @@ router.post(
       address,
       title,
       description,
-      cost: 900
+      cost: 900,
     });
 
-    for (let i = 0; i < roomAmenities.length; i++) {
+    for (let i = 0; i < amenities.length; i++) {
       await RoomAmenity.create({
-        amenityId: roomAmenities[i],
-        roomId: room.id
-      })
+        amenityId: amenities[i],
+        roomId: room.id,
+      });
     }
 
     return res.json(room);
   }),
 );
-
 
 router.get(
   "/:roomId/amenities",
@@ -212,12 +213,12 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const { roomId } = req.params;
     const amenities = await RoomAmenity.findAll({
-      where: { roomId }
-    })
-    console.log(amenities)
-  return res.json(amenities);
-  })
-)
+      where: { roomId },
+    });
+    console.log(amenities);
+    return res.json(amenities);
+  }),
+);
 
 router.put(
   "/:roomId",
@@ -252,13 +253,13 @@ router.put(
         description,
       });
       await room.save();
-    RoomAmenity.destroy({ where: { roomId }});
-    for (let i = 0; i < roomAmenities.length; i++) {
-      await RoomAmenity.create({
-        amenityId: roomAmenities[i],
-        roomId: room.id
-      })
-    }
+      RoomAmenity.destroy({ where: { roomId } });
+      for (let i = 0; i < roomAmenities.length; i++) {
+        await RoomAmenity.create({
+          amenityId: roomAmenities[i],
+          roomId: room.id,
+        });
+      }
       return res.json({
         room,
       });

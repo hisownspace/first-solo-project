@@ -4,13 +4,15 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { favoriteRoom } from "../../store/session";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { generatePresignedUrl } from "../../utils/aws_helpers";
 
 function RoomCard({ room }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const favorites = useSelector((state) => state.session.user.favorites);
   const userId = useSelector((state) => state.session.user.id);
+  const [imageUrl, setImageUrl] = useState("");
 
   const toggleFavorite = async (e) => {
     e.stopPropagation();
@@ -18,13 +20,19 @@ function RoomCard({ room }) {
     dispatch(favoriteRoom(room.id, userId));
   };
 
+  useEffect(() => {
+    (async () => {
+      setImageUrl(await generatePresignedUrl(room.imageUrl));
+    })();
+  }, [room.imageUrl]);
+
   return (
     <div
       className="room-card"
       onClick={() => history.push(`/rooms/${room.id}`)}
     >
       <div className="card-image">
-        <img alt={room.description} src={room.imageUrl}></img>
+        <img alt={room.description} src={imageUrl}></img>
         {favorites?.includes(room.id) ? (
           <FontAwesomeIcon
             onClick={toggleFavorite}

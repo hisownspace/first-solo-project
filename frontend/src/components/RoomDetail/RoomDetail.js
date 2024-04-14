@@ -2,10 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { generatePresignedUrl } from "../../utils/aws_helpers";
 import * as roomActions from "../../store/room";
 import * as rentalActions from "../../store/rental";
 import Calendar from "../Calendar/Calendar";
-import { amenitiesRetrieved, roomAmenitiesRetrieved, roomAmenitiesCleared } from "../../store/amenity";
+import {
+  amenitiesRetrieved,
+  roomAmenitiesRetrieved,
+  roomAmenitiesCleared,
+} from "../../store/amenity";
 
 function RoomDetail() {
   const dispatch = useDispatch();
@@ -14,13 +19,13 @@ function RoomDetail() {
   const calendarRef = useRef(null);
   const amenitiesRef = useRef(null);
   const locationRef = useRef(null);
-  const reviewsRef = useRef(null)
+  const reviewsRef = useRef(null);
 
   const room = useSelector((state) => state.room.currentRoom);
   const sessionUser = useSelector((state) => state.session.user);
   const roomRentals = useSelector((state) => state.rental.roomRentals);
-  const roomAmenities = useSelector(state => state.amenity.roomAmenities)
-  const allAmenities = useSelector(state => state.amenity.amenities)
+  const roomAmenities = useSelector((state) => state.amenity.roomAmenities);
+  const allAmenities = useSelector((state) => state.amenity.amenities);
   const [errors, setErrors] = useState([]);
   const [amenities, setAmenities] = useState([]);
   let [ownerButtons, setOwnerButtons] = useState(null);
@@ -38,6 +43,7 @@ function RoomDetail() {
   const [tempLastSelectedDate, setTempLastSelectedDate] = useState("");
   const [tempLastSelectedMonth, setTempLastSelectedMonth] = useState("");
   const [tempLastSelectedYear, setTempLastSelectedYear] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
@@ -53,15 +59,16 @@ function RoomDetail() {
     return () => {
       dispatch(roomActions.clearRoom());
       dispatch(roomAmenitiesCleared(+roomId));
-    }
-
+    };
   }, [dispatch, roomId]);
 
   useEffect(() => {
     if (roomAmenities) {
       const tempAmenities = [];
       for (let i = 0; i < roomAmenities.length; i++) {
-        tempAmenities.push(allAmenities.find(el => el.id == roomAmenities[i].amenityId)?.name);
+        tempAmenities.push(
+          allAmenities.find((el) => el.id == roomAmenities[i].amenityId)?.name,
+        );
       }
       setAmenities(tempAmenities);
     }
@@ -144,10 +151,16 @@ function RoomDetail() {
     } else if (location === "reviews") {
       reviewsRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "start"
-      })
+        block: "start",
+      });
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      setImageUrl(await generatePresignedUrl(room.imageUrl));
+    })();
+  }, [room.imageUrl]);
 
   const datePickerPrompt = () => {
     setErrors(["Please use calendar to the left to choose dates"]);
@@ -190,29 +203,29 @@ function RoomDetail() {
       {isVisible ? (
         <div id="hide">
           <nav>
-            <span onClick={e => scrollTo("amenities")}>Amenities</span>
+            <span onClick={(e) => scrollTo("amenities")}>Amenities</span>
             <span onClick={(e) => scrollTo("location")}>Location</span>
-            <span onClick={e =>scrollTo("reviews")}>Reviews</span>
+            <span onClick={(e) => scrollTo("reviews")}>Reviews</span>
           </nav>
         </div>
       ) : null}
       <div className="room-detail">
         <div className="picture-box">
           <div className="main-image">
-            <img alt="" src={room.imageUrl}></img>
+            <img alt="" src={imageUrl}></img>
           </div>
           <div className="smaller-images">
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={room.imageUrl}></img>
+              <img alt="" className="image-1" src={imageUrl}></img>
             </div>
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={room.imageUrl}></img>
+              <img alt="" className="image-1" src={imageUrl}></img>
             </div>
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={room.imageUrl}></img>
+              <img alt="" className="image-1" src={imageUrl}></img>
             </div>
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={room.imageUrl}></img>
+              <img alt="" className="image-1" src={imageUrl}></img>
             </div>
           </div>
         </div>
@@ -333,29 +346,29 @@ function RoomDetail() {
                 )}
               </div>
             </div>
-      <div ref={locationRef} className="maps-api">
-        <h2>Location</h2>
-        <ul>
-          <li>{room.address}</li>
-          <li>
-            {room.city + ", "}
-            {room.state + " "}
-            {room.zip}
-          </li>
-          <li>{room.country}</li>
-          <li>{ownerButtons}</li>
-        </ul>
-        <iframe
-          title="maps"
-          width="100%"
-          height="500px"
-          style={{ border: 0 }}
-          margin-bottom="50px"
-          loading="lazy"
-          allowFullScreen
-          src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB2831JHe127Y5QT6sKtvHfGuxpo0rKYHY&q=${room.address},${room.city},${room.state},${room.zip}`}
-        ></iframe>
-      </div>
+            <div ref={locationRef} className="maps-api">
+              <h2>Location</h2>
+              <ul>
+                <li>{room.address}</li>
+                <li>
+                  {room.city + ", "}
+                  {room.state + " "}
+                  {room.zip}
+                </li>
+                <li>{room.country}</li>
+                <li>{ownerButtons}</li>
+              </ul>
+              <iframe
+                title="maps"
+                width="100%"
+                height="500px"
+                style={{ border: 0 }}
+                margin-bottom="50px"
+                loading="lazy"
+                allowFullScreen
+                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB2831JHe127Y5QT6sKtvHfGuxpo0rKYHY&q=${room.address},${room.city},${room.state},${room.zip}`}
+              ></iframe>
+            </div>
           </div>
           <div className="reservation-scroller">
             <div className="reservation-box">
@@ -371,7 +384,9 @@ function RoomDetail() {
                 >
                   <input
                     type="text"
-                    onClick={(sessionUser?.id === room.ownerId) ? null : datePickerPrompt}
+                    onClick={
+                      sessionUser?.id === room.ownerId ? null : datePickerPrompt
+                    }
                     value={checkInDate || "Check In"}
                     readOnly={true}
                   ></input>
@@ -386,7 +401,9 @@ function RoomDetail() {
                   <input
                     type="text"
                     value={checkOutDate || "Check Out"}
-                    onClick={(sessionUser?.id === room.ownerId) ? null : datePickerPrompt}
+                    onClick={
+                      sessionUser?.id === room.ownerId ? null : datePickerPrompt
+                    }
                     readOnly={true}
                   ></input>
                 </label>
@@ -394,7 +411,7 @@ function RoomDetail() {
                   <input
                     type="number"
                     value={guests}
-                    readOnly={(sessionUser?.id === room.ownerId)}
+                    readOnly={sessionUser?.id === room.ownerId}
                     onChange={(e) =>
                       e.target.value < 10 && e.target.value > 0
                         ? setGuests(e.target.value)
