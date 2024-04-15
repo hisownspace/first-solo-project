@@ -24,8 +24,8 @@ module.exports = {
           zip: "20020",
           amenities: "pool, full kitchen, microwave, private bathroom",
           country: "USA",
-          imageUrl:
-            "https://img.staticmb.com/mbcontent/images/uploads/2021/7/one-hyde-park-penthouse-uk.jpg",
+          // imageUrl:
+          //   "https://img.staticmb.com/mbcontent/images/uploads/2021/7/one-hyde-park-penthouse-uk.jpg",
         },
         {
           createdAt: new Date(),
@@ -40,8 +40,8 @@ module.exports = {
           zip: "40219",
           amenities: "pool, full kitchen, microwave, private bathroom",
           country: "USA",
-          imageUrl:
-            "https://img.staticmb.com/mbcontent/images/uploads/2021/7/versailles-florida-us.jpg",
+          // imageUrl:
+          //   "https://img.staticmb.com/mbcontent/images/uploads/2021/7/versailles-florida-us.jpg",
         },
         {
           createdAt: new Date(),
@@ -56,8 +56,8 @@ module.exports = {
           zip: "95945",
           amenities: "pool, full kitchen, live in wait staff, private bathroom",
           country: "USA",
-          imageUrl:
-            "https://photos.zillowstatic.com/fp/400e500f7c83872b1135ce8b381a1167-cc_ft_768.webp",
+          // imageUrl:
+          //   "https://photos.zillowstatic.com/fp/400e500f7c83872b1135ce8b381a1167-cc_ft_768.webp",
         },
         {
           createdAt: new Date(),
@@ -72,8 +72,8 @@ module.exports = {
           zip: "06040",
           amenities: "pool, full kitchen, microwave, private bathroom",
           country: "USA",
-          imageUrl:
-            "https://img.staticmb.com/mbcontent/images/uploads/2021/7/south-coogee-australia.jpg",
+          // imageUrl:
+          //   "https://img.staticmb.com/mbcontent/images/uploads/2021/7/south-coogee-australia.jpg",
         },
         {
           createdAt: new Date(),
@@ -88,8 +88,8 @@ module.exports = {
           zip: "40206",
           amenities: "pool, full kitchen, microwave, private bathroom",
           country: "USA",
-          imageUrl:
-            "https://a0.muscache.com/im/pictures/23be904d-ba59-4814-91b5-b23f82481421.jpg?im_w=1200",
+          // imageUrl:
+          //   "https://a0.muscache.com/im/pictures/23be904d-ba59-4814-91b5-b23f82481421.jpg?im_w=1200",
         },
         {
           createdAt: new Date(),
@@ -104,8 +104,8 @@ module.exports = {
           zip: "94591",
           amenities: "pool, full kitchen, private concert venue, 16 bathrooms",
           country: "USA",
-          imageUrl:
-            "https://a0.muscache.com/im/pictures/4b834325-a9f7-40e4-8fdf-e15ac2e700fc.jpg",
+          // imageUrl:
+          //   "https://a0.muscache.com/im/pictures/4b834325-a9f7-40e4-8fdf-e15ac2e700fc.jpg",
         },
         {
           createdAt: new Date(),
@@ -120,8 +120,8 @@ module.exports = {
           zip: "85306",
           amenities: "pool, full kitchen, central air, private bathroom",
           country: "USA",
-          imageUrl:
-            "https://www.monolithic.org/vault/img/2011/05/10/4dc92b6dc29e0684730009c1/medium/house4.jpg",
+          // imageUrl:
+          //   "https://www.monolithic.org/vault/img/2011/05/10/4dc92b6dc29e0684730009c1/medium/house4.jpg",
         },
         {
           createdAt: new Date(),
@@ -136,8 +136,8 @@ module.exports = {
           zip: "37209",
           amenities: "outdoor bathroom",
           country: "USA",
-          imageUrl:
-            "https://i1.wp.com/www.sellingsmyrnatn.com/wp-content/uploads/2018/03/ugly-house.jpeg",
+          // imageUrl:
+          //   "https://i1.wp.com/www.sellingsmyrnatn.com/wp-content/uploads/2018/03/ugly-house.jpeg",
         },
       ],
       {},

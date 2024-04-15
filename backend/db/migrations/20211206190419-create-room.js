@@ -12,10 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      imageUrl: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
       amenities: {
         type: Sequelize.STRING,
       },

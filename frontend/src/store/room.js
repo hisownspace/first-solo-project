@@ -7,8 +7,8 @@ const REMOVE_ROOM = "room/remove";
 const EDIT_ROOM = "room/edit";
 const SEARCH_RECEIVED = "room/SEARCH_RECEIVED";
 const SEARCH_CLEARED = "room/SEARCH_CLEARED";
-const ROOMS_CLEARED = "room/ROOMS_CLEARED"
-const ROOM_CLEARED = "room/ROOM_CLEARED"
+const ROOMS_CLEARED = "room/ROOMS_CLEARED";
+const ROOM_CLEARED = "room/ROOM_CLEARED";
 
 export const getRoom = (room) => {
   return {
@@ -46,20 +46,20 @@ export const editRoom = (room) => {
 };
 
 export const searchReceived = () => {
-   return { type: SEARCH_RECEIVED }
-}
+  return { type: SEARCH_RECEIVED };
+};
 
 export const clearSearch = () => {
-   return { type: SEARCH_CLEARED }
-}
+  return { type: SEARCH_CLEARED };
+};
 
 export const clearRooms = () => {
-  return { type: ROOMS_CLEARED }
-}
+  return { type: ROOMS_CLEARED };
+};
 
 export const clearRoom = () => {
-  return { type: ROOM_CLEARED }
-}
+  return { type: ROOM_CLEARED };
+};
 
 export const searchRooms = (searchTerms) => async (dispatch) => {
   const { checkInDate, checkOutDate, searchValue } = searchTerms;
@@ -69,7 +69,7 @@ export const searchRooms = (searchTerms) => async (dispatch) => {
   });
   const rooms = await response.json();
   dispatch(getRooms(rooms));
-  dispatch(searchReceived())
+  dispatch(searchReceived());
   return rooms;
 };
 
@@ -83,6 +83,7 @@ export const readRoom = (roomId) => async (dispatch) => {
 export const readRooms = () => async (dispatch) => {
   const response = await csrfFetch(`/api/rooms/`);
   const rooms = await response.json();
+  console.log(rooms);
   dispatch(getRooms(rooms));
   return rooms;
 };
@@ -96,10 +97,14 @@ export const readRooms = () => async (dispatch) => {
 
 export const createRoom = (room) => async (dispatch) => {
   // { ownerId, roomAmenities, city, state, country, address, zip, image, title, description }
-  const response = await csrfFetch("/api/rooms", {
-    method: "POST",
-    body: room,
-  }, true);
+  const response = await csrfFetch(
+    "/api/rooms",
+    {
+      method: "POST",
+      body: room,
+    },
+    true,
+  );
   room = await response.json();
   dispatch(addRoom(room));
   return room;
@@ -146,7 +151,12 @@ export const updateRoom = (room, userId) => async (dispatch) => {
   dispatch(editRoom(room));
 };
 
-const initialroom = { myRooms: {}, currentRoom: {}, roomsList: [], search: false };
+const initialroom = {
+  myRooms: {},
+  currentRoom: {},
+  roomsList: [],
+  search: false,
+};
 
 export default function roomReducer(state = initialroom, action) {
   let newState;
@@ -168,20 +178,20 @@ export default function roomReducer(state = initialroom, action) {
       newState.currentRoom = action.room;
       return newState;
     case GET_ROOMS:
-      newState = { ...state, roomsList: [ ...action.rooms ]};
+      newState = { ...state, roomsList: [...action.rooms] };
       console.log(newState);
       return newState;
     case SEARCH_RECEIVED:
       newState = { ...state, search: true };
       return newState;
     case SEARCH_CLEARED:
-      newState = { ...state, search: false};
+      newState = { ...state, search: false };
       return newState;
     case ROOMS_CLEARED:
-      newState = { ...state, roomsList: [] }
+      newState = { ...state, roomsList: [] };
       return newState;
     case ROOM_CLEARED:
-      newState = { ...state, currentRoom: {} }
+      newState = { ...state, currentRoom: {} };
       return newState;
     default:
       return state;

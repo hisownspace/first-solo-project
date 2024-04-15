@@ -43,7 +43,7 @@ function RoomDetail() {
   const [tempLastSelectedDate, setTempLastSelectedDate] = useState("");
   const [tempLastSelectedMonth, setTempLastSelectedMonth] = useState("");
   const [tempLastSelectedYear, setTempLastSelectedYear] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imagesUrl, setImagesUrl] = useState([null]);
 
   const [bookedDatesArr, setBookedDatesArr] = useState([]);
   const [guests, setGuests] = useState(1);
@@ -67,7 +67,7 @@ function RoomDetail() {
       const tempAmenities = [];
       for (let i = 0; i < roomAmenities.length; i++) {
         tempAmenities.push(
-          allAmenities.find((el) => el.id == roomAmenities[i].amenityId)?.name,
+          allAmenities.find((el) => el.id === roomAmenities[i].amenityId)?.name,
         );
       }
       setAmenities(tempAmenities);
@@ -93,7 +93,15 @@ function RoomDetail() {
     function editListing() {
       return history.push(`/rooms/${room.id}/edit`);
     }
-  }, [room, sessionUser?.id, dispatch, history, roomId, allAmenities]);
+  }, [
+    room,
+    sessionUser?.id,
+    dispatch,
+    history,
+    roomId,
+    allAmenities,
+    roomAmenities,
+  ]);
 
   useEffect(() => {
     window.addEventListener("scroll", listenToScroll);
@@ -158,9 +166,10 @@ function RoomDetail() {
 
   useEffect(() => {
     (async () => {
-      setImageUrl(await generatePresignedUrl(room.imageUrl));
+      // setImageUrl(await generatePresignedUrl(room.imageUrl));
     })();
-  }, [room.imageUrl]);
+    setImagesUrl(room.RoomImages);
+  }, [room]);
 
   const datePickerPrompt = () => {
     setErrors(["Please use calendar to the left to choose dates"]);
@@ -212,20 +221,36 @@ function RoomDetail() {
       <div className="room-detail">
         <div className="picture-box">
           <div className="main-image">
-            <img alt="" src={imageUrl}></img>
+            <img alt="" src={imagesUrl[0]?.imageUrl} />
           </div>
           <div className="smaller-images">
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={imageUrl}></img>
+              <img
+                alt=""
+                className="image-1"
+                src={imagesUrl[1]?.imageUrl || imagesUrl[0]?.imageUrl}
+              />
             </div>
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={imageUrl}></img>
+              <img
+                alt=""
+                className="image-1"
+                src={imagesUrl[2]?.imageUrl || imagesUrl[0]?.imageUrl}
+              />
             </div>
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={imageUrl}></img>
+              <img
+                alt=""
+                className="image-1"
+                src={imagesUrl[3]?.imageUrl || imagesUrl[0]?.imageUrl}
+              />
             </div>
             <div className="smaller-image-container">
-              <img alt="" className="image-1" src={imageUrl}></img>
+              <img
+                alt=""
+                className="image-1"
+                src={imagesUrl[4]?.imageUrl || imagesUrl[0]?.imageUrl}
+              />
             </div>
           </div>
         </div>

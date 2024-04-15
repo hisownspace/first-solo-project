@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       amenityId: DataTypes.INTEGER,
       roomId: DataTypes.INTEGER,
-
     },
     { timestamps: false, createdAt: false, updatedAt: false },
     {},

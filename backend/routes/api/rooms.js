@@ -11,8 +11,17 @@ const {
   requireAuth,
   checkPermissions,
 } = require("../../utils/auth");
-const { Room, Rental, Favorite, RoomAmenity } = require("../../db/models");
-const { uploadFileToS3 } = require("../../utils/aws_helpers");
+const {
+  Room,
+  RoomImage,
+  Rental,
+  Favorite,
+  RoomAmenity,
+} = require("../../db/models");
+const {
+  uploadFileToS3,
+  retrieveFileFromS3,
+} = require("../../utils/aws_helpers");
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 
@@ -21,7 +30,9 @@ router.get(
   restoreUser,
   asyncHandler(async (req, res) => {
     const { roomId } = req.params;
-    const room = await Room.findByPk(roomId);
+    const room = await Room.findByPk(roomId, {
+      include: [RoomAmenity, RoomImage],
+    });
     return res.json(room);
   }),
 );
@@ -66,11 +77,23 @@ router.get(
 );
 
 router.get(
+  "/images/:key",
+  restoreUser,
+  asyncHandler(async (req, res) => {
+    console.log("HELLO");
+    const { key } = req.params;
+    const image = await retrieveFileFromS3(key);
+    image.pipe(res);
+  }),
+);
+
+router.get(
   "/",
   restoreUser,
   asyncHandler(async (req, res) => {
     const rooms = await Room.findAll({
       order: [["updatedAt", "DESC"]],
+      include: [RoomImage, RoomAmenity],
     });
     return res.json(rooms);
   }),
@@ -162,7 +185,7 @@ router.get(
 
 router.post(
   "/",
-  upload.single("image"),
+  upload.any(),
   restoreUser,
   asyncHandler(async (req, res) => {
     console.log("HELLO");
@@ -177,15 +200,12 @@ router.post(
       title,
       description,
     } = req.body;
-    const file = req.file;
+    const files = req.files;
 
     const amenities = roomAmenities.split(",").map(Number);
 
-    const imageUrl = await uploadFileToS3(file);
-
     const room = await Room.create({
       ownerId,
-      imageUrl,
       city,
       state,
       zip,
@@ -200,6 +220,14 @@ router.post(
       await RoomAmenity.create({
         amenityId: amenities[i],
         roomId: room.id,
+      });
+    }
+
+    for (let file of files) {
+      const imageUrl = await uploadFileToS3(file);
+      await RoomImage.create({
+        roomId: room.id,
+        imageUrl,
       });
     }
 

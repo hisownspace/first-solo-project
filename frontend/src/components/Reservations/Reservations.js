@@ -85,7 +85,7 @@ function Reservations() {
                       }
                       src={
                         roomsList.find((room) => room.id === rental.roomId)
-                          ?.imageUrl
+                          ?.RoomImages[0].imageUrl
                       }
                     ></img>
                   </td>
@@ -182,7 +182,7 @@ function Reservations() {
                       }
                       src={
                         roomsList.find((room) => room.id === rental.roomId)
-                          ?.imageUrl
+                          ?.RoomImages[0].imageUrl
                       }
                     ></img>
                   </td>

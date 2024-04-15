@@ -61,12 +61,29 @@ const uploadFileToS3 = async (file) => {
 
   try {
     const response = await s3Client.send(command);
-    return filename;
+    return "/api/rooms/images/" + filename;
   } catch (err) {
     console.error(err);
   }
 };
 
+const retrieveFileFromS3 = async (key) => {
+  console.log(key);
+  const command = new GetObjectCommand({
+    Bucket: s3.bucket,
+    Key: key,
+  });
+  try {
+    const response = await s3Client.send(command);
+    const imageStream = await response.Body;
+    return imageStream;
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
 module.exports = {
   uploadFileToS3,
+  retrieveFileFromS3,
 };

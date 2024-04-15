@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
     "Room",
     {
       ownerId: DataTypes.INTEGER,
-      imageUrl: DataTypes.STRING,
       amenities: DataTypes.STRING,
       city: DataTypes.STRING,
       state: DataTypes.STRING,
@@ -22,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     Room.belongsTo(models.User, { foreignKey: "ownerId" });
     Room.hasMany(models.Rental, { foreignKey: "roomId" });
     Room.hasMany(models.RoomAmenity, { foreignKey: "roomId" });
+    Room.hasMany(models.RoomImage, { foreignKey: "roomId" });
   };
   return Room;
 };

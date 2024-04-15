@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from "react-router-dom";
 import * as roomActions from "../../store/room";
-import * as sessionActions from "../../store/session";
 
 function MakeNewListing() {
   const dispatch = useDispatch();
@@ -15,7 +14,8 @@ function MakeNewListing() {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
-  const [image, setImage] = useState("");
+  // const [image, setImage] = useState("");
+  const [images, setImages] = useState([null]);
   const [checkedState, setCheckedState] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -24,14 +24,15 @@ function MakeNewListing() {
 
   useEffect(() => {
     setAmenities(amenitiesStore);
-  }, []);
+  }, [amenitiesStore]);
 
   if (!sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("HELLO");
     if (
-      image &&
+      images &&
       city &&
       country &&
       address &&
@@ -56,9 +57,12 @@ function MakeNewListing() {
       formData.append("country", country);
       formData.append("address", address);
       formData.append("zip", zip);
-      formData.append("image", image);
       formData.append("title", title);
       formData.append("description", description);
+
+      for (let image of images) {
+        formData.append("image", image);
+      }
 
       const room = await dispatch(roomActions.createRoom(formData));
       history.push(`/rooms/${room.id}`);
@@ -71,6 +75,14 @@ function MakeNewListing() {
     const tempCheckedState = [...checkedState];
     tempCheckedState[idx] = !tempCheckedState[idx];
     setCheckedState(tempCheckedState);
+  };
+
+  const handleImageAdd = (e) => {
+    const tempImages = [...e.target.files, ...images];
+    if (tempImages.length === 6) {
+      tempImages.pop();
+    }
+    setImages(tempImages);
   };
 
   return (
@@ -179,15 +191,17 @@ function MakeNewListing() {
       ) : (
         <p className="error">Required Field</p>
       )}
-      <label>
-        {"Photo: "}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
-          // required
-        />
-      </label>
+      {images.map((file, idx) => (
+        <label key={idx}>
+          {"Photo: "}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageAdd}
+            // required
+          />
+        </label>
+      ))}
       <ul className="amenities-list">
         {amenities.map((amenity, idx) => {
           return (

@@ -22,9 +22,9 @@ function RoomCard({ room }) {
 
   useEffect(() => {
     (async () => {
-      setImageUrl(await generatePresignedUrl(room.imageUrl));
+      setImageUrl(room.RoomImages[0].imageUrl);
     })();
-  }, [room.imageUrl]);
+  }, [room.RoomImages]);
 
   return (
     <div
