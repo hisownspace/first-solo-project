@@ -22,7 +22,7 @@ function RoomCard({ room }) {
 
   useEffect(() => {
     (async () => {
-      setImageUrl(room.RoomImages[4].imageUrl);
+      setImageUrl(room.RoomImages[room.RoomImages.length-1].imageUrl);
     })();
   }, [room.RoomImages]);
 

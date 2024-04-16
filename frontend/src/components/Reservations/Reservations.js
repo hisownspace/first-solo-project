@@ -29,8 +29,10 @@ function Reservations() {
       const tempRooms = [...roomList];
       for (let i = 0; i < tempRooms.length; i++) {
         const room = tempRooms[i];
+        room.RoomImages = room.RoomImages.reverse();
         // const signedUrl = await generatePresignedUrl(room.imageUrl);
         // room.imageUrl = signedUrl;
+
       }
       setRoomsList(tempRooms);
     })();

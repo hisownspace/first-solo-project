@@ -364,8 +364,8 @@ tr:nth-child(odd) {
 
 .picture-box {
   width: 90%;
-  max-width: 1250px;
-  max-height: 500px;
+  max-width: 1425px;
+  max-height: 600px;
   margin: auto;
   border-radius: 20px;
   overflow: hidden;
@@ -377,13 +377,14 @@ tr:nth-child(odd) {
 }
 
 .picture-box > img {
-  object-fit: cover;
+  /* object-fit: cover; */
   height: 100%;
-  width: 50%;
+  width: 100%;
+  margin: auto;
 }
 
 .main-image {
-  width: 55%;
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -391,9 +392,10 @@ tr:nth-child(odd) {
 }
 
 .main-image img {
+  object-fit: cover;
   flex-shrink: 0;
-  min-width: 100%;
-  min-height: 100%;
+  width: 110%;
+  height: 110%;
 }
 
 .image-1 {
@@ -401,7 +403,7 @@ tr:nth-child(odd) {
 }
 
 .smaller-images {
-  width: 45%;
+  width: 50%;
   margin-left: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -425,7 +427,7 @@ table img {
 
 .picture-box .smaller-images img {
   width: 100%;
-  height: 300px;
+  height: 350px;
   position: relative;
   bottom: 50px;
 }
@@ -522,18 +524,59 @@ table img {
   border-radius: 0 0 15px 15px;
 }
 
+:root {
+  --x1: 100px;
+  --x: 220px;
+  --x2: 340px;
+  --rgb: 240, 38, 75;
+  --transition: opacity 0.35s ease-in;
+}
+
 .reservation-button {
+  position:relative;
   box-shadow: none;
   background: linear-gradient(
     to right,
-    rgb(230, 30, 77) 0%,
-    rgb(227, 28, 95) 50%,
-    rgb(215, 4, 102) 100%
+    rgba(180, 5, 84, .9) 0%,
+    rgba(230, 30, 97, .85) var(--x1),
+    rgb(var(--rgb)) var(--x),
+    rgba(230, 30, 97, .85) var(--x2),
+    rgba(180, 5, 84, .9) 100%
   );
   width: 100%;
   border-radius: 15px;
+  /* margin-top: 20px; */
+  height: 55px;
+}
+
+.reservation-button::before {
+  position:absolute;
+  box-shadow: none;
+  content: "Reserve";
+  top: -20px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(180, 5, 84, .9) 0%,
+    rgba(230, 30, 97, .85) 100px,
+    rgb(260, 38, 75) 220px,
+    rgba(230, 30, 97, .85) 340px,
+    rgba(180, 5, 84, .9) 100%
+  );
+  width: 100%;
+  z-index: 1;
+  border-radius: 15px;
   margin-top: 20px;
-  height: 75px;
+  height: 55px;
+  line-height: 55px;
+  opacity: 1;
+  transition: var(--transition);
+}
+
+.reservation-button:hover::before {
+  opacity: 0;
 }
 
 #hide {

@@ -206,10 +206,6 @@ function RoomDetail() {
     }
   };
 
-  const resetTransition = e => {
-    e.target.style.setProperty("--transition", "opacity 0.35s ease-in");
-  }
-
   const handleButtonGradient = e => {
     const btnWidth = e.target.getBoundingClientRect();
     const x = e.clientX - btnWidth.left;
@@ -221,11 +217,11 @@ function RoomDetail() {
 
   const resetButtonGradient = e => {
     console.log(e.target)
-    // e.target.style.setProperty("--x", "220px");
-    // e.target.style.setProperty("--x1", "100px");
-    // e.target.style.setProperty("--x2", "340px");
-    // e.target.style.setProperty("--rgb", "260, 38, 75");
-    e.target.style.setProperty("--transition", "opacity 2s ease-in");
+    e.target.style.setProperty("transition", "background 2s ease-out")
+    e.target.style.setProperty("--x", "220px");
+    e.target.style.setProperty("--x1", "100px");
+    e.target.style.setProperty("--x2", "340px");
+    e.target.style.setProperty("--rgb", "260, 38, 75");
   }
 
   if (!sessionUser || !room) return <Redirect to="/" />;
@@ -473,7 +469,6 @@ function RoomDetail() {
                   id={sessionUser.id === room.ownerId ? "disabled" : null}
                   disabled={sessionUser.id === room.ownerId}
                   ref={resBtn}
-                  onMouseOver={resetTransition}
                   onMouseMove={handleButtonGradient}
                   onMouseLeave= {resetButtonGradient}
                 >
