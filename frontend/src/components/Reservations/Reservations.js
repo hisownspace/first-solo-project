@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as rentalActions from "../../store/rental";
 import * as roomActions from "../../store/room";
-import { generatePresignedUrl } from "../../utils/aws_helpers";
+// import { generatePresignedUrl } from "../../utils/aws_helpers";
 
 function Reservations() {
   const sessionUser = useSelector((state) => state.session.user);
@@ -29,8 +29,8 @@ function Reservations() {
       const tempRooms = [...roomList];
       for (let i = 0; i < tempRooms.length; i++) {
         const room = tempRooms[i];
-        const signedUrl = await generatePresignedUrl(room.imageUrl);
-        room.imageUrl = signedUrl;
+        // const signedUrl = await generatePresignedUrl(room.imageUrl);
+        // room.imageUrl = signedUrl;
       }
       setRoomsList(tempRooms);
     })();

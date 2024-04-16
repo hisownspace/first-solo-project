@@ -5,7 +5,7 @@ import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { favoriteRoom } from "../../store/session";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { generatePresignedUrl } from "../../utils/aws_helpers";
+// import { generatePresignedUrl } from "../../utils/aws_helpers";
 
 function RoomCard({ room }) {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function RoomCard({ room }) {
 
   useEffect(() => {
     (async () => {
-      setImageUrl(room.RoomImages[0].imageUrl);
+      setImageUrl(room.RoomImages[4].imageUrl);
     })();
   }, [room.RoomImages]);
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { generatePresignedUrl } from "../../utils/aws_helpers";
+// import { generatePresignedUrl } from "../../utils/aws_helpers";
 import * as roomActions from "../../store/room";
 import * as rentalActions from "../../store/rental";
 import Calendar from "../Calendar/Calendar";
