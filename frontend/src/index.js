@@ -23,6 +23,16 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 function Root() {
+
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(position => {
+      console.log(position);
+    })
+    
+  } else {
+    console.log("we have no geolocation")
+  }
+
   return (
     <Provider store={store}>
       <ModalProvider>

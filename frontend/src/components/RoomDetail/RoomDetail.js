@@ -414,7 +414,7 @@ function RoomDetail() {
                 margin-bottom="50px"
                 loading="lazy"
                 allowFullScreen
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB2831JHe127Y5QT6sKtvHfGuxpo0rKYHY&q=${room.address},${room.city},${room.state},${room.zip}`}
+                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.REACT_APP_GOOGLE_API_KEY}&q=${room.address},${room.city},${room.state},${room.zip}`}
               ></iframe>
             </div>
           </div>
