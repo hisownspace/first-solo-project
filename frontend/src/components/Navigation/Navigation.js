@@ -30,9 +30,9 @@ function Navigation({ isLoaded }) {
       if (showModal) {
         toggleCalendarModal(e);
       }
-      const rooms = await dispatch(searchRooms({ searchValue, checkInDate, checkOutDate }));
       await dispatch(searchReceived())
-      return history.push(`/`);
+      const rooms = await dispatch(searchRooms({ searchValue, checkInDate, checkOutDate }));
+      return history.push(`/rooms`);
   };
 
   const clearSearchBool = e => {

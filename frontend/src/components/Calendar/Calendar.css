@@ -89,6 +89,10 @@ body {
   z-index: 0;
 }
 
+.active-backing > .clickable-date {
+  margin: -1px;
+}
+
 .transition-last {
   background: linear-gradient(
     90deg,
@@ -131,6 +135,14 @@ body {
   width: 100%;
 }
 
+.first-backing > .first-date {
+  margin:  0;
+}
+
+.first-backing {
+  background: linear-gradient(90deg, white 50%, rgba(102, 102, 102, 0.09) 50%);
+}
+
 .last-date {
   background: black;
   color: white;
@@ -139,8 +151,14 @@ body {
   width: 100%;
 }
 
-.first-backing {
-  background: linear-gradient(90deg, white 50%, rgba(102, 102, 102, 0.09) 50%);
+.temp-clickable-date {
+  background-color: white;
+  color: black;
+}
+
+.last-backing > .last-date {
+  /* border: none; */
+  margin: 0;
 }
 
 .last-backing {

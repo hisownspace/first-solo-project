@@ -42,10 +42,10 @@
 .room-card-list {
   display: grid;
   grid-template-columns: 15.5% 15.5% 15.5% 15.5% 15.5% 15.5%;
-  grid-row-gap: 125px;
+  grid-row-gap: 50px;
   width: 92.5%;
   grid-column-gap: 1.25%;
-  margin: 90px auto;
+  margin: 100px auto 50px auto;
   padding-left: 0;
 }
 

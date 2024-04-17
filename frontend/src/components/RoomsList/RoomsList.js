@@ -54,7 +54,7 @@ function RoomsList() {
   useEffect(() => {
     return () => {
       if (!search) {
-      dispatch(roomActions.clearRooms());
+        dispatch(roomActions.clearRooms());
       }
     }
   }, [])

@@ -68,8 +68,8 @@ export const searchRooms = (searchTerms) => async (dispatch) => {
     body: JSON.stringify({ checkInDate, checkOutDate, searchValue }),
   });
   const rooms = await response.json();
-  dispatch(getRooms(rooms));
   dispatch(searchReceived());
+  dispatch(getRooms(rooms));
   return rooms;
 };
 

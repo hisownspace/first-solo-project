@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { Provider } from "react-redux";
@@ -24,14 +24,28 @@ if (process.env.NODE_ENV !== "production") {
 
 function Root() {
 
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log(position);
-    })
-    
-  } else {
-    console.log("we have no geolocation")
-  }
+  useEffect(() => {
+  // if ("geolocation" in navigator) {
+  //   navigator.geolocation.getCurrentPosition(position => {
+  //     console.log(position);
+  //     localStorage.setItem('longitude', position.coords.longitude);
+  //     localStorage.setItem('latitude', position.coords.latitude);
+  //   })
+  //   
+  // } else {
+    (async () => {
+    const lng = parseFloat(localStorage.getItem("longitude"));
+    const lat = parseFloat(localStorage.getItem("latitude"));
+      if (!lng || !lat) {
+        const res = await fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.REACT_APP_IPGEO_KEY}`);
+        const body = await res.json();
+        console.log(body);
+        localStorage.setItem('longitude', body.longitude);
+        localStorage.setItem('latitude', body.latitude);
+      }
+    })();
+  // }
+  }, [])
 
   return (
     <Provider store={store}>
