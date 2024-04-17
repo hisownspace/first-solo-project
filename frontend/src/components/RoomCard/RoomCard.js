@@ -6,7 +6,6 @@ import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { favoriteRoom } from "../../store/session";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-// import { generatePresignedUrl } from "../../utils/aws_helpers";
 
 function RoomCard({ room }) {
   const dispatch = useDispatch();

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as rentalActions from "../../store/rental";
 import * as roomActions from "../../store/room";
-// import { generatePresignedUrl } from "../../utils/aws_helpers";
 
 function Reservations() {
   const sessionUser = useSelector((state) => state.session.user);
