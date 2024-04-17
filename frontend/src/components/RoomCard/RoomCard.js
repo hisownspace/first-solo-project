@@ -5,16 +5,18 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { favoriteRoom } from "../../store/session";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { generatePresignedUrl } from "../../utils/aws_helpers";
 
 function RoomCard({ room }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const carouselRef = useRef(new Array(5));
   const favorites = useSelector((state) => state.session.user.favorites);
   const userId = useSelector((state) => state.session.user.id);
   const [imageUrl, setImageUrl] = useState("");
   const [distance, setDistance] = useState("");
+  const [imageNumber, setImageNumber] = useState(0);
 
   const toggleFavorite = async (e) => {
     e.stopPropagation();
@@ -23,10 +25,50 @@ function RoomCard({ room }) {
   };
 
   useEffect(() => {
-      if (room.RoomImages) {
-      setImageUrl(room?.RoomImages[room.RoomImages.length-1].imageUrl);
+    if (room.RoomImages) {
+      setImageUrl(room?.RoomImages[imageNumber]?.imageUrl);
     }
-  }, [room.RoomImages]);
+    const nextImages = carouselRef.current;
+    for (let image of nextImages) {
+      image.style.transform = `translateX(-${imageNumber}00%)`;
+    }
+  }, [room, imageNumber]);
+    
+  const showCarouselBtns = (e) => {
+    e.stopPropagation();
+    const nextBtn = e.currentTarget.querySelector(".carousel-next");
+    const prevBtn = e.currentTarget.querySelector(".carousel-prev");
+    if (nextBtn) {
+      nextBtn.style.display = "inline"
+    }
+    if (prevBtn) {
+      prevBtn.style.display = "inline"
+    }
+  }
+
+  const hideCarouselBtns = (e) => {
+    e.stopPropagation();
+    const nextBtn = e.currentTarget.querySelector(".carousel-next");
+    const prevBtn = e.currentTarget.querySelector(".carousel-prev");
+    if (nextBtn) {
+      nextBtn.style.display = "none"
+    }
+    if (prevBtn) {
+      prevBtn.style.display = "none"
+    }
+  }
+
+  const cycleNextImage = e => {
+    e.stopPropagation();
+    setImageNumber(state => state + 1);
+    console.log(imageNumber)
+  }
+
+  const cyclePrevImage = e => {
+    e.stopPropagation();
+    setImageNumber(state => state - 1);
+    console.log(imageNumber)
+  }
 
   useEffect(() => {
     const loader = new Loader({
@@ -85,8 +127,14 @@ function RoomCard({ room }) {
       className="room-card"
       onClick={() => history.push(`/rooms/${room.id}`)}
     >
-      <div className="card-image">
-        <img alt={room.description} src={imageUrl}></img>
+      <div onMouseOver={showCarouselBtns} onMouseLeave={hideCarouselBtns} className="card-image-container">
+        <img alt={room.description} ref={el => carouselRef.current[0] = el} className="card-image next" src={room.RoomImages[room.RoomImages.length-1].imageUrl} />
+        <img alt={room.description} ref={el => carouselRef.current[1] = el} className="card-image next next-1" src={room.RoomImages[room.RoomImages.length-2]?.imageUrl} />
+        <img alt={room.description} ref={el => carouselRef.current[2] = el} className="card-image next next-2" src={room.RoomImages[room.RoomImages.length-3]?.imageUrl} />
+        <img alt={room.description} ref={el => carouselRef.current[3] = el} className="card-image next next-3" src={room.RoomImages[room.RoomImages.length-4]?.imageUrl} />
+        <img alt={room.description} ref={el => carouselRef.current[4] = el} className="card-image next next-4" src={room.RoomImages[room.RoomImages.length-5]?.imageUrl} />
+        {imageNumber < room.RoomImages.length-1 ? <div onClick={cycleNextImage} className="carousel-next">{">"}</div>: null}
+        {imageNumber > 0 ? <div onClick={cyclePrevImage} className="carousel-prev">{"<"}</div>: null}
         {favorites?.includes(room.id) ? (
           <FontAwesomeIcon
             onClick={toggleFavorite}
