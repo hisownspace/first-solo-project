@@ -119,6 +119,7 @@ router.post(
             where: {
               amenityId: { [Op.eq]: searchValue },
             },
+            RoomImage
           },
         ],
       });
@@ -152,6 +153,7 @@ router.post(
             },
           },
         },
+        RoomImage
       ],
     });
     rooms = rooms.filter((el) => {
